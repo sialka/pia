@@ -1,3 +1,11 @@
+<?php
+  $titulo = [
+    1 => "Conferência de Ficha",
+    2 => "Reserva de Roupa",
+    3 => "Conferência de Envelopes",
+  ];
+?>
+
 <div class="row bg-black"> 
   <divc class="col">
     <div class="card border-dark m-1">
@@ -6,9 +14,7 @@
       </div>
         <div class="card-body" style="height: 92vh">
 
-        <?php 
-          # echo $pagina_index;
-          //debug($aevOptions);
+        <?php           
           echo $this->Form->create(null, ['url' => ['action' => '?page='.$pagina_index.'']]); 
           echo "<input id='submit' type='submit' class='hide', value='send'>";
           echo $this->Form->end();
@@ -18,7 +24,7 @@
           <div id="senha" class="<?php if( $senha == 0 ){ echo "hide"; } ?>">   
               <div class="" style="height: 88vh">                                
                   <div class="" style="height: 100%" >                    
-                    <p class="titulo" style="height: 35%; padding-top: 15rem">Conferência de Ficha</p>                
+                    <p class="titulo" style="height: 35%; padding-top: 15rem"><?= $titulo[$tipo]; ?></p>                
                     <p id="chamar-senha" class="call-senha"><?= $senha; ?></p>              
                   </div>                  
               </div>
@@ -36,21 +42,21 @@
                             <div class="row mt-4 mb-4 ml-2 mr-2">
                               <div class="col-2">
                                 <div class="card border-dark center">
-                                  <div id="row1-senha" class="card-body senha text-dark"><?= $dado['senha']; ?></div>
+                                  <div id="row1-senha" class="card-body senha text-dark"><?= $dado->senha; ?></div>
                                   <div class="card-footer text-white bg-primary">SENHA</div>
                                 </div>
                               </div>
                               <div class="col-10">
                                 <div id="row1-card-border" class="card border-dark">
                                   <div id="row1-localidade" class="card-body senha text-dark">
-                                    <?= $dado['localidade']; ?>
+                                    <?= $dado->Localidades->nome; ?>
                                   </div>
                                   <div class="text-center m-0 font-weight-bold">
-                                      <div id="row1-status-ficha" style="width:50%; padding: 0.8em; float: left" class="<?= $aevOptions['status_css_ficha'][$dado['status_ficha_id']]; ?>">
-                                        <?= $aevOptions['status_fichas'][$dado['status_ficha_id']]; ?>
+                                      <div id="row1-status-ficha" style="width:50%; padding: 0.8em; float: left" class="<?= $aevOptions['status_css_ficha'][$dado->status_ficha]; ?>">
+                                        <?= $aevOptions['status_fichas'][$dado->status_ficha]; ?>
                                       </div>  
-                                      <div id="row1-status-envelope" style="width:50%; padding: 0.8em; float: right" class="<?= $aevOptions['status_css_envelope'][$dado['status_envelope_id']]; ?>">
-                                        <?= $aevOptions['status_envelopes'][$dado['status_envelope_id']]; ?>                                          
+                                      <div id="row1-status-envelope" style="width:50%; padding: 0.8em; float: right" class="<?= $aevOptions['status_css_envelope'][$dado->status_envelope]; ?>">
+                                        <?= $aevOptions['status_envelopes'][$dado->status_envelope]; ?>                                          
                                       </div>  
                                   </div>
                                 </div>

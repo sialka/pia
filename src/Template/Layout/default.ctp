@@ -160,7 +160,7 @@ $overflow = $url == "Panels" ? "overflow: hidden" : "";
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Ações:</h6>
                         <a class="collapse-item" href="/Services/index">Lançar</a>
-                        <a class="collapse-item" href="/Panels">Painel</a>
+                        <a class="collapse-item" href="/Panels" target="_blank">Painel</a>
                     </div>
                 </div>
             </li>

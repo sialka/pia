@@ -26,6 +26,7 @@ DROP TABLE IF EXISTS `panels`;
 CREATE TABLE IF NOT EXISTS `panels` (
   `id` int(11) NOT NULL AUTO_INCREMENT,  
   `senha` int NOT NULL,
+  `tipo` char(1) NOT NULL,
   `setor` char(1) NOT NULL,
   `status` BOOLEAN DEFAULT TRUE,    
   `created` timestamp NULL DEFAULT NULL,

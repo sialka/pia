@@ -7,6 +7,12 @@
 
 <div class="container-row">
     <div class="col-12">
+        <?= $this->Flash->render() ?>
+    </div>
+</div>
+
+<div class="container-row">
+    <div class="col-12">
 
         <div class="col-12 p-0 mb-2">
             

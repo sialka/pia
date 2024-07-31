@@ -54,16 +54,17 @@ class PanelsController extends AppController {
               
         # 1. Prioridade senhas
         # a. busca a senha do topo com status true;        
-        # b. pegar a senha e mudar o status para false        
+        # b. pegar a senha e mudar o status para false               
 
-        $senhaEntity = $this->Panels->find('all')->where(['status' => true, 'setor' => 4])->first();
+        $senhas = $this->Panels->find('all')->where(['status' => true, 'setor' => 4])->first();
         //$senhaEntity = [];
         
-        if(count($senhaEntity) > 0){
-            $senha = $senhaEntity->senha;
+        if(count($senhas) > 0){
+            $senha = $senhas->senha;
+            $tipo = $senhas->tipo;
 
-            $senhaEntity->status = false;
-            $this->Panels->save($senhaEntity);    
+            $senhas->status = false;
+            $this->Panels->save($senhas);    
         }
         
         # 2. Não havendo senhas -> Exibir detalhes das senhas de 3 em 3
@@ -75,112 +76,42 @@ class PanelsController extends AppController {
         #    sim -> pegar as 3 senhas e marcar o offset (session) com o proximo index
         #    nao -> pegar as senhas em enviar e marcar o offset (session) 0
         
-        if(count($senhaEntity) == 0) {
-
-            # 1. Buscar dados
-            $dados1 = [ 
-                0 => [
-                    'senha' => 1,
-                    'localidade'=> "BAIRRO DOS PIMENTAS",
-                    'status_ficha_id'=> 1,
-                    'status_envelope_id'=> 1,
-                ],
-                1 => [
-                    'senha'=> 2,
-                    'localidade'=> "JARDIM MONTE ALEGRE",
-                    'status_ficha_id'=> 2,
-                    'status_envelope_id'=> 3,
-                ],
-                2 => [
-                    'senha'=> 3,
-                    'localidade'=> "JARDIM SANTO AFONSO",
-                    'status_ficha_id'=> 3,
-                    'status_envelope_id'=> 2,
-                ],
-                3 => [
-                    'senha'=> 4,
-                    'localidade'=> "SÍTIO SÃO FRANCISCO",
-                    'status'=> 2,
-                    'status_ficha_id'=> 2,
-                    'status_envelope_id'=> 1,
-                ],        
-                4 => [
-                    'senha' => 5,
-                    'localidade' => "PARQUE DAS NAÇÕES",
-                    'status_ficha_id' => 3,
-                    'status_envelope_id' => 0,
-                ],
-                5 => [        
-                    'senha' => 6,
-                    'localidade' => "JARDIM NOVA CUMBICA",
-                    'status_ficha_id' => 1,
-                    'status_envelope_id' => 3,
-                ],
-                6 => [        
-                    'senha' => 7,
-                    'localidade' => "JARDIM SANTO AFONSO",
-                    'status_ficha_id' => 1,
-                    'status_envelope_id' => 2,
-                ],
-                7 => [        
-                    'senha' => 8,
-                    'localidade' => "-",
-                    'status_ficha_id' => 0,
-                    'status_envelope_id' => 0,
-                ],
-                8 => [        
-                    'senha' => 9,
-                    'localidade' => "-",
-                    'status_ficha_idv' => 0,
-                    'status_envelope_id' => 0,
-                ]        
-            ];
-            $dados2 = [$dados1[0]];
-            $dados2 = [$dados1[0],$dados1[1]];
-            $dados2 = [$dados1[0],$dados1[1],$dados1[2]];
-            $dados2 = [$dados1[0],$dados1[1],$dados1[2],$dados1[3]];
-            $dados2 = [$dados1[0],$dados1[1],$dados1[2],$dados1[3],$dados1[4]];
-            $dados2 = [$dados1[0],$dados1[1],$dados1[2],$dados1[3],$dados1[4],$dados1[5]];
-            $dados2 = [$dados1[0],$dados1[1],$dados1[2],$dados1[3],$dados1[4],$dados1[5],$dados1[6]];
+        if(count($senhas) == 0) {
+            
+            $servicesTable = TableRegistry::get('Services');
+            
+            $dados = $servicesTable->find('all')->where(['Services.setor' => '4'])->contain(['Localidades'])->toArray();
         
             $senha = 0;
+
             # 2. Total de Registros
-            $senhas_total = count($dados2);
-            //echo "Total: " . $senhas_total . '<br>';
+            $senhas_total = count($dados);            
 
             # 3. Total de Paginas 
             $get_pagina = $this->pagination();
-            //debug($get_pagina);exit;
-            $pagina_total = $get_pagina[$senhas_total];            
-            //echo "Paginas: " . $pagina_total . "<br>";
+            
+            $pagina_total = $get_pagina[$senhas_total];                        
 
             # 4. Total corrente                               
-            //debug($this->request->query);
             
-            //$this->request->query['page'] == null
             if ($this->request->query == null ) {
-                //echo "fluxo 1". "<br>";                
+            
                 $pagina_index = 0;
             }else{
 
-                $pagina_index = $this->request->query['page'];
-                //debug($pagina_index);
+                $pagina_index = $this->request->query['page'];                
 
-                if($pagina_index >= $pagina_total){
-                    //echo "fluxo 2 <br>";
+                if($pagina_index >= $pagina_total){                
                     $pagina_index = 0;               
-                }else{                  
-                    //echo "fluxo 3 <br>";                      
+                }else{                                  
                     $pagina_index = $pagina_index + 3;                              
                 }
 
-            }
-
-            //echo "Pagina index: " . $pagina_index . "<br>";
+            }            
             
-            $dados = array_slice($dados2,$pagina_index, 3);
-
-            //debug($pagina_index);
+            $dados = array_slice($dados,$pagina_index, 3);
+            $tipo = null;
+            
         }else{
             //$this->request->session()->write('pagina_corrente', 0);
             $dados = [];
@@ -192,7 +123,8 @@ class PanelsController extends AppController {
         //exit;
 
         $aevOptions = $this->aevOptions();
-
+        
+        $this->set('tipo', $tipo);
         $this->set('senha', $senha);
         $this->set('dados', $dados);
         $this->set('pagina_index',$pagina_index);
@@ -244,29 +176,25 @@ class PanelsController extends AppController {
     public function aevOptions() {
 
         $aevOptions = [
-            'status_fichas' => [
-                0 => "-",
-                1 => "FICHAS: CONFERIDAS",
-                2 => "FICHAS: SEM CONFERÊNCIA",
-                3 => "FICHAS: AGUARDANDO RETORNO",
+            'status_fichas' => [                
+                0 => "FICHAS: CONFERIDAS",
+                1 => "FICHAS: SEM CONFERÊNCIA",
+                2 => "FICHAS: AGUARDANDO RETORNO",
             ],              
-            'status_envelopes' => [
-                0 => "-",
-                1 => "ENVELOPES: CONFERIDOS",
-                2 => "ENVELOPES: SEM CONFERÊNCIA",
-                3 => "ENVELOPES: AGUARDANDO RETORNO",
+            'status_envelopes' => [                
+                0 => "ENVELOPES: CONFERIDOS",
+                1 => "ENVELOPES: SEM CONFERÊNCIA",
+                2 => "ENVELOPES: AGUARDANDO RETORNO",
             ],          
-            'status_css_ficha' => [
-                0 => "bg-dark text-white",
-                1 => "bg-success text-white",
-                2 => "bg-danger text-white",
-                3 => "bg-warning text-dark",
+            'status_css_ficha' => [                
+                0 => "bg-success text-white",
+                1 => "bg-danger text-white",
+                2 => "bg-warning text-dark",
             ],            
-            'status_css_envelope' => [
-                0 => "bg-dark text-white",
-                1 => "bg-success text-white",
-                2 => "bg-danger text-white",
-                3 => "bg-warning text-dark",
+            'status_css_envelope' => [                
+                0 => "bg-success text-white",
+                1 => "bg-danger text-white",
+                2 => "bg-warning text-dark",
             ],
         ];
 

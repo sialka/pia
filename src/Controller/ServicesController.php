@@ -7,14 +7,14 @@ use Cake\ORM\Table;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\Network\Session;
+use Cake\Datasource\ConnectionManager;
 
 class ServicesController extends AppController {            
 
     public $paginate = [
         'limit' => 25,
         'order' => [
-            'Ncs.ano' => 'asc',
-            'Ncs.mes' => 'desc'
+            'Services.senha' => 'asc',            
         ]
     ];
 
@@ -37,7 +37,7 @@ class ServicesController extends AppController {
             ],
             'listenRequestPiped' => [
                 'index' => [
-                    'model'        => 'Ncs',
+                    'model'        => 'Services',
                     'pkAlias'      => __('id'),
                     'blockPkPiped' => true,
                 ]
@@ -48,7 +48,6 @@ class ServicesController extends AppController {
     }
 
     public function index() {    
-        
        
         $conversion = array(
             'Services' => array(
@@ -56,7 +55,7 @@ class ServicesController extends AppController {
                 'senha'           => array('name' => 'senha', 'operation' => '', 'coalesce' => false, 'date' => false, 'alias' => __('Código'), 'ignore' => array('')),
                 'status_ficha'    => array('name' => 'status_ficha', 'operation' => 'LIKE', 'coalesce' => false, 'date' => false, 'alias' => __('Nome'), 'ignore' => array('')),
                 'status_envelope' => array('name' => 'status_envelope', 'operation' => '', 'coalesce' => false, 'date' => false, 'alias' => __('Setor'), 'ignore' => array('')),                
-                '_all'            => array('name' => ['Service.id', 'Service.localidade'], 'operations' => ['LIKE', 'LIKE'], 'coalesce' => false, 'date' => false, 'alias' => __('Pesquisa'), 'ignore' => array(''))
+                '_all'            => array('name' => ['Services.senha', 'Localidades.nome'], 'operations' => ['LIKE', 'LIKE'], 'coalesce' => false, 'date' => false, 'alias' => __('Pesquisa'), 'ignore' => array(''))
             )
         );
 
@@ -71,7 +70,7 @@ class ServicesController extends AppController {
         $this->aevOptions();
         
         $this->set('services', $services);
-        $this->set('_conditions',   $_conditions['stringFilter']);                  
+        $this->set('_conditions', $_conditions['stringFilter']);                  
 
     } 
 
@@ -177,7 +176,7 @@ class ServicesController extends AppController {
     
     public function callSenha($senha = null){       
         
-        $data = $this->request->data;
+        $data = $this->request->data;        
                 
         if($data['call_senha'] == 0){
             $this->Flash->error(__('Não existe senha 0, favor revisar !!!'));
@@ -188,11 +187,23 @@ class ServicesController extends AppController {
         
         $panel = $panelTable->newEntity();
         $panel->senha = $data['call_senha'];
+        $panel->tipo = $data['tipo'];
         $panel->setor = 4;
                 
         if ($panelTable->save($panel)) {     
             $this->Flash->success(__('Senha enviada para fila com sucesso !!!'));
-            $this->request->session()->write('last_senha', $data['call_senha']);       
+
+            switch ($panel->tipo) {
+                case 1:
+                    $this->request->session()->write('last_senha_ficha', $data['call_senha']);                          
+                    break;
+                case 2:
+                    $this->request->session()->write('last_senha_reserva', $data['call_senha']);                          
+                    break;
+                case 3:
+                    $this->request->session()->write('last_senha_envelope', $data['call_senha']);                          
+                    break;
+            }
         }else{
             $this->Flash->error(__('Erro ao chamar a senha !!!'));
         }
@@ -216,6 +227,18 @@ class ServicesController extends AppController {
         ];
 
         $this->set('aevOptions', $aevOptions);
+    }
+
+    public function reiniciar() {
+
+        $connection = ConnectionManager::get('default');
+        $connection->execute('TRUNCATE TABLE pia.services'); 
+        $connection->execute('TRUNCATE TABLE pia.panels'); 
+
+        $this->Flash->success(__('Reunião Reiniciado com sucesso !!!'));
+
+        return $this->redirect("/services");
+
     }
 
 
