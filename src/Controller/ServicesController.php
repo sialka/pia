@@ -49,9 +49,131 @@ class ServicesController extends AppController {
 
     public function index() {    
         
-                 
+       
+        $conversion = array(
+            'Services' => array(
+                'id'              => array('name' => 'id', 'operation' => '', 'coalesce' => false, 'date' => false, 'alias' => __('ID'), 'ignore' => array('')),
+                'senha'           => array('name' => 'senha', 'operation' => '', 'coalesce' => false, 'date' => false, 'alias' => __('Código'), 'ignore' => array('')),
+                'status_ficha'    => array('name' => 'status_ficha', 'operation' => 'LIKE', 'coalesce' => false, 'date' => false, 'alias' => __('Nome'), 'ignore' => array('')),
+                'status_envelope' => array('name' => 'status_envelope', 'operation' => '', 'coalesce' => false, 'date' => false, 'alias' => __('Setor'), 'ignore' => array('')),                
+                '_all'            => array('name' => ['Service.id', 'Service.localidade'], 'operations' => ['LIKE', 'LIKE'], 'coalesce' => false, 'date' => false, 'alias' => __('Pesquisa'), 'ignore' => array(''))
+            )
+        );
+
+        if (isset($this->request->data) && is_array($this->request->data) && (sizeof($this->request->data) >= 1)) {
+            $this->request->data['Services'] = $this->request->data;
+        }
+
+        $_conditions = $this->Conditions->filter('Services', $conversion, [], null, null);
+
+        $services = $this->paginate($this->Services->find('all')->contain(['Localidades'])->where($_conditions['conditions']));                
+
+        $this->aevOptions();
+        
+        $this->set('services', $services);
+        $this->set('_conditions',   $_conditions['stringFilter']);                  
 
     } 
+
+    public function add(){
+        
+        $senha = $this->Services->newEntity();
+
+        if ($this->request->is('post')) { 
+
+            $data = $this->request->data;                        
+            
+            $valida = $this->Services->validacoes($data['senha'], $data['localidade_id'], 'add', null);             
+            
+            if($valida['status']){
+                $this->Flash->error($valida['erro']);                
+
+                return $this->redirect(['controller' => 'Services', 'action' => 'add']);
+            }
+
+            $new = $this->Services->patchEntity($senha, $data);                                             
+            $new->setor = 4;
+            
+            $save = $this->Services->save($new);
+            
+            if ($save) {                                
+                $this->Flash->success(__('A senha '.$new->senha.' foi identificada com sucesso !!!'));
+                
+                return $this->redirect(['controller' => 'Services', 'action' => 'index']);                
+            } else {
+
+                $this->Flash->error(__('Não foi possivel salvar a identificação da senha !!!'));
+
+                return $this->redirect(['controller' => 'Services', 'action' => 'add']);
+            }
+
+        }        
+
+        $this->aevOptions();
+        
+        $this->set('mode', 'add');
+        $this->set('senha', $senha);
+        $this->render("save");
+    }    
+
+    public function delete($id = null){
+        
+        $senha = $this->Services->get($id);    
+        
+        $delete = $this->Services->delete($senha);               
+        
+        if($delete){
+            $this->Flash->success(__("Senha excluída com sucesso !!!"));
+        }else{
+            $this->Flash->error(__("Não foi possivel deletar a senha !!!"));
+        }
+        
+        return $this->redirect(['controller' => 'Services', 'action' => 'index']);        
+    }
+
+    public function view($id = null){
+        
+        $senha = $this->Services->get($id, ['contain' => ['Localidades']]); 
+        
+        $this->aevOptions();
+
+        $this->set('senha', $senha);
+        $this->set('mode', 'view');
+        $this->render('save');
+    }
+    
+    public function edit($id = null){
+
+        $senha = $this->Services->get($id, ['contain' => ['Localidades']]); 
+
+        if ($this->request->is('post')) {
+
+            $data = $this->request->data;            
+
+            $valida = $this->Services->validacoes(0, $data['localidade_id'], 'edit', $id);            
+            
+            if($valida['status']){
+                $this->Flash->error($valida['erro']);                
+
+                return $this->redirect(['controller' => 'Services', 'action' => "edit/{$id}"]);
+            }
+
+            $new = $this->Services->patchEntity($senha, $data);     
+
+            if ($this->Services->save($new)) {
+                $this->Flash->success(__('A senha <strong>' .$new->senha.' </strong> foi alterada com sucesso !!!'));
+                return $this->redirect(['controller' => 'Services', 'action' => 'index']);
+            } else {
+                $this->Flash->error(__('Não foi possivel altera a senha <strong>' .$new->senha.' </strong>  !!!'));
+                return $this->redirect(['controller' => 'Services', 'action' => 'index']);
+            }
+        }
+
+        $this->aevOptions();
+        $this->set('senha', $senha);
+        $this->set('mode', 'edit');
+        $this->render('save');
+    }
     
     public function callSenha($senha = null){       
         
@@ -77,5 +199,24 @@ class ServicesController extends AppController {
         
         return $this->redirect("/services");
     }
+
+    public function aevOptions() {
+
+        $aevOptions = [
+            'status_fichas' => [                
+                0 => "CONFERIDAS",
+                1 => "SEM CONFERÊNCIA",
+                2 => "AGUARDANDO RETORNO",
+            ],              
+            'status_envelopes' => [                
+                0 => "CONFERIDOS",
+                1 => "SEM CONFERÊNCIA",
+                2 => "AGUARDANDO RETORNO",
+            ],           
+        ];
+
+        $this->set('aevOptions', $aevOptions);
+    }
+
 
   }

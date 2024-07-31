@@ -4,7 +4,7 @@
         <ol class="breadcrumb p-2" style="border-radius: 0px">
             <li class="breadcrumb-item">
                 <i class="fa fa-home"></i>
-                <a href="/Dashboard/index" class="small">
+                <a href="/Dashboard/index" class="-small">
                     Dashboard
                 </a>
             </li>
@@ -13,11 +13,11 @@
                 <?php foreach($nav as $text => $link ) { ?>
 
                         <?php if(!empty($link)) { ?>
-                            <li class="breadcrumb-item active small pt-1" aria-current="page">
+                            <li class="breadcrumb-item active" aria-current="page">
                                 <a href="<?= $link ?>"><?= $text ?></a>
                             </li>
                         <?php } else { ?>
-                            <li class="breadcrumb-item small pt-1" aria-current="page">
+                            <li class="breadcrumb-item" aria-current="page">
                                 <?= $text ?>
                                 </li>
                         <?php } ?>

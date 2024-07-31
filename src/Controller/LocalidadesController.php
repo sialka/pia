@@ -74,6 +74,7 @@ class LocalidadesController extends AppController {
         }
 
         $_conditions = $this->Conditions->filter('Localidades', $conversion, [], null, null);
+        $_conditions['conditions'] += ['Localidades.setor' => 4];        
 
         $localidades = $this->paginate($this->Localidades->find('all')->where($_conditions['conditions']));
 

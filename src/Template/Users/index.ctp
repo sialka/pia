@@ -1,15 +1,15 @@
 <?php
     $nav = [
         'Usuarios' => ''
-    ];
+    ];    
 ?>
 <?= $this->element('breadcrumb', [ 'nav' => $nav ]); ?>
 
-<div class="container-row normal">
+<div class="container-row">
     <div class="col-12">
 
         <div class="col-12 p-0 mb-2">
-            <a class="btn btn-success no-radius normal" href="/Users/add">
+            <a class="btn btn-success no-radius" href="/Users/add">
                 <i class="fa fa-plus fa-sm"></i>
                 <span class="">Novo</span>
             </a>
@@ -55,7 +55,7 @@
                                             <td class="text-center px-3"></td>
                                             <td class="text-center px-3">
                                                 <div class="dropdown d-block">
-                                                    <button class="dropdown-toggle btn btn-primary btn-sm no-radius normal py-0" type="button" id="acoesListar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <button class="dropdown-toggle btn btn-primary btn-sm no-radius py-0" type="button" id="acoesListar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                         Opções
                                                     </button>
                                                     <div class="dropdown-menu dropdown-menu-right -py-2 -m-0" aria-labelledby="acoesListar">

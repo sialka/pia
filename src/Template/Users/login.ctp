@@ -60,8 +60,8 @@
 
                 <div class="card-footer bg-white no-border">
                     <div class="text-center">
-                        <?= $this->Form->button(__('Acessar'), ['class' => 'btn btn-primary normal no-radius']) ?>
-                        <a class="btn btn-success normal no-radius" href="/panels?page=1">
+                        <?= $this->Form->button(__('Acessar'), ['class' => 'btn btn-primary no-radius']) ?>
+                        <a class="btn btn-success no-radius" href="/panels?page=1">
                             <!--i class="fa fa-panel fa-sm"></i-->
                             <span class="">Painel</span>
                         </a>  

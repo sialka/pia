@@ -84,7 +84,7 @@ class UsersController extends AppController {
         $_conditions = $this->Conditions->filter('Users', $conversion, [], null, null);
 
         $users = $this->paginate($this->Users->find('all')->where($_conditions['conditions']));
-
+        //debug($users);exit; //ws!!nj4e
         $this->aevOptions();
         $this->set('users', $users);
         $this->set('_conditions',   $_conditions['stringFilter']);
@@ -110,13 +110,7 @@ class UsersController extends AppController {
 
             if ($this->Users->save($new)) {                
                 
-                if($this->Users->salvarPerfil($new->id, $data)){                
-                    $this->Flash->success(__("O usuário foi gerado com sucesso. Senha de acesso <strong>{$senha}</strong>"));
-                }else{
-                    $this->Flash->error(__('Erro ao mudar o perfil do usuário <strong>' .$new->nome.' </strong> !!!'));                    
-                }
-                
-                return $this->redirect(['controller' => 'Users', 'action' => 'index']);                
+                $this->Flash->success(__("O usuário foi gerado com sucesso. Senha de acesso <strong>{$senha}</strong>"));
                 
                 return $this->redirect(['controller' => 'Users', 'action' => 'index']);
                 
@@ -168,11 +162,13 @@ class UsersController extends AppController {
             }
             
             $new = $this->Users->patchEntity($user, $data);                                    
-                        
-            $new->mod_user = $data['mod_user'];
-            $new->mod_localidade = $data['mod_localidade'];
-            $new->mod_setores = $data['mod_setores'];
-            $new->mod_atendimento = $data['mod_atendimento'];            
+            
+            //if(isset($data['mod_user'])){
+                $new->mod_user = $data['mod_user'];
+                $new->mod_localidade = $data['mod_localidade'];
+                $new->mod_setores = $data['mod_setores'];
+                $new->mod_atendimento = $data['mod_atendimento'];                        
+            //}
 
             if ($this->Users->save($new)) {                
                 
@@ -257,6 +253,7 @@ class UsersController extends AppController {
                     $nome_completo = explode(" ", $user['nome']);
 
                     $perfil = [
+                        'admin' => $user['mod_admin'],
                         'user' => $user['mod_user'],
                         'localidade' => $user['mod_localidade'],
                         'setores' => $user['mod_setores'],

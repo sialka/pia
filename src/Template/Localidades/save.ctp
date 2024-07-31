@@ -89,6 +89,7 @@ if($session != null){
                 </div>
 
                 <div class="row">
+                    <?php /*
                     <div class="form-group col-lg-6 col-md-6 col-sm-12">
                         <label for="setor" class="strong">Setor</label>
                         <?=
@@ -106,6 +107,7 @@ if($session != null){
                         )
                         ?>
                     </div>
+                    */ ?>
                     <div class="form-group col-lg-6 col-md-6 col-sm-12">
                         <label for="status" class="strong">Status</label>
                         <?=

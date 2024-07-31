@@ -1,8 +1,11 @@
+<?php 
 
-<?php if($status == 'Ativo') { ?>
-    <span class="badge bg-success text-white px-2"><?= $status ?></span>
-<?php } ?>
+if($status == 'Ativo') { 
+  echo "<span class='badge bg-success text-white px-2' style='border-radius: 0px;'>". $status."</span>";
+}
 
-<?php if($status == 'Inativo') { ?>
-    <span class="badge bg-danger text-white"><?= $status ?></span>
-<?php } ?>
+if($status == 'Inativo') { 
+  echo "<span class='badge bg-danger text-white px-2' style='border-radius: 0px;>".$status."</span>";
+} 
+
+?>

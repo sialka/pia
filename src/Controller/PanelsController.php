@@ -243,26 +243,6 @@ class PanelsController extends AppController {
 
     public function aevOptions() {
 
-
-        /*
-
-            $aevOptions = [
-                'setores' => [
-                    0 => 'Administração',
-                    1 => '1 - Centro',
-                    2 => '2 - Aeroporto',
-                    3 => '3 - Bonsucesso',
-                    4 => '4 - Pimentas',
-                ],
-                'status' => [
-                    1 => 'Ativo',
-                    0 => 'Inativo',
-                ],
-            ];
-    
-            return $aevOptions;*/
-        
-
         $aevOptions = [
             'status_fichas' => [
                 0 => "-",

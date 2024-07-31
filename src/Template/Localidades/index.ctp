@@ -5,17 +5,17 @@
 ?>
 <?= $this->element('breadcrumb', [ 'nav' => $nav ]); ?>
 
-<div class="container-row normal">
+<div class="container-row">
     <div class="col-12">
 
         <div class="col-12 p-0 mb-2">
             
-            <a class="btn btn-success no-radius normal" href="/Localidades/add">
+            <a class="btn btn-success no-radius" href="/Localidades/add">
                 <i class="fa fa-plus fa-sm"></i>
                 <span class="">Novo</span>
             </a>
             
-            <button class="btn btn-info no-radius normal ml-1" data-toggle="modal" data-target="#exampleModal">
+            <button class="btn btn-info no-radius ml-1" data-toggle="modal" data-target="#exampleModal">
                 <i class="fa fa-filter fa-sm"></i>
                 <span class="">Filtro</span>
             </button>          
@@ -57,12 +57,12 @@
                                             <td class="text-left px-3"><?= h($localidade->nome) ?></td>
                                             <td class="text-left px-3"><?= $aevOptions['setores'][$localidade->setor]; ?></td>
                                             <td class="text-center">
-                                                <?= $this->element('status', [ 'status' => $aevOptions['status'][$localidade->status] ]); ?>
+                                                <?= $this->element('status', [ 'status' => $aevOptions['status'][$localidade->status] ]); ?>                                                
                                             </td>
                                             <td class="text-center px-3"></td>
                                             <td class="text-center px-3">
                                                 <div class="dropdown d-block">
-                                                    <button class="btn btn-primary normal dropdown-toggle no-radius btn-sm py-0" type="button" id="acoesListar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <button class="btn btn-primary dropdown-toggle no-radius btn-sm py-0" type="button" id="acoesListar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                         Opções
                                                     </button>
                                                     <div class="dropdown-menu dropdown-menu-right -py-2 -m-0" aria-labelledby="acoesListar">
@@ -153,7 +153,8 @@
                             ?>
                         </div>
                     </div>                        
-                      
+                    
+                    <?php /*
                     <div class="form-row normal mt-2">
                         <label for="id" class="normal strong col-4">Setores</label>                        
                         <div class="col-8">
@@ -171,6 +172,8 @@
                             ?>                        
                         </div>                        
                     </div>
+                    */
+                    ?>
                         
                     <div class="form-row normal mt-2">                    
                         <label for="id" class="normal strong col-4">Status</label>

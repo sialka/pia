@@ -39,7 +39,7 @@
 
             <div class="card-body">
 
-                <ul class="nav nav-tabs normal" id="myTab" role="tablist">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <a class="nav-link active" id="home-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Usuário</a>
                     </li>
@@ -60,16 +60,16 @@
                 <div class="tab-content">
                     
                     <!-- Dados -->
-                    <div class="tab-pane border-tab p-4 active normal" id="profile" role="tabpanel" aria-labelledby="profile-tab">                        
+                    <div class="tab-pane border-tab p-4 active" id="profile" role="tabpanel" aria-labelledby="profile-tab">                        
                         
                         <div class="row">
-                            <div class="form-group col-lg-6 col-md-6 col-sm-12 has-validation normal">
+                            <div class="form-group col-lg-6 col-md-6 col-sm-12 has-validation">
                                 <label for="username" class="strong">Usuário</label>
                                 <?php if($mode == "add") { 
                                 
                                     echo $this->Form->input('username',
                                         array(
-                                            'class'       => 'form-control no-radius normal',
+                                            'class'       => 'form-control no-radius',
                                             'id'          => 'username',
                                             'type'        => 'text',
                                             'div'         => false,
@@ -81,7 +81,7 @@
                                 
                                 }else{
                         
-                                    echo __("<label for='' class='form-control no-radius normal disabled'>{$user->username}</label>");
+                                    echo __("<label for='' class='form-control no-radius disabled'>{$user->username}</label>");
                         
                                 } ?>                       
 
@@ -90,12 +90,12 @@
                         
 
                         <div class="row">
-                            <div class="form-group col-12 normal">
+                            <div class="form-group col-12">
                                 <label for="nome" class="strong">Nome Completo</label>
                                 <?=
                                 $this->Form->input('nome',
                                     array(
-                                        'class'       => 'form-control no-radius normal',
+                                        'class'       => 'form-control no-radius',
                                         'id'          => 'nome',
                                         'type'        => 'text',
                                         'div'         => false,
@@ -109,12 +109,12 @@
                         </div>
 
                         <div class="row">
-                            <div class="form-group col-12 normal">
+                            <div class="form-group col-12">
                                 <label for="email" class="strong">E-Mail</label>
                                 <?=
                                 $this->Form->input('email',
                                     array(
-                                        'class'       => 'form-control no-radius normal',
+                                        'class'       => 'form-control no-radius',
                                         'id'          => 'email',
                                         'type'        => 'email',
                                         'div'         => false,                                        
@@ -127,14 +127,15 @@
                             </div>
                         </div>
 
-                        <?php if($perfil['user']) { ?>
+                        <?php                         
+                        if($perfil['admin']) { ?>
                         <div class="row">
-                            <div class="form-group col-lg-6 col-md-6 col-sm-12 normal">
+                            <div class="form-group col-lg-6 col-md-6 col-sm-12">
                                 <label for="status" class="strong">Status</label>
                                 <?=
                                 $this->Form->input('status',
                                     array(
-                                        'class'       => 'form-control no-radius normal',
+                                        'class'       => 'form-control no-radius',
                                         'id'          => 'status',
                                         'type'        => 'select',
                                         'options'     => $aevOptions['status'],
@@ -152,14 +153,13 @@
                     
                     <?php if($mode == 'edit') { ?>
                     <!-- Senha -->
-                    <div class="tab-pane border-tab p-4" id="password" role="tabpanel" aria-labelledby="password-tab">
- 
+                    <div class="tab-pane border-tab p-4" id="password" role="tabpanel" aria-labelledby="password-tab"> 
                         
                         <div class="row">
                             <div class="form-group col-12">
-                                <label for="password" class="strong normal">Nova Senha</label>
+                                <label for="password" class="strong">Nova Senha</label>
                                 <?php
-                                if ($user_auth['id'] == $user->id) { 
+                                if ($user_auth['id'] == $user->id || $perfil['admin']) { 
                                     echo $this->Form->input('password',
                                         array(
                                             'class'       => 'form-control no-radius normal',
@@ -179,9 +179,9 @@
                         
                         <div class="row">
                             <div class="form-group col-12">
-                                <label for="confirma" class="strong normal">Confirme a Senha</label>
+                                <label for="confirma" class="strong">Confirme a Senha</label>
                                 <?php
-                                if ($user_auth['id'] == $user->id) {                                     
+                                if ($user_auth['id'] == $user->id || $perfil['admin']) { 
                                     echo $this->Form->input('confirma',
                                         array(
                                             'class'       => 'form-control no-radius normal',
@@ -207,55 +207,69 @@
                     <?php if($perfil['user']) { ?>
                     <div class="tab-pane border-tab p-4" id="settings" role="tabpanel" aria-labelledby="settings-tab">       
                         
-                        <h4 class="strong normal m-0 mb-2 text-primary">Módulos Permitidos</h4>                        
-
-                        <div class="row col-12">                            
-                            <div class="form-check">                                
-                                
-                                <?=
-                                
-                                $this->Form->checkbox('mod_user', 
+                        <h4 class="strong m-0 mb-2 text-normal text-primary">Módulos Permitidos</h4>                 
+                        
+                        <div class="row col-12 mb-1">                            
+                            <div class="form-check">                                                                
+                                <?=                                
+                                $this->Form->checkbox('mod_admin', 
                                         array(                                            
-                                            'class'       => 'form-check-input no-radius normal',
-                                            'id'          => 'cad_igrejas',                                            
+                                            'class'       => 'form-check-input no-radius',
+                                            'id'          => 'mod_admin',                                            
                                             'div'         => false,
                                             'label'       => false,
                                         )
                                     );
                                 ?>                      
-                                <label for="adm" class="form-check-label strong normal">Usuários</label>
+                                <label for="mod_admin" class="form-check-label strong">Administrador</label>
+                            </div>                                                
+                        </div>                         
+
+                        <div class="row col-12 mb-1">                            
+                            <div class="form-check">                                                                
+                                <?=                                
+                                $this->Form->checkbox('mod_user', 
+                                        array(                                            
+                                            'class'       => 'form-check-input no-radius',
+                                            'id'          => 'mod_user',                                            
+                                            'div'         => false,
+                                            'label'       => false,
+                                        )
+                                    );
+                                ?>                      
+                                <label for="mod_user" class="form-check-label strong">Usuários</label>
                             </div>                                                
                         </div>                        
 
-                        <div class="row col-12">                            
+                        <div class="row col-12 mb-1">                            
                             <div class="form-check">                                
                                 <?=                                
                                 $this->Form->checkbox('mod_localidade', 
                                         array(                                            
-                                            'class'       => 'form-check-input no-radius normal',
-                                            'id'          => 'cad_igrejas',
+                                            'class'       => 'form-check-input no-radius',
+                                            'id'          => 'mod_localidade',
                                             'div'         => false,
                                             'label'       => false,
                                         )
                                     );
                                 ?>                      
-                                <label for="adm" class="form-check-label strong normal">Localidades</label>
+                                <label for="mod_localidade" class="form-check-label strong">Localidades</label>
                             </div>                                                
                         </div>
                         
-                        <div class="row col-12">                            
+                        <div class="row col-12 mb-1">                            
                             <div class="form-check">                                
                                 <?=                                
                                 $this->Form->checkbox('mod_setores', 
                                         array(                                            
-                                            'class'       => 'form-check-input no-radius normal',
-                                            'id'          => 'cad_igrejas',
+                                            'class'       => 'form-check-input no-radius',
+                                            'id'          => 'mod_setores',
                                             'div'         => false,
                                             'label'       => false,
                                         )
                                     );
                                 ?>                      
-                                <label for="adm" class="form-check-label strong normal">Setores</label>
+                                <label for="mod_setores" class="form-check-label strong">Setores</label>
                             </div>                                                
                         </div>
                         
@@ -264,14 +278,14 @@
                                 <?=
                                 $this->Form->checkbox('mod_atendimento', 
                                         array(                                            
-                                            'class'       => 'form-check-input no-radius normal',
-                                            'id'          => 'cad_mestrabalho',
+                                            'class'       => 'form-check-input no-radius',
+                                            'id'          => 'mod_atendimento',
                                             'div'         => false,
                                             'label'       => false,                                            
                                         )
                                     );
                                 ?>
-                                <label for="adm" class="form-check-label strong normal">Atendimento</label>                            
+                                <label for="mod_atendimento" class="form-check-label strong">Atendimento</label>                            
                             </div>                                                
                         </div>                        
 
@@ -291,14 +305,14 @@
 
                     <?php if($mode != "view") {?>
 
-                            <button type="submit" class="btn btn-success no-radius normal">
+                            <button type="submit" class="btn btn-success no-radius">
                                 <i class="fa fa-check"></i>
                                 Salvar
                             </button>
 
                     <?php } ?>
 
-                    <a class="btn btn-link no-link normal" href="/Users/index">
+                    <a class="btn btn-link no-link" href="/Users/index">
                         <i class="fa fa-reply"></i>
                         Voltar
                     </a>
