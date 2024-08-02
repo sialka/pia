@@ -36,12 +36,12 @@
           <div class="card shadow border-1">
             <div class="card-header bg-primary text-white text-center text-normal">Atendimento Fichas</div>          
             <div class="card-body">
-              <?= $this->Form->create(null, ['url' => ['action' => 'callSenha']]); ?>
+              <?= $this->Form->create(null, ['url' => ['action' => 'chamarFicha']]); ?>
               <div class="row text-center">
                 <div class="col-12">                
                   <?= $this->Form->input('tipo', ['class' => 'hide', 'value' => 1, 'label' => false]); ?>              
                   <?=
-                    $this->Form->input('call_senha',
+                    $this->Form->input('senha_ficha',
                       array(
                           'class' => 'form-control no-radius text-center',
                           'style' => "font-size: 3rem; border: 1px gray black; border-radius: 2px; background-color: RGBA(78,115,223,0.2)",
@@ -78,12 +78,12 @@
           <div class="card shadow border-1">
             <div class="card-header bg-warning text-dark text-center text-normal">Atendimento Reserva</div>          
             <div class="card-body">
-              <?= $this->Form->create(null, ['url' => ['action' => 'callSenha']]); ?>
+              <?= $this->Form->create(null, ['url' => ['action' => 'chamarReserva']]); ?>
               <div class="row text-center">
                 <div class="col-12">  
                   <?= $this->Form->input('tipo', ['class' => 'hide', 'value' => 2, 'label' => false]); ?>              
                   <?= 
-                  $this->Form->input('call_senha',
+                  $this->Form->input('senha_reserva',
                     array(
                         'class' => 'form-control no-radius text-center',
                         'style' => "font-size: 3rem; border: 1px gray black; border-radius: 2px; background-color: RGBA(78,115,223,0.2)",
@@ -120,12 +120,12 @@
           <div class="card shadow border-1">
             <div class="card-header bg-info text-dark text-center text-normal">Atendimento Envelopes</div>          
             <div class="card-body">
-              <?= $this->Form->create(null, ['url' => ['action' => 'callSenha']]); ?>
+              <?= $this->Form->create(null, ['url' => ['action' => 'chamarEnvelope']]); ?>
               <div class="row text-center">
                 <div class="col-12">       
                   <?= $this->Form->input('tipo', ['class' => 'hide', 'value' => 3, 'label' => false]); ?>              
                   <?= 
-                  $this->Form->input('call_senha',
+                  $this->Form->input('senha_envelope',
                     array(
                         'class' => 'form-control no-radius text-center',
                         'style' => "font-size: 3rem; border: 1px gray black; border-radius: 2px; background-color: RGBA(78,115,223,0.2)",

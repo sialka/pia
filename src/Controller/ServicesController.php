@@ -174,11 +174,14 @@ class ServicesController extends AppController {
         $this->render('save');
     }
     
-    public function callSenha($senha = null){       
+    public function chamarFicha()    
+    {
+
+        $data = $this->request->data;   
         
-        $data = $this->request->data;        
+        $senha = $data['senha_ficha'];
                 
-        if($data['call_senha'] == 0){
+        if($data['senha_ficha'] == 0){
             $this->Flash->error(__('Não existe senha 0, favor revisar !!!'));
             return $this->redirect("/services");
         }        
@@ -186,24 +189,71 @@ class ServicesController extends AppController {
         $panelTable = TableRegistry::get('Panels');
         
         $panel = $panelTable->newEntity();
-        $panel->senha = $data['call_senha'];
+        $panel->senha = $senha;
+        $panel->tipo = $data['tipo'];
+        $panel->setor = 4; // ToDo        
+                
+        if ($panelTable->save($panel)) {     
+            $this->Flash->success(__("Conferência de Ficha: Senha ".$senha." enviada para o Painel com sucesso !!!"));
+
+            $this->request->session()->write('last_senha_ficha', $data['senha_ficha']);                              
+        }else{
+            $this->Flash->error(__('Erro ao chamar a senha !!!'));
+        }
+        
+        return $this->redirect("/services");
+
+    }
+
+    public function chamarReserva($senha = null)    
+    {
+
+        $data = $this->request->data;        
+                
+        if($data['senha_reserva'] == 0){
+            $this->Flash->error(__('Não existe senha 0, favor revisar !!!'));
+            return $this->redirect("/services");
+        }        
+
+        $panelTable = TableRegistry::get('Panels');
+        
+        $panel = $panelTable->newEntity();
+        $panel->senha = $data['senha_reserva'];
+        $panel->tipo = $data['tipo'];
+        $panel->setor = 4; // ToDo        
+                
+        if ($panelTable->save($panel)) {     
+            $this->Flash->success(__('Reserva de Roupa: Senha enviada para o Painel com sucesso !!!'));
+
+            $this->request->session()->write('last_senha_reserva', $data['senha_reserva']);
+        }else{
+            $this->Flash->error(__('Erro ao chamar a senha !!!'));
+        }
+        
+        return $this->redirect("/services");
+
+    }
+
+    public function chamarEnvelope($senha = null){       
+        
+        $data = $this->request->data;        
+                
+        if($data['senha_envelope'] == 0){
+            $this->Flash->error(__('Não existe senha 0, favor revisar !!!'));
+            return $this->redirect("/services");
+        }        
+
+        $panelTable = TableRegistry::get('Panels');
+        
+        $panel = $panelTable->newEntity();
+        $panel->senha = $data['senha_envelope'];
         $panel->tipo = $data['tipo'];
         $panel->setor = 4;
                 
         if ($panelTable->save($panel)) {     
-            $this->Flash->success(__('Senha enviada para fila com sucesso !!!'));
-
-            switch ($panel->tipo) {
-                case 1:
-                    $this->request->session()->write('last_senha_ficha', $data['call_senha']);                          
-                    break;
-                case 2:
-                    $this->request->session()->write('last_senha_reserva', $data['call_senha']);                          
-                    break;
-                case 3:
-                    $this->request->session()->write('last_senha_envelope', $data['call_senha']);                          
-                    break;
-            }
+            $this->Flash->success(__('Conferência de envelope: Senha enviada para o Painel com sucesso !!!'));
+    
+            $this->request->session()->write('last_senha_envelope', $data['senha_envelope']);                          
         }else{
             $this->Flash->error(__('Erro ao chamar a senha !!!'));
         }

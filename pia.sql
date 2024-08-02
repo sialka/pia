@@ -212,3 +212,22 @@ CREATE TABLE IF NOT EXISTS `users` (
 INSERT INTO `users` (`id`, `nome`, `username`, `email`, `password`, `mod_admin`, `mod_user`, `mod_localidade`, `mod_setores`, `mod_atendimento`,`status`, `created`, `modified`) VALUES
 (1, 'Sistema', 'sistema', 'sialkas@gmail.com', '$2y$10$OlQdL/TfLoCAZGqV9hI0Geu3/MfaDmhTnl13VqqFRfv9biSNgdN86', 1, 1, 1, 1, 1, NULL, NULL);
 
+
+DROP TABLE IF EXISTS `setores`;
+CREATE TABLE IF NOT EXISTS `setores` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,  
+  `setor` char(1) NOT NULL,
+  `nome` varchar(100) NOT NULL,
+  `status` BOOLEAN DEFAULT TRUE,    
+  `created` timestamp NULL DEFAULT NULL,
+  `modified` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+
+INSERT INTO `setores` (`setor`, `nome`, `status`, `created`, `modified`) VALUES ('0', '0 - Administração', 1, NULL, NULL);
+INSERT INTO `setores` (`setor`, `nome`, `status`, `created`, `modified`) VALUES ('1', '1 - Centro', 1, NULL, NULL);
+INSERT INTO `setores` (`setor`, `nome`, `status`, `created`, `modified`) VALUES ('2', '2 - Aeroporto', 1, NULL, NULL);
+INSERT INTO `setores` (`setor`, `nome`, `status`, `created`, `modified`) VALUES ('3', '3 - Bonsucesso', 1, NULL, NULL);
+INSERT INTO `setores` (`setor`, `nome`, `status`, `created`, `modified`) VALUES ('4', '4 - Pimentas', 1, NULL, NULL);
+
+

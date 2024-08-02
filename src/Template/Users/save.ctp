@@ -17,7 +17,7 @@
 
     $nav = [
         'Usuários' => '/Users/index',
-        'Adicionar'   => '',
+        $page   => '',
     ];
 ?>
 
@@ -50,7 +50,7 @@
                     </li>
                     <?php } ?>
                     
-                    <?php if($perfil['user']) { ?>
+                    <?php if($perfil['admin']) { ?>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link -disabled" id="messages-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Perfil</a>
                     </li>
@@ -162,12 +162,13 @@
                                 if ($user_auth['id'] == $user->id || $perfil['admin']) { 
                                     echo $this->Form->input('password',
                                         array(
-                                            'class'       => 'form-control no-radius normal',
+                                            'class'       => 'form-control no-radius',
                                             'id'          => 'password',
                                             'type'        => 'password',
                                             'div'         => false,
                                             'label'       => false,
                                             'value'       => '',
+                                            'placeholder' => 'Informe uma nova senha',
                                         )
                                     );
                                 }else{
@@ -184,12 +185,13 @@
                                 if ($user_auth['id'] == $user->id || $perfil['admin']) { 
                                     echo $this->Form->input('confirma',
                                         array(
-                                            'class'       => 'form-control no-radius normal',
+                                            'class'       => 'form-control no-radius',
                                             'id'          => 'confirma',
                                             'type'        => 'password',
                                             'div'         => false,
                                             'label'       => false,
                                             'value'       => '',
+                                            'placeholder' => 'Repita a nova senha',
                                         )
                                     );
                                 }else{
@@ -204,7 +206,7 @@
                     <?php } ?>
 
                     <!-- Settings -->
-                    <?php if($perfil['user']) { ?>
+                    <?php if($perfil['admin']) { ?>
                     <div class="tab-pane border-tab p-4" id="settings" role="tabpanel" aria-labelledby="settings-tab">       
                         
                         <h4 class="strong m-0 mb-2 text-normal text-primary">Módulos Permitidos</h4>                 

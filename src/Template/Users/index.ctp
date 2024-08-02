@@ -1,7 +1,7 @@
 <?php
     $nav = [
         'Usuarios' => ''
-    ];    
+    ];       
 ?>
 <?= $this->element('breadcrumb', [ 'nav' => $nav ]); ?>
 
@@ -14,12 +14,14 @@
 <div class="container-row">
     <div class="col-12">
 
+        <?php if($perfil['admin']): ?>
         <div class="col-12 p-0 mb-2">
             <a class="btn btn-success no-radius" href="/Users/add">
                 <i class="fa fa-plus fa-sm"></i>
                 <span class="">Novo</span>
             </a>
         </div>  
+        <?php endif; ?>
         
         <div class="row">
             <div class="col-12 mt-2 mb-2">
@@ -69,18 +71,22 @@
                                                             <i class="fa fa-search text-primary"></i>
                                                             Visualizar
                                                         </a>
-                                                        <?php #if($user->id <> 1): ?>
+                                                        
+                                                        <?php if($perfil['id'] == $user->id || $perfil['admin']): ?>
                                                         <a class="dropdown-item" href="/Users/edit/<?= $user->id;?>"
                                                             data-confirm = "Tem certeza que deseja editar o usuário?">
                                                             <i class="fa fa-pencil-alt text-success"></i>
                                                             Editar
                                                         </a>
+                                                        <?php endif; ?>
+
+                                                        <?php if($perfil['admin']): ?>
                                                         <a class="dropdown-item" href="/Users/delete/<?= $user->id;?>"
                                                             data-confirm = "Tem certeza que deseja excluir o usuário?">
                                                             <i class="fas fa-trash-alt text-danger"></i>
                                                             Excluir
                                                         </a>
-                                                        <?php #endif; ?>
+                                                        <?php endif; ?>
                                                     </div>
                                                 </div>
                                             </td>

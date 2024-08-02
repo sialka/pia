@@ -47,48 +47,53 @@ class PanelsController extends AppController {
         $this->Auth->allow('index');
     }
 
-
-
     public function index() {    
-        
-              
-        # 1. Prioridade senhas
-        # a. busca a senha do topo com status true;        
-        # b. pegar a senha e mudar o status para false               
 
-        $senhas = $this->Panels->find('all')->where(['status' => true, 'setor' => 4])->first();
-        //$senhaEntity = [];
-        
-        if(count($senhas) > 0){
-            $senha = $senhas->senha;
-            $tipo = $senhas->tipo;
+        $dados = [];
+        $pagina_index = 0;   
 
-            $senhas->status = false;
-            $this->Panels->save($senhas);    
-        }
+        $senhas = $this->Panels->find('all')->order(['id' => 'ASC'])->where(['status' => true, 'setor' => 4])->toArray(); //->first();        
+
+
+        // ToDo: jogar as senhas para session
         
-        # 2. Não havendo senhas -> Exibir detalhes das senhas de 3 em 3
-        # a. Pegar todas a senha do table
-        # b. verificar se tem mais que 3
-        #    sim -> chaveamento (session) True
-        #    não -> chaveamento (session) False
-        # c. chaveamento
-        #    sim -> pegar as 3 senhas e marcar o offset (session) com o proximo index
-        #    nao -> pegar as senhas em enviar e marcar o offset (session) 0
-        
-        if(count($senhas) == 0) {
+        if(count($senhas) != 0){  
+
+            //debug('fase 1');
+
+            $recupera_session = $this->request->session()->read('painel-senha');
+            
+            foreach ($senhas as $senha) {
+                
+                
+                $item = "{$senha->senha},{$senha->tipo}";
+                
+
+                array_push($recupera_session, $item);
+
+                $senha->status = false;
+                $this->Panels->save($senha);                    
+            }          
+            
+
+            $this->request->session()->write('painel-senha', $recupera_session);
+            
+
+        } else {
+
+            //debug('fase 2');
             
             $servicesTable = TableRegistry::get('Services');
             
-            $dados = $servicesTable->find('all')->where(['Services.setor' => '4'])->contain(['Localidades'])->toArray();
-        
+            $dados = $servicesTable->find('all')->order(['senha' => 'asc'])->where(['Services.setor' => '4'])->contain(['Localidades'])->toArray();
+            
             $senha = 0;
 
             # 2. Total de Registros
-            $senhas_total = count($dados);            
+            $senhas_total = count($dados);                        
 
             # 3. Total de Paginas 
-            $get_pagina = $this->pagination();
+            $get_pagina = $this->pagination();           
             
             $pagina_total = $get_pagina[$senhas_total];                        
 
@@ -112,15 +117,79 @@ class PanelsController extends AppController {
             $dados = array_slice($dados,$pagina_index, 3);
             $tipo = null;
             
-        }else{
-            //$this->request->session()->write('pagina_corrente', 0);
-            $dados = [];
-            $pagina_index = 0;
         }
+
+        $aevOptions = $this->aevOptions();
         
-        //debug($this->request->query['page']);
-        //debug($this->aevOptions());
-        //exit;
+        //$this->set('tipo', $tipo);
+        //$this->set('senha', $senha);
+        $this->set('dados', $dados);
+        $this->set('pagina_index',$pagina_index);
+        $this->set('aevOptions', $aevOptions);
+    }    
+
+
+
+    public function index2() {    
+
+        $dados = [];
+        $pagina_index = 0;   
+
+        $senhas = $this->Panels->find('all')->order(['id' => 'ASC'])->where(['status' => true, 'setor' => 4])->toArray(); //->first();        
+
+        // ToDo: jogar as senhas para session
+        
+        if(count($senhas) > 0){  
+
+            debug('fase 1');
+
+            $entity = $senhas[0];
+            
+            $senha = $entity->senha;
+            $tipo = $entity->tipo;
+
+            $entity->status = false;
+            $this->Panels->save($entity);                
+
+        } else {
+
+            debug('fase 2');
+            
+            $servicesTable = TableRegistry::get('Services');
+            
+            $dados = $servicesTable->find('all')->order(['senha' => 'ascs'])->where(['Services.setor' => '4'])->contain(['Localidades'])->toArray();
+            
+            $senha = 0;
+
+            # 2. Total de Registros
+            $senhas_total = count($dados);                        
+
+            # 3. Total de Paginas 
+            $get_pagina = $this->pagination();           
+            
+            $pagina_total = $get_pagina[$senhas_total];                        
+
+            # 4. Total corrente                               
+            
+            if ($this->request->query == null ) {
+            
+                $pagina_index = 0;
+            }else{
+
+                $pagina_index = $this->request->query['page'];                
+
+                if($pagina_index >= $pagina_total){                
+                    $pagina_index = 0;               
+                }else{                                  
+                    $pagina_index = $pagina_index + 3;                              
+                }
+
+            }            
+            
+            $dados = array_slice($dados,$pagina_index, 3);
+            $tipo = null;
+            
+        }
 
         $aevOptions = $this->aevOptions();
         
@@ -145,7 +214,7 @@ class PanelsController extends AppController {
         $senhas_total = 30;
         $pag = 0;
         $controle = 1;
-        $paginas = [];
+        $paginas = [0];
 
         $chaveamento = true;
         

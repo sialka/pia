@@ -84,8 +84,11 @@ class UsersController extends AppController {
         $_conditions = $this->Conditions->filter('Users', $conversion, [], null, null);
 
         $users = $this->paginate($this->Users->find('all')->where($_conditions['conditions']));
-        //debug($users);exit; //ws!!nj4e
+
+        $perfil = $this->request->session()->read('perfil');            
+        
         $this->aevOptions();
+        $this->set('perfil', $perfil );
         $this->set('users', $users);
         $this->set('_conditions',   $_conditions['stringFilter']);
     }
@@ -163,12 +166,13 @@ class UsersController extends AppController {
             
             $new = $this->Users->patchEntity($user, $data);                                    
             
-            //if(isset($data['mod_user'])){
+            // ToDo: Melhorar isso
+            if(isset($data['mod_user'])){
                 $new->mod_user = $data['mod_user'];
                 $new->mod_localidade = $data['mod_localidade'];
                 $new->mod_setores = $data['mod_setores'];
                 $new->mod_atendimento = $data['mod_atendimento'];                        
-            //}
+            }
 
             if ($this->Users->save($new)) {                
                 
@@ -240,6 +244,12 @@ class UsersController extends AppController {
 
     public function login(){
 
+        $existe = $this->request->session()->read('painel-senha');
+        
+        if (!$existe) {            
+            $this->request->session()->write('painel-senha', []);        
+        }
+        
         if($this->request->is('post')){
 
             try {
@@ -251,15 +261,16 @@ class UsersController extends AppController {
                     $this->Auth->setUser($user);
                     
                     $nome_completo = explode(" ", $user['nome']);
-
+                    
                     $perfil = [
+                        'id'   => $user['id'],
                         'admin' => $user['mod_admin'],
                         'user' => $user['mod_user'],
                         'localidade' => $user['mod_localidade'],
                         'setores' => $user['mod_setores'],
                         'atendimento' => $user['mod_atendimento'],
                     ];
-                    
+                                        
                     $this->request->session()->write('logado', $nome_completo[0]);
                     $this->request->session()->write('perfil', $perfil);
                     

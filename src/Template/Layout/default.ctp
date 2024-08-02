@@ -16,11 +16,10 @@
 $cakeDescription = 'Sistema de Apoio';
 $usuario         = $this->request->session()->read('logado');
 $perfil          = $this->request->session()->read('perfil');
-$url             = $this->request->params['controller'];    
-
-$body = $url == "Panels" ? "" : "page-top";
-$wrapper = $url == "Panels" ? "" : "wrapper";
-$overflow = $url == "Panels" ? "overflow: hidden" : "";
+$controller      = $this->request->params['controller'];    
+$body            = $controller == "Panels" ? "" : "page-top";
+$wrapper         = $controller == "Panels" ? "" : "wrapper";
+$overflow        = $controller == "Panels" ? "overflow: hidden" : "";
 
 ?>
 
@@ -44,14 +43,21 @@ $overflow = $url == "Panels" ? "overflow: hidden" : "";
     <?= $this->Html->css('fontawesome-free/css/fontawesome.min.css') ?>        
     <?php #$this->Html->css('font-awesome-4.7.0/css/font-awesome.min.css') ?>    
     
-    <link
+    <!-- link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+        rel="stylesheet" -->
     
     <?= $this->Html->css('bootstrap.min') ?>
     <?= $this->Html->css('sb-admin-2.css') ?>
     <?= $this->Html->css('sb-add.css') ?>
     <?= $this->Html->css('typeahead.css') ?>
+
+    <?php
+    if ($controller == 'Panels'){
+        echo $this->Html->css('animation.css');
+    }    
+    ?>
+
 
     <!-- Date Picker -->
     <?= $this->Html->css('date-picker/bootstrap-datepicker.css') ?>
@@ -77,7 +83,7 @@ $overflow = $url == "Panels" ? "overflow: hidden" : "";
 
 
         <!-- Sidebar :: col [1/2] -->
-        <?php if ($url != 'Panels'): ?>
+        <?php if ($controller != 'Panels'): ?>
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
@@ -133,7 +139,7 @@ $overflow = $url == "Panels" ? "overflow: hidden" : "";
                             <a class="collapse-item" href="/Localidades">Localidades</a>
                         <?php } ?>
                         <?php if($perfil['setores']){ ?>
-                            <a class="collapse-item" href="#">Setores</a>
+                            <a class="collapse-item" href="/Setores">Setores</a>
                         <?php } ?>
                     </div>
                 </div>                
@@ -185,7 +191,7 @@ $overflow = $url == "Panels" ? "overflow: hidden" : "";
             <div id="content">
 
                 <!-- Topbar -->
-                <?php if ($url != 'Panels'): ?>
+                <?php if ($controller != 'Panels'): ?>
                 <nav class="navbar navbar-expand navbar-light bg-white topbar p-0 static-top shadow">                    
 
                     <!-- Sidebar Toggle (Topbar) -->
@@ -291,7 +297,7 @@ $overflow = $url == "Panels" ? "overflow: hidden" : "";
     <!-- End of Page Wrapper -->
 
     <!-- Scroll to Top Button-->
-    <?php if ($url != 'Panels'): ?>
+    <?php if ($controller != 'Panels'): ?>
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
@@ -302,7 +308,7 @@ $overflow = $url == "Panels" ? "overflow: hidden" : "";
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
+                <div class="modal-header bg-primary text-white p-3">
                     <h5 class="modal-title" id="exampleModalLabel">Atenção</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
@@ -311,13 +317,13 @@ $overflow = $url == "Panels" ? "overflow: hidden" : "";
                 <div class="modal-body">Tem certeza que deseja sair do sistema ?</div>
                 <div class="modal-footer">
 
-                    <a class="btn btn-success no-radius normal" href="/Users/logout">
+                    <a class="btn btn-success no-radius" href="/Users/logout">
                         <i class="fa fa-check"></i>
                         Sair
                     </a>
 
                     
-                    <button class="btn btn-link no-link text-primary normal" type="button" data-dismiss="modal">
+                    <button class="btn btn-link no-link text-primary" type="button" data-dismiss="modal">
                         <i class="fa fa-reply"></i>
                         Cancelar
                     </button>

@@ -37,7 +37,7 @@ if($session != null){
         <div class="card shadow border-1 no-radius mb-4">
 
             <div class="card-header py-3">
-                <h6 class="normal strong p-0 m-0 text-primary">
+                <h6 class="strong p-0 m-0 text-primary">
                     <i class="fas fa-map-marker-alt"></i>
                     <?= $title ?>
                 </h6>
@@ -50,12 +50,12 @@ if($session != null){
                         <label for="codigo" class="strong">Código</label>
                         <?php
                         if ($mode != "add") {
-                            echo __("<label class='form-control disabled no-radius normal'>{$localidade->codigo}</label>");
+                            echo __("<label class='form-control disabled no-radius'>{$localidade->codigo}</label>");
                         } else {
                             echo
                             $this->Form->input('codigo',
                                     array(
-                                        'class'       => 'form-control no-radius normal',
+                                        'class'       => 'form-control no-radius',
                                         'id'          => 'codigo',
                                         'placeholder' => '21-0000',
                                         'type'        => 'text',
@@ -75,7 +75,7 @@ if($session != null){
                         <?=
                         $this->Form->input('nome',
                                 array(
-                                    'class'       => 'form-control no-radius normal',
+                                    'class'       => 'form-control no-radius',
                                     'id'          => 'nome',
                                     'placeholder' => 'Nome Completo da Localidade',
                                     'type'        => 'text',
@@ -113,7 +113,7 @@ if($session != null){
                         <?=
                         $this->Form->input('status',
                                 array(
-                                    'class' => 'form-control text-center no-radius normal',
+                                    'class' => 'form-control text-center no-radius',
                                     'id' => 'status',
                                     'placeholder' => __(''),
                                     'type' => 'select',
@@ -172,7 +172,7 @@ if($session != null){
 
                     <?php if ($mode != "view") { ?>
 
-                        <button type="submit" class="btn btn-success no-radius normal">
+                        <button type="submit" class="btn btn-success no-radius">
                             <i class="fa fa-check"></i>
                             Salvar
                         </button>
@@ -180,7 +180,7 @@ if($session != null){
                     <?php } ?>
 
 
-                    <a class="btn btn-link no-link normal" href="/Localidades/index">
+                    <a class="btn btn-link no-link" href="/Localidades/index">
                         <i class="fa fa-reply"></i>
                         Voltar
                     </a>

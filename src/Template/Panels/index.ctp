@@ -1,11 +1,27 @@
 <?php
   $titulo = [
-    1 => "Conferência de Ficha",
-    2 => "Reserva de Roupa",
+    1 => "Conferência de Fichas",
+    2 => "Reserva de Roupas",
     3 => "Conferência de Envelopes",
   ];
-?>
 
+  $recupera_session = $this->request->session()->read('painel-senha');
+  
+  if($recupera_session != []){
+    $topo = $recupera_session[0];
+    $senha_topo = explode(",",$topo);
+    
+    $senha = $senha_topo[0];
+    $tipo = $senha_topo[1];
+  }else{
+    $tipo = null;
+    $senha = 0;
+  }
+  
+  $novo = array_slice($recupera_session, 1, count($recupera_session));
+  $this->request->session()->write('painel-senha', $novo);
+  
+?>
 <div class="row bg-black"> 
   <divc class="col">
     <div class="card border-dark m-1">
@@ -13,6 +29,8 @@
         <a href="/" class="text-white">CCB - SETOR 4 - PAINEL</a>
       </div>
         <div class="card-body" style="height: 92vh">
+
+        <!-- select id="vozes" size="3" -style="display: none"></select -->
 
         <?php           
           echo $this->Form->create(null, ['url' => ['action' => '?page='.$pagina_index.'']]); 
@@ -25,7 +43,7 @@
               <div class="" style="height: 88vh">                                
                   <div class="" style="height: 100%" >                    
                     <p class="titulo" style="height: 35%; padding-top: 15rem"><?= $titulo[$tipo]; ?></p>                
-                    <p id="chamar-senha" class="call-senha"><?= $senha; ?></p>              
+                    <p id="chamar-senha" class="call-senha wobble-hor-bottom"><?= $senha; ?></p>              
                   </div>                  
               </div>
           </div>
@@ -78,7 +96,40 @@
 
 <script>
 
+// Voice
+
+const synth = window.speechSynthesis;
+
+let voices = [];
+
+function speak(texto) {
+
+  if (synth.speaking) {
+    console.error("speechSynthesis.speaking");
+    return;
+  }
+  
+  const utterThis = new SpeechSynthesisUtterance(texto);
+
+  utterThis.onend = function (event) {
+    console.log("SpeechSynthesisUtterance.onend");
+  };
+
+  utterThis.onerror = function (event) {
+    console.error("SpeechSynthesisUtterance.onerror");
+  };
+
+  utterThis.voice = voices[8]; // 8 brazil
+
+  utterThis.pitch = 1; 
+  utterThis.rate = 1.1; 
+  synth.speak(utterThis);
+  
+}
+
+// fim voice
 const senha = "<?= $senha; ?>";
+const tipo = "<?= $tipo; ?>";
 
 function carregar() {
   console.log("carregar");  
@@ -86,27 +137,17 @@ function carregar() {
   if (senha != 0) {
     // Fluxo 1 - Verifica se existe senhas
     console.log("Fluxo chamar Senhas !!!!");
-
-    // Usage!
-    sleep(4000).then(() => {          
-        window.location.reload();
-    });     
     
+    sleep(3000).then(() => {             
+        //window.location.reload();        
+        $("#submit").click();
+    });         
       
   } else {
     // Fluxo 2 - Exibe painel
     console.log("Exibir Senhas identificadas !!!");
 
-    /*
-      TODO:
-      - Receber o array com as senhas identificadas com ordem inversa
-      - Enviar info de 3 em 3
-      - Criar logica saber quais devem enviar a cada fluxo
-      - Mudar logica enviando diretamente os dados Show Panel
-      */
-
-    // Usage!
-    sleep(4000).then(() => {          
+    sleep(3000).then(() => {          
         $("#submit").click();
     }); 
   }
@@ -117,6 +158,28 @@ function carregar() {
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+const panel = document.querySelector('#chamar-senha')
+
+panel.addEventListener('animationstart', event => {      
+      
+    let fala = "";
+
+    switch (tipo) {
+      case '1':
+        fala = " Conferência de Fichas!";    
+        break;
+      case '2':
+        fala = " Reserva de roupas!";
+        break;
+      case '3': 
+        fala = " Conferência de envelopes!";    
+        break;    
+    }
+    
+    frase = 'senha ' + senha + fala;    
+    //speak(frase);
+});
 
 carregar();
 
