@@ -85,7 +85,7 @@ class PanelsController extends AppController {
             
             $servicesTable = TableRegistry::get('Services');
             
-            $dados = $servicesTable->find('all')->order(['senha' => 'asc'])->where(['Services.setor' => '4'])->contain(['Localidades'])->toArray();
+            $dados = $servicesTable->find('all')->order(['senha' => 'asc'])->where(['Services.setor' => '4', 'Services.senha !=' => 0])->contain(['Localidades'])->toArray();           
             
             $senha = 0;
 
@@ -119,86 +119,12 @@ class PanelsController extends AppController {
             
         }
 
-        $aevOptions = $this->aevOptions();
+        $this->aevOptions();
         
-        //$this->set('tipo', $tipo);
-        //$this->set('senha', $senha);
         $this->set('dados', $dados);
-        $this->set('pagina_index',$pagina_index);
-        $this->set('aevOptions', $aevOptions);
+        $this->set('pagina_index',$pagina_index);        
     }    
 
-
-
-    public function index2() {    
-
-        $dados = [];
-        $pagina_index = 0;   
-
-        $senhas = $this->Panels->find('all')->order(['id' => 'ASC'])->where(['status' => true, 'setor' => 4])->toArray(); //->first();        
-
-        // ToDo: jogar as senhas para session
-        
-        if(count($senhas) > 0){  
-
-            debug('fase 1');
-
-            $entity = $senhas[0];
-            
-            $senha = $entity->senha;
-            $tipo = $entity->tipo;
-
-            $entity->status = false;
-            $this->Panels->save($entity);                
-
-        } else {
-
-            debug('fase 2');
-            
-            $servicesTable = TableRegistry::get('Services');
-            
-            $dados = $servicesTable->find('all')->order(['senha' => 'ascs'])->where(['Services.setor' => '4'])->contain(['Localidades'])->toArray();
-            
-            $senha = 0;
-
-            # 2. Total de Registros
-            $senhas_total = count($dados);                        
-
-            # 3. Total de Paginas 
-            $get_pagina = $this->pagination();           
-            
-            $pagina_total = $get_pagina[$senhas_total];                        
-
-            # 4. Total corrente                               
-            
-            if ($this->request->query == null ) {
-            
-                $pagina_index = 0;
-            }else{
-
-                $pagina_index = $this->request->query['page'];                
-
-                if($pagina_index >= $pagina_total){                
-                    $pagina_index = 0;               
-                }else{                                  
-                    $pagina_index = $pagina_index + 3;                              
-                }
-
-            }            
-            
-            $dados = array_slice($dados,$pagina_index, 3);
-            $tipo = null;
-            
-        }
-
-        $aevOptions = $this->aevOptions();
-        
-        $this->set('tipo', $tipo);
-        $this->set('senha', $senha);
-        $this->set('dados', $dados);
-        $this->set('pagina_index',$pagina_index);
-        $this->set('aevOptions', $aevOptions);
-    }    
 
     /**
     * Pagination:
@@ -242,6 +168,7 @@ class PanelsController extends AppController {
         return $paginas;
     }
 
+    /*
     public function aevOptions() {
 
         $aevOptions = [
@@ -269,6 +196,6 @@ class PanelsController extends AppController {
 
         return $aevOptions;
         //$this->set('aevOptions', $aevOptions);
-    }
+    }*/
 
 }

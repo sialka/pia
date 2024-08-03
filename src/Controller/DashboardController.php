@@ -21,7 +21,7 @@ class DashboardController extends AppController {
     }
 
     public function index() {
-        $this->carregarMesTrabalho();
+        //$this->carregarMesTrabalho();
     }
 
 }

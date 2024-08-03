@@ -6,11 +6,11 @@
     
   $call_senha_ficha = $this->request->session()->read('last_senha_ficha');       
   $call_senha_reserva = $this->request->session()->read('last_senha_reserva');       
-  $call_senha_envelope = $this->request->session()->read('last_senha_envelope');         
+  $call_senha_envelope = $this->request->session()->read('last_senha_envelope');     
 
-  $ultima_senha_ficha = $call_senha_ficha == null ? 1 : $call_senha_ficha;
-  $ultima_senha_reserva = $call_senha_reserva == null ? 1 : $call_senha_reserva;
-  $ultima_senha_envelope = $call_senha_envelope == null ? 1 : $call_senha_envelope;
+  $ultima_senha_ficha = $call_senha_ficha == null ? "1" : $call_senha_ficha;
+  $ultima_senha_reserva = $call_senha_reserva == null ? "1" : $call_senha_reserva;
+  $ultima_senha_envelope = $call_senha_envelope == null ? "1" : $call_senha_envelope; 
 
   echo $this->element('breadcrumb', [ 'nav' => $nav ]);   
 ?>
@@ -130,9 +130,7 @@
                         'class' => 'form-control no-radius text-center',
                         'style' => "font-size: 3rem; border: 1px gray black; border-radius: 2px; background-color: RGBA(78,115,223,0.2)",
                         'id'    => 'call-senha-envelope',                                            
-                        'max'   => 30,
-                        'min'   => 0,
-                        'type'  => 'number',
+                        'type'  => 'text',
                         'div'   => false,
                         'label' => false,                                            
                     )
@@ -323,7 +321,7 @@
 
   let call_senha_ficha = <?= $ultima_senha_ficha; ?>;
   let call_senha_reserva = <?= $ultima_senha_reserva; ?>;
-  let call_senha_envelope = <?= $ultima_senha_envelope; ?>;
+  let call_senha_envelope = "<?= $ultima_senha_envelope; ?>";
 
 
   // Atendimento Fichas
@@ -408,7 +406,7 @@
 
   $("#call-senha-ficha").val(<?= $ultima_senha_ficha; ?>)
   $("#call-senha-reserva").val(<?= $ultima_senha_reserva; ?>)
-  $("#call-senha-envelope").val(<?= $ultima_senha_envelope; ?>)  
+  $("#call-senha-envelope").val("<?= $ultima_senha_envelope; ?>")  
   
 
 </script>

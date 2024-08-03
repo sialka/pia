@@ -223,23 +223,31 @@ return [
             'driver' => 'Cake\Database\Driver\Mysql',
             //'driver' => 'Cake\Database\Driver\Postgres',
             'persistent' => false,
-            //'host' => 'localhost',
+
+            # Develop            
             'host' => '127.0.0.1',
+            'username' => 'root',
+            'password' => '123456',
+            'database' => 'pia',
+
+            # Producao            
+            #'host' => 'pia_ccb.mysql.dbaas.com.br',                        
+            #'username' => 'pia_ccb',
+            #'password' => 'Suporte#787923',
+            #'database' => 'pia_ccb',
+
             /**
              * CakePHP will use the default DB port based on the driver selected
              * MySQL on MAMP uses port 8889, MAMP users will want to uncomment
              * the following line and set the port accordingly
              */
             'port'     => '3306',
-            'username' => 'root',
-            'password' => '123456',
-            'database' => 'pia',
             'encoding' => 'utf8',
             'timezone' => 'UTC',
             'flags' => [],
             'cacheMetadata' => true,
-            'log' => false,
-
+            'log' => false,                        
+            
             /**
              * Set identifier quoting to true if you are using reserved words or
              * special characters in your table or column names. Enabling this

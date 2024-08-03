@@ -35,7 +35,7 @@ class ServicesTable extends Table
     public function buildRules(RulesChecker $rules)
     {
 
-        $rules->add($rules->isUnique(['senha'], 'A senha já foi identificada !!!'));        
+        //$rules->add($rules->isUnique(['senha'], 'A senha já foi identificada !!!'));        
 
         return $rules;
     }
@@ -46,7 +46,7 @@ class ServicesTable extends Table
         if ($tipo == 'add') {
             $senha_entity = $this->find('all')->contain(['Localidades'])->where(['senha' => $senha])->first();           
 
-            if ($senha_entity) {            
+            if ($senha_entity && $senha != 0) {            
                 
                 $erro = "A localidade <strong>{$senha_entity->Localidades->nome}</strong> já foi identicada na senha <strong>{$senha}</strong> !!!!";           
 

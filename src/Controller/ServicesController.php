@@ -80,9 +80,9 @@ class ServicesController extends AppController {
 
         if ($this->request->is('post')) { 
 
-            $data = $this->request->data;                        
+            $data = $this->request->data;                                   
             
-            $valida = $this->Services->validacoes($data['senha'], $data['localidade_id'], 'add', null);             
+            $valida = $this->Services->validacoes($data['senha'], $data['localidade_id'], 'add', null);                         
             
             if($valida['status']){
                 $this->Flash->error($valida['erro']);                
@@ -94,11 +94,13 @@ class ServicesController extends AppController {
             $new->setor = 4;
             
             $save = $this->Services->save($new);
-            
-            if ($save) {                                
+                        
+            if ($save) {   
+
                 $this->Flash->success(__('A senha '.$new->senha.' foi identificada com sucesso !!!'));
                 
-                return $this->redirect(['controller' => 'Services', 'action' => 'index']);                
+                return $this->redirect(['controller' => 'Services', 'action' => 'index']); 
+
             } else {
 
                 $this->Flash->error(__('Não foi possivel salvar a identificação da senha !!!'));
@@ -239,8 +241,8 @@ class ServicesController extends AppController {
         $data = $this->request->data;        
                 
         if($data['senha_envelope'] == 0){
-            $this->Flash->error(__('Não existe senha 0, favor revisar !!!'));
-            return $this->redirect("/services");
+            //$this->Flash->error(__('Não existe senha 0, favor revisar !!!'));
+            //return $this->redirect("/services");
         }        
 
         $panelTable = TableRegistry::get('Panels');
@@ -249,7 +251,7 @@ class ServicesController extends AppController {
         $panel->senha = $data['senha_envelope'];
         $panel->tipo = $data['tipo'];
         $panel->setor = 4;
-                
+
         if ($panelTable->save($panel)) {     
             $this->Flash->success(__('Conferência de envelope: Senha enviada para o Painel com sucesso !!!'));
     
@@ -259,24 +261,6 @@ class ServicesController extends AppController {
         }
         
         return $this->redirect("/services");
-    }
-
-    public function aevOptions() {
-
-        $aevOptions = [
-            'status_fichas' => [                
-                0 => "CONFERIDAS",
-                1 => "SEM CONFERÊNCIA",
-                2 => "AGUARDANDO RETORNO",
-            ],              
-            'status_envelopes' => [                
-                0 => "CONFERIDOS",
-                1 => "SEM CONFERÊNCIA",
-                2 => "AGUARDANDO RETORNO",
-            ],           
-        ];
-
-        $this->set('aevOptions', $aevOptions);
     }
 
     public function reiniciar() {

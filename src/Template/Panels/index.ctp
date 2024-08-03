@@ -1,4 +1,5 @@
-<?php
+<?php  
+
   $titulo = [
     1 => "Conferência de Fichas",
     2 => "Reserva de Roupas",
@@ -17,7 +18,7 @@
     $tipo = null;
     $senha = 0;
   }
-  
+
   $novo = array_slice($recupera_session, 1, count($recupera_session));
   $this->request->session()->write('painel-senha', $novo);
   
@@ -39,7 +40,7 @@
         ?>
 
           <!-- Fluxo 1  -->
-          <div id="senha" class="<?php if( $senha == 0 ){ echo "hide"; } ?>">   
+          <div id="senha" class="<?php if( $senha == "0" ){ echo "hide"; } ?>">   
               <div class="" style="height: 88vh">                                
                   <div class="" style="height: 100%" >                    
                     <p class="titulo" style="height: 35%; padding-top: 15rem"><?= $titulo[$tipo]; ?></p>                
@@ -49,7 +50,7 @@
           </div>
 
           <!-- Fluxo 2 -->
-          <div id="painel" class="<?php if( $senha != 0 ){ echo "hide"; } ?>">      
+          <div id="painel" class="<?php if( $senha != "0" ){ echo "hide"; } ?>">      
           
             <table id="tableResults" class="table p-0 m-0" style="border: 0px solid white">
                 <tbody class="">
@@ -168,17 +169,19 @@ panel.addEventListener('animationstart', event => {
     switch (tipo) {
       case '1':
         fala = " Conferência de Fichas!";    
+        frase = 'senha ' + senha + fala;    
         break;
       case '2':
         fala = " Reserva de roupas!";
+        frase = 'senha ' + senha + fala;    
         break;
       case '3': 
         fala = " Conferência de envelopes!";    
+        frase = senha + fala;    
         break;    
-    }
+    }   
     
-    frase = 'senha ' + senha + fala;    
-    //speak(frase);
+    speak(frase);
 });
 
 carregar();

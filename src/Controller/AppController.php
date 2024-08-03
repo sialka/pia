@@ -169,4 +169,42 @@ class AppController extends Controller
         $this->set('saldos', $saldos);*/
     }
 
+    public function aevOptions() {        
+
+        $aevOptions = [
+            'status_fichas_save' => [                
+                0 => "CONFERIDAS",
+                1 => "SEM CONFERÊNCIA",
+                2 => "AGUARDANDO RETORNO",
+            ],              
+            'status_envelopes_save' => [                
+                0 => "CONFERIDOS",
+                1 => "SEM CONFERÊNCIA",
+                2 => "AGUARDANDO RETORNO",
+            ],
+            'status_fichas' => [                
+                0 => "FICHAS: CONFERIDAS",
+                1 => "FICHAS: SEM CONFERÊNCIA",
+                2 => "FICHAS: AGUARDANDO RETORNO",
+            ],              
+            'status_envelopes' => [                
+                0 => "ENVELOPES: CONFERIDOS",
+                1 => "ENVELOPES: SEM CONFERÊNCIA",
+                2 => "ENVELOPES: AGUARDANDO RETORNO",
+            ],          
+            'status_css_ficha' => [                
+                0 => "bg-success text-white",
+                1 => "bg-danger text-white",
+                2 => "bg-warning text-dark",
+            ],            
+            'status_css_envelope' => [                
+                0 => "bg-success text-white",
+                1 => "bg-danger text-white",
+                2 => "bg-warning text-dark",
+            ],
+        ];        
+
+        $this->set('aevOptions', $aevOptions);
+    }
+
 }

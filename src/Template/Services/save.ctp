@@ -8,9 +8,16 @@
 <?= $this->element('breadcrumb', [ 'nav' => $nav ]); ?>
 
 <div class="container-row">
+
     <div class="col-4 offset-4">
         
         <?= $this->Form->create($senha, array('class' => 'form-horizontal needs-validation', 'type' => 'post', 'novalidate')) ?>
+        
+        <div class="row">
+            <div class="col-12">
+            <?= $this->Flash->render() ?>
+            </div>
+        </div>
 
         <div class="card shadow border-1 no-radius mb-4">
 
@@ -31,7 +38,7 @@
                     <div class="form-group col-6">
                         <label for="mes" class="font-weight-bold">Senha</label>
                         <?php
-                        if ($mode != "add") {
+                        if ($mode != "add" && $senha->senha != 0) {
                             echo __("<label class='form-control disabled no-radius'>{$senha->senha}</label>");
                         } else {
                             echo $this->Form->input('senha',
@@ -39,12 +46,11 @@
                                     'class'              => 'form-control text-center no-radius',
                                     'id'                 => 'senha',
                                     'type'               => 'number',  
-                                    'placeholder'        => '0',      
-                                    'min'                => 1,
-                                    'max'                => 30,
+                                    'placeholder'        => 'Informe uma senha',      
+                                    'min'                => 0,
+                                    'max'                => 30,                                    
                                     'div'                => false,
-                                    'label'              => false,
-                                    'required'
+                                    'label'              => false,                                    
                                 )
                             );
                         }
@@ -82,7 +88,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="form-group col-6">
+                    <div class="form-group col-12">
                         <label for="mes" class="font-weight-bold">Status Ficha</label>
                         <?=
                         $this->Form->input('status_ficha',
@@ -90,7 +96,7 @@
                                     'class'              => 'form-control text-left no-radius',
                                     'id'                 => 'status_ficha',
                                     'type'               => 'select',
-                                    'options'            => $aevOptions['status_fichas'],
+                                    'options'            => ['' => 'Informe o status'] + $aevOptions['status_fichas_save'],
                                     'div'                => false,
                                     'label'              => false,
                                     'required'
@@ -101,7 +107,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="form-group col-6">
+                    <div class="form-group col-12">
                         <label for="ano" class="font-weight-bold">Status Envelope</label>
                         <?=
                         $this->Form->input('status_envelope',
@@ -109,7 +115,7 @@
                                     'class'              => 'form-control text-left no-radius',
                                     'id'                 => 'status_envelope',                                    
                                     'type'               => 'select',
-                                    'options'            => $aevOptions['status_envelopes'],
+                                    'options'            => ['' => 'Informe o status'] + $aevOptions['status_envelopes_save'],
                                     'div'                => false,
                                     'label'              => false,
                                     'required',
