@@ -10,7 +10,7 @@
 
   $ultima_senha_ficha = $call_senha_ficha == null ? "1" : $call_senha_ficha;
   $ultima_senha_reserva = $call_senha_reserva == null ? "1" : $call_senha_reserva;
-  $ultima_senha_envelope = $call_senha_envelope == null ? "1" : $call_senha_envelope; 
+  $ultima_senha_envelope = $call_senha_envelope == null ? "0" : $call_senha_envelope; 
 
   echo $this->element('breadcrumb', [ 'nav' => $nav ]);   
 ?>
@@ -22,7 +22,29 @@
   input[type=number] { 
     -moz-appearance: textfield;
     appearance: textfield;
-  }
+  } 
+
+
+
+datalist {
+  position: absolute;
+  background-color: white;
+  width: 350px;
+  padding: 5px;
+  max-height: 10rem;
+  overflow-y: auto  
+}
+
+option {
+  background-color: white;
+  padding: 4px;
+  /*color: blue;*/
+  margin-bottom: 1px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+
 </style>
 
 
@@ -121,34 +143,45 @@
             <div class="card-header bg-info text-dark text-center text-normal">Atendimento Envelopes</div>          
             <div class="card-body">
               <?= $this->Form->create(null, ['url' => ['action' => 'chamarEnvelope']]); ?>
-              <div class="row text-center">
-                <div class="col-12">       
-                  <?= $this->Form->input('tipo', ['class' => 'hide', 'value' => 3, 'label' => false]); ?>              
-                  <?= 
-                  $this->Form->input('senha_envelope',
-                    array(
-                        'class' => 'form-control no-radius text-center',
-                        'style' => "font-size: 3rem; border: 1px gray black; border-radius: 2px; background-color: RGBA(78,115,223,0.2)",
-                        'id'    => 'call-senha-envelope',                                            
-                        'type'  => 'text',
-                        'div'   => false,
-                        'label' => false,                                            
-                    )
-                  );
-                  ?>
-                </div>
-              </div>              
-              <div class="row text-center">              
-                  <div class="col-4 mt-1 p-1">
-                    <a link="#" id="less-envelope" class="btn btn-block btn-danger text-white" style="font-size: 0.9rem">-</a>
-                  </div>
-                  <div class="col-4 mt-1 p-1">
+
+              <div class="row">
+                    <div class="form-group col-12">
+                        <label for="localidade" class="font-weight-bold">Localidade</label>
+                        <div class="igrejaslista">
+                        <?php
+                        echo $this->Form->input('localidade',
+                            array(
+                                'class'              => 'form-control text-center text-normal typeahead no-radius',
+                                'id'                 => 'localidade',
+                                'type'               => 'text',    
+                                'placeholder'        => 'Informe o nome da localidade',
+                                'div'                => false,
+                                'label'              => false,
+                                'required'
+                            )
+                        );
+                        echo $this->Form->input('localidade_id',
+                            array(
+                                'class'       => 'display-none',
+                                'id'          => 'localidade_id',                                    
+                                'type'        => 'text',
+                                'label'       => false,
+                                'required'
+                            )
+                        );
+                        ?>  
+                        <?= $this->Form->input('tipo', ['class' => 'hide', 'value' => 3, 'label' => false]); ?>                         
+                        <?= $this->Form->input('fala', ['class' => '', 'type' =>'checkbox', 'label' => ' Falar apenas o nome da Localidade']); ?>    
+                        </div>
+                    </div>
+                </div>              
+              
+              <div class="row text-center">                                
+                  <div class="col-4 mb-1 -p-1">
                     <button type="submit" class="btn btn-block btn-primary" style="font-size: 0.9rem">Chamar</button>
                   </div>
-                  <div class="col-4 mt-1 p-1">
-                    <a link="#" id="plus-envelope" class="btn btn-block btn-success text-white" style="font-size: 0.9rem">+</a>                          
-                  </div>              
               </div>
+             
               <?= $this->Form->end() ?>
             </div>
           </div>
@@ -319,55 +352,50 @@
 
 <script>
 
+$(document).ready(function(){     
+
   let call_senha_ficha = <?= $ultima_senha_ficha; ?>;
   let call_senha_reserva = <?= $ultima_senha_reserva; ?>;
   let call_senha_envelope = "<?= $ultima_senha_envelope; ?>";
 
-
+  $("#call-senha-ficha").val(<?= $ultima_senha_ficha; ?>)
+  $("#call-senha-reserva").val(<?= $ultima_senha_reserva; ?>)
+  
   // Atendimento Fichas
 
-  $("#plus-ficha").on("click", function() {
-    
+  $("#plus-ficha").on("click", function() {    
     call_senha_ficha += 1;
 
     if(call_senha_ficha > 30){
       call_senha_ficha = 30;
     }
 
-    $("#call-senha-ficha").val(call_senha_ficha);
-
-    
+    $("#call-senha-ficha").val(call_senha_ficha);    
   });
 
-  $("#less-ficha").on("click", function() { 
-    
+  $("#less-ficha").on("click", function() {     
     call_senha_ficha -= 1;
     
     if(call_senha_ficha < 1){
       call_senha_ficha = 1;
     }
 
-    $("#call-senha-ficha").val(call_senha_ficha);
-
-    
+    $("#call-senha-ficha").val(call_senha_ficha);    
   });
 
   // Atendimento Reserva
 
-  $("#plus-reserva").on("click", function() {
-    
+  $("#plus-reserva").on("click", function() {    
     call_senha_reserva += 1;
 
     if(call_senha_reserva > 30){
       call_senha_reserva = 30;
     }
 
-    $("#call-senha-reserva").val(call_senha_reserva);
-    
+    $("#call-senha-reserva").val(call_senha_reserva);    
   });
 
-  $("#less-reserva").on("click", function() { 
-    
+  $("#less-reserva").on("click", function() {     
     call_senha_reserva -= 1;
     
     if(call_senha_reserva < 1){
@@ -378,35 +406,37 @@
 
   });
 
-  // Atendimento Envelopes
-
-  $("#plus-envelope").on("click", function() {
+  // Atendimento Envelopes 
     
-    call_senha_envelope += 1;
+  if(call_senha_envelope == 1){      
+    $("#fala").attr("checked", true);
+  }else{  
+    $("#fala").attr("checked", false);
+  }
 
-    if(call_senha_envelope > 30){
-      call_senha_envelope = 30;
-    }
-
-    $("#call-senha-envelope").val(call_senha_envelope);
+  <?= $this->element('typeahead'); ?>
     
-  });
+  function recarregarTypeAheadIgrejas() {
+      $('.igrejaslista .typeahead').typeahead('destroy');
 
-  $("#less-envelope").on("click", function() { 
-    
-    call_senha_envelope -= 1;
-    
-    if(call_senha_envelope < 1){
-      call_senha_envelope = 1;
-    }
+      options = {
+          displayKey:     'nome',
+          url:            '/Localidades/index',
+          model:          'localidades',
+          suggestion:     ['nome'],
+          selector:       '.igrejaslista',
+          modelAlias:     'localidades',
+          //width:          '300px',
+          suggestionStyle: 'font-size: 100%;',
+          fillFields: [
+              { selector: '#localidade_id', field: 'id' },
+          ],
+          delay : 500
+      };
+      LoadSearchTypeAhead(options);
+  }
 
-    $("#call-senha-envelope").val(call_senha_envelope);
+  recarregarTypeAheadIgrejas();
 
-  });
-
-  $("#call-senha-ficha").val(<?= $ultima_senha_ficha; ?>)
-  $("#call-senha-reserva").val(<?= $ultima_senha_reserva; ?>)
-  $("#call-senha-envelope").val("<?= $ultima_senha_envelope; ?>")  
-  
-
+});
 </script>

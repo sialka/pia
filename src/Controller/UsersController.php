@@ -261,6 +261,8 @@ class UsersController extends AppController {
                     $this->Auth->setUser($user);
                     
                     $nome_completo = explode(" ", $user['nome']);
+                    $iniciaisAll = explode(" ", $user['nome']);                    
+                    $iniciais = count($iniciaisAll) == 1 ?  substr($iniciaisAll[0],0,1).".." : substr($iniciaisAll[0],0,1) . substr($iniciaisAll[count($iniciaisAll)-1],0,1);               
                     
                     $perfil = [
                         'id'   => $user['id'],
@@ -273,6 +275,7 @@ class UsersController extends AppController {
                                         
                     $this->request->session()->write('logado', $nome_completo[0]);
                     $this->request->session()->write('perfil', $perfil);
+                    $this->request->session()->write('iniciais', $iniciais);
                     
                     $this->carregarMesTrabalho();
                     

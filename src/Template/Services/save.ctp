@@ -80,6 +80,7 @@
                                 'id'          => 'localidade_id',                                    
                                 'type'        => 'text',
                                 'label'       => false,
+                                'required'
                             )
                         );
                         ?>                        
@@ -95,7 +96,7 @@
                                 array(
                                     'class'              => 'form-control text-left no-radius',
                                     'id'                 => 'status_ficha',
-                                    'type'               => 'select',
+                                    'type'               => 'select',                                    
                                     'options'            => ['' => 'Informe o status'] + $aevOptions['status_fichas_save'],
                                     'div'                => false,
                                     'label'              => false,

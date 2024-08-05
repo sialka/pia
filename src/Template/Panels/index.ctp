@@ -4,6 +4,7 @@
     1 => "Conferência de Fichas",
     2 => "Reserva de Roupas",
     3 => "Conferência de Envelopes",
+    4 => "Atendimento",
   ];
 
   $recupera_session = $this->request->session()->read('painel-senha');
@@ -178,6 +179,9 @@ panel.addEventListener('animationstart', event => {
       case '3': 
         fala = " Conferência de envelopes!";    
         frase = senha + fala;    
+        break;    
+      case '4':         
+        frase = senha;    
         break;    
     }   
     

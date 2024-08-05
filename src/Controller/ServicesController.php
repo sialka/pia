@@ -68,7 +68,24 @@ class ServicesController extends AppController {
         $services = $this->paginate($this->Services->find('all')->contain(['Localidades'])->where($_conditions['conditions']));                
 
         $this->aevOptions();
+
+        $localidadesTable = TableRegistry::get('Localidades');            
+        //$dados = $servicesTable->find('all')->order(['senha' => 'asc'])->where(['Services.setor' => '4', 'Services.senha !=' => 0])->contain(['Localidades'])->toArray();           
+
+        $igrejas = $localidadesTable->find('list', [
+            'keyField' => 'nome',
+            'valueField' => 'nome']
+            )->where(['setor' => '4'])->toArray();
+        /*
+        $igrejas = [];
+
+        foreach($igrejasFull as $igreja){                        
+            array_push($igrejas, $igreja);
+        }*/
+
+        //debug($igrejas);exit;
         
+        $this->set('igrejas', $igrejas);
         $this->set('services', $services);
         $this->set('_conditions', $_conditions['stringFilter']);                  
 
@@ -238,24 +255,19 @@ class ServicesController extends AppController {
 
     public function chamarEnvelope($senha = null){       
         
-        $data = $this->request->data;        
-                
-        if($data['senha_envelope'] == 0){
-            //$this->Flash->error(__('Não existe senha 0, favor revisar !!!'));
-            //return $this->redirect("/services");
-        }        
+        $data = $this->request->data;  
 
         $panelTable = TableRegistry::get('Panels');
         
         $panel = $panelTable->newEntity();
-        $panel->senha = $data['senha_envelope'];
-        $panel->tipo = $data['tipo'];
+        $panel->senha = $data['localidade'];
         $panel->setor = 4;
+        $panel->tipo = $data['fala']=='0' ? $data['tipo'] : 4;
 
         if ($panelTable->save($panel)) {     
             $this->Flash->success(__('Conferência de envelope: Senha enviada para o Painel com sucesso !!!'));
     
-            $this->request->session()->write('last_senha_envelope', $data['senha_envelope']);                          
+            $this->request->session()->write('last_senha_envelope', $data['fala']);
         }else{
             $this->Flash->error(__('Erro ao chamar a senha !!!'));
         }
@@ -266,8 +278,8 @@ class ServicesController extends AppController {
     public function reiniciar() {
 
         $connection = ConnectionManager::get('default');
-        $connection->execute('TRUNCATE TABLE pia.services'); 
-        $connection->execute('TRUNCATE TABLE pia.panels'); 
+        $connection->execute('TRUNCATE TABLE services'); 
+        $connection->execute('TRUNCATE TABLE panels'); 
 
         $this->Flash->success(__('Reunião Reiniciado com sucesso !!!'));
 

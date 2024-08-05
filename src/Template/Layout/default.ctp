@@ -257,12 +257,16 @@ $overflow        = $controller == "Panels" ? "overflow: hidden" : "";
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle -pt-2" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                                
                                 <span class="mr-2 pl-4 d-none d-lg-inline text-gray-600 small"><?= $usuario ?></span>
-                                <?= $this->Html->image('undraw_profile.svg', ["class"=>"img-profile rounded-circle"]) ?>
+                                <?php 
+                                # /stecho $this->Html->image('undraw_profile.svg', ["class"=>"img-profile rounded-circle"]);                                 
+                                $iniciais = $this->request->session()->read('iniciais');                              
+                                ?>                                
+                                <div class="bg-dark text-white strong normal p-2" style="border-radius: 50%; font-size: 1rem"><?= $iniciais; ?></div>
                             </a>
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right no-radius border-1 shadow animated--grow-in" aria-labelledby="userDropdown">                                
+                            <div class="dropdown-menu dropdown-menu-right no-radius border-1 mr-2 shadow animated--grow-in" aria-labelledby="userDropdown">                                
                                 <a class="dropdown-item" href="/Users/perfil">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-800"></i>
                                     Perfil
