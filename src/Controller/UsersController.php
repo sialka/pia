@@ -98,8 +98,7 @@ class UsersController extends AppController {
         $this->checkAccess();
         //$this->isAdmin();
         
-        $user = $this->Users->newEntity();                             
-        
+        $user = $this->Users->newEntity();
 
         if ($this->request->is('post')) {
 
@@ -110,6 +109,12 @@ class UsersController extends AppController {
             $senha = $this->Users->gerarSenha(8, false, true, true);
             
             $new->password = $senha;
+
+            $new = $this->Users->validaPerfil($user, $data['mod_admin'], "mod_admin");
+            $new = $this->Users->validaPerfil($user, $data['mod_user'], "mod_user");
+            $new = $this->Users->validaPerfil($user, $data['mod_localidade'], "mod_localidade");
+            $new = $this->Users->validaPerfil($user, $data['mod_setores'], "mod_setores");
+            $new = $this->Users->validaPerfil($user, $data['mod_atendimento'], "mod_atendimento");
 
             if ($this->Users->save($new)) {                
                 
@@ -150,7 +155,7 @@ class UsersController extends AppController {
         #$id = $this->validacaoID($id);        
         
         $user = $this->Users->get($id);
-
+        
         if ($this->request->is('post')) {
 
             $data = $this->request->data;
@@ -165,14 +170,12 @@ class UsersController extends AppController {
             }
             
             $new = $this->Users->patchEntity($user, $data);                                    
-            
-            // ToDo: Melhorar isso
-            if(isset($data['mod_user'])){
-                $new->mod_user = $data['mod_user'];
-                $new->mod_localidade = $data['mod_localidade'];
-                $new->mod_setores = $data['mod_setores'];
-                $new->mod_atendimento = $data['mod_atendimento'];                        
-            }
+                        
+            $new = $this->Users->validaPerfil($user, $data['mod_admin'], "mod_admin");
+            $new = $this->Users->validaPerfil($user, $data['mod_user'], "mod_user");
+            $new = $this->Users->validaPerfil($user, $data['mod_localidade'], "mod_localidade");
+            $new = $this->Users->validaPerfil($user, $data['mod_setores'], "mod_setores");
+            $new = $this->Users->validaPerfil($user, $data['mod_atendimento'], "mod_atendimento");
 
             if ($this->Users->save($new)) {                
                 
@@ -262,7 +265,7 @@ class UsersController extends AppController {
                     
                     $nome_completo = explode(" ", $user['nome']);
                     $iniciaisAll = explode(" ", $user['nome']);                    
-                    $iniciais = count($iniciaisAll) == 1 ?  substr($iniciaisAll[0],0,1).".." : substr($iniciaisAll[0],0,1) . substr($iniciaisAll[count($iniciaisAll)-1],0,1);               
+                    $iniciais = count($iniciaisAll) == 1 ?  substr($iniciaisAll[0],0,1)."" : substr($iniciaisAll[0],0,1) . substr($iniciaisAll[count($iniciaisAll)-1],0,1);               
                     
                     $perfil = [
                         'id'   => $user['id'],

@@ -154,5 +154,14 @@ class UsersTable extends Table
         return true;
     }
 
+    public function validaPerfil($user, $data, $prop){
+        
+        if(isset($data)){
+            $user->$prop = $data;
+        }
+
+        return $user;
+    }
+
         
 }

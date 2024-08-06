@@ -5,7 +5,7 @@ if($status == 'Ativo') {
 }
 
 if($status == 'Inativo') { 
-  echo "<span class='badge bg-danger text-white px-2' style='border-radius: 0px;>".$status."</span>";
+  echo "<span class='badge bg-danger text-white px-2' style='border-radius: 0px;'>".$status."</span>";
 } 
 
 ?>
