@@ -44,8 +44,10 @@
           <div id="senha" class="<?php if( $senha == "0" ){ echo "hide"; } ?>">   
               <div class="" style="height: 88vh">                                
                   <div class="" style="height: 100%" >                    
-                    <p class="titulo" style="height: 35%; padding-top: 15rem"><?= $titulo[$tipo]; ?></p>                
-                    <p id="chamar-senha" class="call-senha wobble-hor-bottom"><?= $senha; ?></p>              
+                    <p class="titulo" style="height: 35%; padding-top: 14rem"><?= $titulo[$tipo]; ?></p>         
+
+                    <?php $class = $tipo == 3 || $tipo == 4 ? 'call-senha-localidade' : 'call-senha'; ?>
+                    <p id="chamar-senha" class="<?= $class ?> wobble-hor-bottom"><?= $senha; ?></p>                                  
                   </div>                  
               </div>
           </div>
@@ -185,6 +187,7 @@ panel.addEventListener('animationstart', event => {
         break;    
     }   
     
+    console.log(frase);
     speak(frase);
 });
 

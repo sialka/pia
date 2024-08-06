@@ -206,6 +206,13 @@ input[type="file"] {
     color: black;
 }
 
+.call-senha-localidade {
+    font-size: 12rem;
+    text-align: center;
+    font-weight: 800;
+    color: black;
+}
+
 .titulo {
     font-size: 7rem;
     text-align: center;
