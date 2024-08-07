@@ -7,7 +7,7 @@
     4 => "Atendimento",
   ];
 
-  $recupera_session = $this->request->session()->read('painel-senha');
+  $recupera_session = $this->request->session()->read('painel-senha'); 
   
   if($recupera_session != []){
     $topo = $recupera_session[0];
@@ -23,6 +23,7 @@
   $novo = array_slice($recupera_session, 1, count($recupera_session));
   $this->request->session()->write('painel-senha', $novo);
   
+  $panel_normal = $this->request->session()->read('panel-normal'); 
 ?>
 <div class="row bg-black"> 
   <divc class="col">
@@ -52,12 +53,12 @@
               </div>
           </div>
 
-          <!-- Fluxo 2 -->
-          <div id="painel" class="<?php if( $senha != "0" ){ echo "hide"; } ?>">      
+          <!-- Fluxo 2 -->                      
+          <div id="painel" class="<?php if( $senha != "0" || $panel_normal == 1) { echo "hide"; } ?>">      
           
             <table id="tableResults" class="table p-0 m-0" style="border: 0px solid white">
                 <tbody class="">
-                    <?php foreach ($dados as $dado): #debug($dado)?>
+                    <?php foreach ($dados as $dado): ?>
                         <tr class="normal">
                           <th class="" style="border: 0px solid white">                            
 

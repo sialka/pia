@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS `services` (
   `senha` INT NOT NULL,  
   `localidade_id` INT NOT NULL,  
   `status_ficha` char(1) NOT NULL,
+  `status_reserva` char(1) NOT NULL,
   `status_envelope` char(1) NOT NULL,
   `setor` char(1) NOT NULL,
   `status` BOOLEAN DEFAULT TRUE,    

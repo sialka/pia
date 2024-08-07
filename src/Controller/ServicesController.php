@@ -63,27 +63,21 @@ class ServicesController extends AppController {
             $this->request->data['Services'] = $this->request->data;
         }
 
-        $_conditions = $this->Conditions->filter('Services', $conversion, [], null, null);
+        $_conditions = $this->Conditions->filter('Services', $conversion, [], null, null);  
+        $_conditions['conditions'] += ['Services.setor' => 4];         
 
         $services = $this->paginate($this->Services->find('all')->contain(['Localidades'])->where($_conditions['conditions']));                
 
         $this->aevOptions();
 
-        $localidadesTable = TableRegistry::get('Localidades');            
-        //$dados = $servicesTable->find('all')->order(['senha' => 'asc'])->where(['Services.setor' => '4', 'Services.senha !=' => 0])->contain(['Localidades'])->toArray();           
+        $localidadesTable = TableRegistry::get('Localidades');                    
 
         $igrejas = $localidadesTable->find('list', [
             'keyField' => 'nome',
             'valueField' => 'nome']
             )->where(['setor' => '4'])->toArray();
-        /*
-        $igrejas = [];
 
-        foreach($igrejasFull as $igreja){                        
-            array_push($igrejas, $igreja);
-        }*/
-
-        //debug($igrejas);exit;
+        $this->resumo();
         
         $this->set('igrejas', $igrejas);
         $this->set('services', $services);
@@ -110,6 +104,8 @@ class ServicesController extends AppController {
             $new = $this->Services->patchEntity($senha, $data);                                             
             $new->setor = 4;
             
+            $senha = $data['senha'] == '' ? $new->senha = 0 : $data['senha'];                        
+
             $save = $this->Services->save($new);
                         
             if ($save) {   
@@ -196,6 +192,8 @@ class ServicesController extends AppController {
     public function chamarFicha()    
     {
 
+        // ToDo filtro por setor via Session
+
         $data = $this->request->data;   
         
         $senha = $data['senha_ficha'];
@@ -227,6 +225,8 @@ class ServicesController extends AppController {
     public function chamarReserva($senha = null)    
     {
 
+        // ToDo filtro por setor via Session
+
         $data = $this->request->data;        
                 
         if($data['senha_reserva'] == 0){
@@ -255,6 +255,8 @@ class ServicesController extends AppController {
 
     public function chamarEnvelope($senha = null){       
         
+        // ToDo filtro por setor via Session
+
         $data = $this->request->data;  
 
         $panelTable = TableRegistry::get('Panels');
@@ -268,6 +270,10 @@ class ServicesController extends AppController {
             $this->Flash->success(__('Conferência de envelope: Senha enviada para o Painel com sucesso !!!'));
     
             $this->request->session()->write('last_senha_envelope', $data['fala']);
+
+            $panel_normal = $panel->tipo == 4 ? 1 : 0;
+            $this->request->session()->write('panel-normal', $panel_normal);
+
         }else{
             $this->Flash->error(__('Erro ao chamar a senha !!!'));
         }
@@ -276,6 +282,8 @@ class ServicesController extends AppController {
     }
 
     public function reiniciar() {
+
+        // ToDo: Filtrar por Setor
 
         $connection = ConnectionManager::get('default');
         $connection->execute('TRUNCATE TABLE services'); 
@@ -287,5 +295,30 @@ class ServicesController extends AppController {
 
     }
 
+    private function resumo() {
+
+        $resumo = $this->Services->find('all')->contain(['Localidades'])->where(['Services.setor' => 4])->toArray();      
+
+        $status = [
+            0 => "OK",
+            1 => "sem conferência",
+            2 => "aguardando retorno",            
+        ];       
+
+        $data = [];
+        foreach($resumo as $dado){
+
+            $arr = [                 
+                'localidade' => $dado->Localidades->nome,
+                'senha' => $dado->senha,
+                'ficha' => $status[$dado->status_ficha],
+                'envelope' => $status[$dado->status_envelope],                
+            ];
+            array_push($data, $arr);
+
+        }
+
+        $this->set('resumo', $data);
+    }
 
   }

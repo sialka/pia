@@ -4,18 +4,7 @@
     ];
 
     echo $this->element('breadcrumb'); 
-     
-    echo $this->Html->script('chart/chart.js');
-    
 ?>
-
-<style>
-    @media (min-width: 768px) {
-      .chart-pie {
-        height: calc(26rem - 43px) !important;
-      }
-    }
-</style>
 
 <!-- Content Row -->
 <div class="container-row">
@@ -26,62 +15,120 @@
         </h1>
     </div>
     
-    <div class="row">
-        <div class="col-12">
-            <p class="text-center">Implementar</p>
-        </div>
+    <div class="row p-5 m-0">
+        
+        <div class="col-6">            
+            <div class="ml-4">                
+              <div class="col-12 p-0 mb-1">
+                  <div class="card border-left-primary shadow h-100">
+                      <a href="#" style="text-decoration: none" class="btn-light">
+                          <div class="card-body p-3">
+                              <!-- Administracao - Info Gastos -->
+                              <div class="d-flex justify-content-between pt-1">
+                                  <div class="h5 font-weight-bold text-primary text-uppercase">LOCALIDADES</div>                            
+                                  <div class="h1 font-weight-bold text-gray-800"><?= $localidades; ?></div> 
+                              </div>                        
+                          </div>
+                      </a>
+                  </div>
+              </div>
+              <div class="col-12 p-0 mb-1">
+                <div class="card border-left-success shadow h-100">                        
+                  <div class="card-body p-3">                                                        
+                      <div class="d-flex justify-content-between pt-1">
+                          <div class="h5 font-weight-bold text-success text-uppercase">CONFERÊNCIA DE FICHAS</div>
+                          <div class="h1 font-weight-bold text-gray-800"><?= $total_senhas; ?></div>                                
+                      </div>                                
+                      <div class="d-flex justify-content-between pt-1">
+                        <div class="h5 mb-0 mr-3 font-weight-bold text-lg text-gray-800">Conferidas: </div>
+                        <div class="h3 font-weight-bold text-gray-800"><?= $status_services['fichas']['conferidas'] ?> </div>
+                      </div>
+                      <div class="d-flex justify-content-between pt-1">
+                        <div class="h5 mb-0 mr-3 font-weight-bold text-lg text-gray-800">Sem Conferência: </div>
+                        <div class="h3 font-weight-bold text-gray-800"><?= $status_services['fichas']['sem conferencia'] ?> </div>
+                      </div>
+                      <div class="d-flex justify-content-between pt-1">
+                        <div class="h5 mb-0 mr-3 font-weight-bold text-lg text-gray-800">Aguardando retorno: </div>
+                        <div class="h3 font-weight-bold text-gray-800"><?= $status_services['fichas']['aguardando retorno'] ?> </div>
+                      </div>
+                  </div>                        
+                </div>
+              </div>
+              <div class="col-12 p-0 mb-1">                    
+                <div class="card border-left-info shadow h-100">                        
+                  <div class="card-body p-3">                                                        
+                      <div class="d-flex justify-content-between pt-1">
+                          <div class="h5 font-weight-bold text-info text-uppercase">RESERVAS</div>
+                          <div class="h1 font-weight-bold text-gray-800"><?= $total_senhas; ?></div>                                
+                      </div>                                
+                      <div class="d-flex justify-content-between pt-1">
+                        <div class="h5 mb-0 mr-3 font-weight-bold text-lg text-gray-800">Conferidas: </div>
+                        <div class="h3 font-weight-bold text-gray-800"><?= $status_services['reservas']['conferidas'] ?> </div>
+                      </div>
+                      <div class="d-flex justify-content-between pt-1">
+                        <div class="h5 mb-0 mr-3 font-weight-bold text-lg text-gray-800">Sem Conferência: </div>
+                        <div class="h3 font-weight-bold text-gray-800"><?= $status_services['reservas']['sem conferencia'] ?> </div>
+                      </div>
+                      <div class="d-flex justify-content-between pt-1">
+                        <div class="h5 mb-0 mr-3 font-weight-bold text-lg text-gray-800">Aguardando retorno: </div>
+                        <div class="h3 font-weight-bold text-gray-800"><?= $status_services['reservas']['aguardando retorno'] ?> </div>
+                      </div>
+                  </div> 
+                </div>                    
+              </div>
+            </div>            
+        </div>   
+        
+        <div class="col-6">            
+            <div class="ml-4">       
+
+              <div class="col-12 p-0 mb-5">
+                  <div class="card border-left-primary shadow h-100">                      
+                    <div class="card-body p-3">                              
+                        <div class="d-flex justify-content-between pt-1">
+                            <div class="h5 font-weight-bold text-primary text-uppercase">ÚLTIMA SENHA CONFERÊNCIA DE FICHA</div>                            
+                            <div class="h1 font-weight-bold text-gray-800"><?= $panels1; ?></div> 
+                        </div>                        
+                    </div>                      
+                  </div>
+              </div>
+
+              <div class="col-12 p-0 mb-5">
+                <div class="card border-left-success shadow h-100">                        
+                  <div class="card-body p-3">                                                        
+                      <div class="d-flex justify-content-between pt-1">
+                          <div class="h5 font-weight-bold text-success text-uppercase">ÚLTIMA SENHA RESERVA</div>
+                          <div class="h1 font-weight-bold text-gray-800"><?= $panels2; ?></div>                                
+                      </div>                                  
+                  </div>                        
+                </div>
+              </div>
+
+              <div class="col-12 p-0 mb-5">                    
+                <div class="card border-left-info shadow h-100">                        
+                  <div class="card-body p-3">                                                        
+                      <div class="d-flex justify-content-between pt-1">
+                          <div class="h5 font-weight-bold text-info text-uppercase">CONFERÊNCIA DE ENVELOPES</div>
+                          <div class="h1 font-weight-bold text-gray-800"><?= $panels3; ?></div>                                
+                      </div>
+                  </div> 
+                </div>                    
+              </div>
+
+              <div class="col-12 p-0 mb-1">                    
+                <div class="card border-left-warning shadow h-100">                        
+                  <div class="card-body p-3">                                                        
+                      <div class="d-flex justify-content-between pt-1">
+                          <div class="h5 font-weight-bold text-warning text-uppercase">ATENDIMENTO ENVELOPES</div>
+                          <div class="h1 font-weight-bold text-gray-800"><?= $panels4; ?></div>                                
+                      </div>
+                  </div> 
+                </div>                    
+              </div>
+
+            </div>            
+        </div>    
+        
     </div>
 
 </div>
-
-<script>
-    
-// Set new default font family and font color to mimic Bootstrap's default styling
-Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-Chart.defaults.global.defaultFontColor = '#858796';
-
-// Pie Chart Example
-var ctx = document.getElementById("myPieChart");
-var myPieChart = new Chart(ctx, {
-  type: 'doughnut',
-  data: {
-    labels: ["Administração", "1 - Centro", "2 - Aeroporto", "3 - Bonsucesso", "4 - Pimentas"],
-    datasets: [{
-      data: [
-        <?= $saldos['saldos']['setor0'] ?>, 
-        <?= $saldos['saldos']['setor1'] ?>,
-        <?= $saldos['saldos']['setor2'] ?>,
-        <?= $saldos['saldos']['setor3'] ?>,
-        <?= $saldos['saldos']['setor4'] ?>,
-      ],
-      backgroundColor: ['#0d6efd', '#1CC88A', '#36B9CC', '#dc3545', '#ffc107'],
-      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
-      hoverBorderColor: "rgba(234, 236, 244, 1)",
-    }],
-  },
-  options: {
-    maintainAspectRatio: false,
-    tooltips: {
-      backgroundColor: "rgb(255,255,255)",
-      bodyFontColor: "#858796",
-      borderColor: '#dddfeb',
-      borderWidth: 1,
-      xPadding: 15,
-      yPadding: 15,
-      displayColors: true,
-      caretPadding: 5,
-    },
-    legend: {
-      display: true
-    },
-    cutoutPercentage: 50,
-    responsive: true,
-    title: {
-        display: false,
-        text: 'Chart'
-    }
-  },
-});
-
-    
-</script>

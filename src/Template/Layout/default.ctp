@@ -50,7 +50,7 @@ $overflow        = $controller == "Panels" ? "overflow: hidden" : "";
     <?= $this->Html->css('bootstrap.min') ?>
     <?= $this->Html->css('sb-admin-2.css') ?>
     <?= $this->Html->css('sb-add.css') ?>
-    <?= $this->Html->css('typeahead.css') ?>
+    <?= $this->Html->css('typeahead.css') ?>    
 
     <?php
     if ($controller == 'Panels'){
@@ -70,6 +70,7 @@ $overflow        = $controller == "Panels" ? "overflow: hidden" : "";
     <!-- Core plugin JavaScript-->
     <?= $this->Html->script('vendor/jquery-easing/jquery.easing.min.js') ?>
 
+    <?= $this->Html->script('clip.js') ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
