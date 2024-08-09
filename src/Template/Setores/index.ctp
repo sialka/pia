@@ -14,7 +14,9 @@
 <div class="container-row">
     <div class="col-12">
 
-        <div class="col-12 p-0 mb-2">
+        <?= $this->element('mobile'); ?>    
+
+        <div class="col-12 p-0 mb-2 mobile-hide">
             
             <a class="btn btn-success no-radius" href="/Setores/add">
                 <i class="fa fa-plus fa-sm"></i>
@@ -28,7 +30,7 @@
             
         </div>            
 
-        <div class="row">
+        <div class="row mobile-hide">
             <div class="col-12 mt-2 mb-2">
                 
                 <!-- CARD -->

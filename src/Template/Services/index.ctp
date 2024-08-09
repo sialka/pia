@@ -10,9 +10,7 @@
 
   $ultima_senha_ficha = $call_senha_ficha == null ? "1" : $call_senha_ficha;
   $ultima_senha_reserva = $call_senha_reserva == null ? "1" : $call_senha_reserva;
-  $ultima_senha_envelope = $call_senha_envelope == null ? "0" : $call_senha_envelope; 
-
-  echo $this->element('breadcrumb', [ 'nav' => $nav ]);   
+  $ultima_senha_envelope = $call_senha_envelope == null ? "0" : $call_senha_envelope;   
 
   //debug($resumo);
 
@@ -75,10 +73,13 @@ option {
 
 <textarea class="hide" id="resumo"><?= $texto ?></textarea>
 
-<div class="msg-mobile">A página não pode ser <br> renderizada em um celular !!!</div>        
+<?= $this->element('breadcrumb', [ 'nav' => $nav ]); ?>
 
-<div class="container-row mobile-hide">
-  <div class="row pl-2 pr-2">
+<div class="container-row">
+
+  <?= $this->element('mobile'); ?>
+
+  <div class="row pl-2 pr-2 mobile-hide">    
 
     <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 m-0">   
       

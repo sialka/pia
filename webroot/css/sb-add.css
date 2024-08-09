@@ -244,7 +244,44 @@ input[type="file"] {
     display: none;
 }
 
-@media (max-width: 550px) {
+.mobile-msg-panel {
+    display: none;      
+}
+
+.dash-card-h1 {
+    font-size: 2rem;
+}
+
+.dash-card-h2 {
+    font-size: 1.5rem;
+}
+
+.dash-card-h3 {
+    font-size: 1.4rem;
+}
+
+.dash-card-h4 {
+    font-size: 1.2rem;
+}
+
+
+/* 576,768,992,1200*/
+
+@media (max-width: 1290px) {
+    .mobile-msg-panel {
+        display: block;  
+        color: white;       
+        font-size: 1.5rem;  
+    }
+    .mobile-panel-hide{
+        display: none;
+    }
+}
+
+@media (max-width: 1200px) {
+}
+
+@media (max-width: 490px) {
     .mobile-hide {
         display: none;      
     }
@@ -255,4 +292,8 @@ input[type="file"] {
         text-align: center;                  
         color: red;
     }
+
+    /* DashBoard*/
+
+
 }

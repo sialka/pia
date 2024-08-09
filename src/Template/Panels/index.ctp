@@ -25,15 +25,18 @@
   
   $panel_normal = $this->request->session()->read('panel-normal'); 
 ?>
-<div class="row bg-black"> 
-  <divc class="col">
-    <div class="card border-dark m-1">
-      <div class="card-header text-white bg-dark painel">
+<div class="row bg-black">   
+
+  <div class="col">   
+
+    <?= $this->element('mobile-panel'); ?>
+
+    <div class="card border-dark m-1 mobile-panel-hide">      
+      
+      <div class="card-header text-white bg-dark painel ">
         <a href="/" class="text-white">CCB - SETOR 4 - PAINEL</a>
       </div>
-        <div class="card-body" style="height: 92vh">
-
-        <!-- select id="vozes" size="3" -style="display: none"></select -->
+        <div class="card-body" style="height: 92vh">        
 
         <?php           
           echo $this->Form->create(null, ['url' => ['action' => '?page='.$pagina_index.'']]); 
