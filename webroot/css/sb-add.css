@@ -231,3 +231,28 @@ input[type="file"] {
 .text-normal {
     font-size: 1rem;
 }
+
+.dash-card{
+    font-size: 1.4rem;
+}
+
+.dash-value{
+    font-size: 2rem;
+}
+
+.msg-mobile{
+    display: none;
+}
+
+@media (max-width: 550px) {
+    .mobile-hide {
+        display: none;      
+    }
+    .msg-mobile{
+        margin-top: 5rem;
+        display: block;
+        font-weight: 800;      
+        text-align: center;                  
+        color: red;
+    }
+}

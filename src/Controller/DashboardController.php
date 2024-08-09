@@ -80,6 +80,8 @@ class DashboardController extends AppController {
         $panels3 = $panelsTable->find('all')->where(['setor' => '4', 'tipo' => 3])->last();
         $panels4 = $panelsTable->find('all')->where(['setor' => '4', 'tipo' => 4])->last();
 
+        //debug([$panels3, $panels4]);exit;
+
         $panels1 = $panels1 == null ? 0 : $panels1->senha; 
         $panels2 = $panels2 == null ? 0 : $panels2->senha; 
         $panels3 = $panels3 == null ? "-" : $panels3->senha; 
