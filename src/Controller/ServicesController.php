@@ -79,6 +79,9 @@ class ServicesController extends AppController {
 
         $this->resumo();
         
+        $perfil = $this->request->session()->read('perfil');
+
+        $this->set('perfil', $perfil);
         $this->set('igrejas', $igrejas);
         $this->set('services', $services);
         $this->set('_conditions', $_conditions['stringFilter']);                  
@@ -93,7 +96,8 @@ class ServicesController extends AppController {
 
             $data = $this->request->data;                                   
             
-            $valida = $this->Services->validacoes($data['senha'], $data['localidade_id'], 'add', null);                         
+            //$valida = $this->Services->validacoes($data['senha'], $data['localidade_id'], 'add', null);                         
+            $valida = $this->Services->validacoes($data, 'add', null);                         
             
             if($valida['status']){
                 $this->Flash->error($valida['erro']);                
@@ -296,14 +300,10 @@ class ServicesController extends AppController {
     }
 
     private function resumo() {
-
-        $resumo = $this->Services->find('all')->contain(['Localidades'])->where(['Services.setor' => 4])->toArray();      
-
-        $status = [
-            0 => "OK",
-            1 => "sem conferência",
-            2 => "aguardando retorno",            
-        ];       
+        
+        $resumo = $this->Services->find('all')->contain(['Localidades'])->where(['Services.setor' => 4])->order(['senha' => 'asc'])->toArray();       
+        
+        $status = $this->aevOptions();        
 
         $data = [];
         foreach($resumo as $dado){
@@ -311,8 +311,8 @@ class ServicesController extends AppController {
             $arr = [                 
                 'localidade' => $dado->Localidades->nome,
                 'senha' => $dado->senha,
-                'ficha' => $status[$dado->status_ficha],
-                'envelope' => $status[$dado->status_envelope],                
+                'ficha' => $status['status_fichas_save'][$dado->status_ficha],
+                'envelope' => $status['status_envelopes_save'][$dado->status_envelope],                
             ];
             array_push($data, $arr);
 

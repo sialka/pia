@@ -18,8 +18,8 @@
   }else{
     $tipo = null;
     $senha = 0;
-  }
-
+  } 
+  
   $novo = array_slice($recupera_session, 1, count($recupera_session));
   $this->request->session()->write('painel-senha', $novo);
   
@@ -39,8 +39,8 @@
         <div class="card-body" style="height: 92vh">        
 
         <?php           
-          echo $this->Form->create(null, ['url' => ['action' => '?page='.$pagina_index.'']]); 
-          echo "<input id='submit' type='submit' class='hide', value='send'>";
+          echo $this->Form->create(null, ['url' => ['action' => '?page='.$pagina_index.'']]);           
+          echo $this->Form->button('submit', ['type' => 'submit', 'class' => 'hide', 'id' => 'submit']);
           echo $this->Form->end();
         ?>
 
@@ -61,11 +61,11 @@
           
             <table id="tableResults" class="table p-0 m-0" style="border: 0px solid white">
                 <tbody class="">
-                    <?php foreach ($dados as $dado): ?>
+                    <?php foreach ((object) $dados as $dado): ?>
                         <tr class="normal">
                           <th class="" style="border: 0px solid white">                            
 
-                            <div class="row mt-4 mb-4 ml-2 mr-2">
+                            <div class="row mt-1 mb-1 ml-2 mr-2">
                               <div class="col-2">
                                 <div class="card border-dark center">
                                   <div id="row1-senha" class="card-body senha text-dark"><?= $dado->senha; ?></div>
@@ -108,9 +108,17 @@
 
 const synth = window.speechSynthesis;
 
-let voices = [];
+//let voices = [];
 
 function speak(texto) {
+
+  let voices = synth.getVoices();  
+
+  for (let i = 0; i < voices.length; i++) {
+    if(voices[i].lang == "pt-BR") {    
+      console.log(`${i} - ${voices[i].lang} - ${voices[i].name}`)
+    }
+  }
 
   if (synth.speaking) {
     console.error("speechSynthesis.speaking");
@@ -127,7 +135,9 @@ function speak(texto) {
     console.error("SpeechSynthesisUtterance.onerror");
   };
 
-  utterThis.voice = voices[8]; // 8 brazil
+  //console.log(synth);  
+  utterThis.voice = voices[0]; 
+  
 
   utterThis.pitch = 1; 
   utterThis.rate = 1.1; 
@@ -147,7 +157,7 @@ function carregar() {
     console.log("Fluxo chamar Senhas !!!!");
     
     sleep(3000).then(() => {             
-        //window.location.reload();        
+        //window.location.reload();
         $("#submit").click();
     });         
       
@@ -155,8 +165,9 @@ function carregar() {
     // Fluxo 2 - Exibe painel
     console.log("Exibir Senhas identificadas !!!");
 
-    sleep(3000).then(() => {          
-        $("#submit").click();
+    sleep(3000).then(() => {     
+      //window.location.reload();     
+      $("#submit").click();
     }); 
   }
 }
@@ -191,7 +202,7 @@ panel.addEventListener('animationstart', event => {
         break;    
     }   
     
-    console.log(frase);
+    console.log(`Fala: ${frase}`);
     speak(frase);
 });
 

@@ -2,8 +2,9 @@
     $nav = [
         'Usuarios' => ''
     ];       
+    
+    echo $this->element('breadcrumb', [ 'nav' => $nav ]); 
 ?>
-<?= $this->element('breadcrumb', [ 'nav' => $nav ]); ?>
 
 <div class="container-row">
     <div class="col-12">
@@ -12,22 +13,22 @@
 </div>
 
 <div class="container-row">
-    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+    <div class="col-12">
 
         <?= $this->element('mobile'); ?>    
         
         <div class="row mobile-hide">
 
-            <?php if($perfil['admin']): ?>
-            <div class="col-12 p-0 mb-2">
-                <a class="btn btn-success no-radius" href="/Users/add">
-                    <i class="fa fa-plus fa-sm"></i>
-                    <span class="">Novo</span>
-                </a>
-            </div>  
-            <?php endif; ?>
-
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-2 mb-2">
+                
+                <?php if($perfil['admin']): ?>
+                <div class="col-12 p-0 mb-2">
+                    <a class="btn btn-success no-radius" href="/Users/add">
+                        <i class="fa fa-plus fa-sm"></i>
+                        <span class="">Novo</span>
+                    </a>
+                </div>  
+                <?php endif; ?>
                 
                 <!-- CARD -->
                 <div class="card shadow no-radius border-1">
@@ -55,7 +56,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="tdMiddleAlign">
-                                    <?php foreach ($users as $user): ?>
+                                    <?php foreach ( (object) $users as $user): ?>
                                         <tr class="vAlignMiddle">
                                             <td class="text-left px-3"><?= h($user->nome) ?></td>
                                             <td class="text-left px-3"><?= h($user->username) ?></td>

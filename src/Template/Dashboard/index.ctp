@@ -17,7 +17,7 @@
     
     <?= $this->element('mobile'); ?>    
     
-    <div class="row justify-content-md-center p-5 m-0 mobile-hide">
+    <div class="row justify-content-md-center p-0 m-0 mobile-hide">
         
         <div class="col col-xl-4 col-lg-6 col-md-12 col-sm-12">
             <div class="ml-4">  

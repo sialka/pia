@@ -2,47 +2,13 @@
 
 namespace App\Controller;
 
-use Cake\Event\Event;
-use Cake\ORM\Table;
-use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\Network\Session;
 
 class PanelsController extends AppController {            
-
-    public $paginate = [
-        'limit' => 25,
-        'order' => [
-            'Ncs.ano' => 'asc',
-            'Ncs.mes' => 'desc'
-        ]
-    ];
-
     
     public function initialize() {
         parent::initialize();
-
-        $this->loadComponent('Paginator');
-        $this->loadComponent('Conditions', [
-            'prefixSession'      => 'ccb',
-            'delimiter'          => '__',
-            'pipe'               => '-',
-            'char_case'          => 1,
-            'tables_names'       => [],
-            'try_resolve_fields' => true,
-            'listenRequestClear' => [
-                'index' => [
-                    'param' => 'clear'
-                ],
-            ],
-            'listenRequestPiped' => [
-                'index' => [
-                    'model'        => 'Ncs',
-                    'pkAlias'      => __('id'),
-                    'blockPkPiped' => true,
-                ]
-            ]
-        ]);
 
         $this->Auth->allow('index');
     }
@@ -52,36 +18,27 @@ class PanelsController extends AppController {
         $dados = [];
         $pagina_index = 0;   
 
-        $senhas = $this->Panels->find('all')->order(['id' => 'ASC'])->where(['status' => true, 'setor' => 4])->toArray(); //->first();        
-
-
-        // ToDo: jogar as senhas para session
+        $senhas = $this->Panels->find('all')->order(['id' => 'ASC'])->where(['status' => true, 'setor' => 4])->toArray();         
         
         if(count($senhas) != 0){  
 
-            //debug('fase 1');
-
             $recupera_session = $this->request->session()->read('painel-senha');
             
-            foreach ($senhas as $senha) {
+            foreach ($senhas as $senha) {               
                 
-                
-                $item = "{$senha->senha},{$senha->tipo}";
-                
+                $item = "{$senha->senha},{$senha->tipo}";                
 
                 array_push($recupera_session, $item);
 
                 $senha->status = false;
                 $this->Panels->save($senha);                    
-            }          
-            
+            }  
 
             $this->request->session()->write('painel-senha', $recupera_session);
             
 
         } else {
-
-            //debug('fase 2');
+            
             
             $servicesTable = TableRegistry::get('Services');
             
@@ -168,34 +125,5 @@ class PanelsController extends AppController {
         return $paginas;
     }
 
-    /*
-    public function aevOptions() {
-
-        $aevOptions = [
-            'status_fichas' => [                
-                0 => "FICHAS: CONFERIDAS",
-                1 => "FICHAS: SEM CONFERÊNCIA",
-                2 => "FICHAS: AGUARDANDO RETORNO",
-            ],              
-            'status_envelopes' => [                
-                0 => "ENVELOPES: CONFERIDOS",
-                1 => "ENVELOPES: SEM CONFERÊNCIA",
-                2 => "ENVELOPES: AGUARDANDO RETORNO",
-            ],          
-            'status_css_ficha' => [                
-                0 => "bg-success text-white",
-                1 => "bg-danger text-white",
-                2 => "bg-warning text-dark",
-            ],            
-            'status_css_envelope' => [                
-                0 => "bg-success text-white",
-                1 => "bg-danger text-white",
-                2 => "bg-warning text-dark",
-            ],
-        ];
-
-        return $aevOptions;
-        //$this->set('aevOptions', $aevOptions);
-    }*/
 
 }

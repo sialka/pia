@@ -176,11 +176,16 @@ class AppController extends Controller
                 0 => "CONFERIDAS",
                 1 => "SEM CONFERÊNCIA",
                 2 => "AGUARDANDO RETORNO",
+                3 => "SEM FICHAS",
+                4 => "JUNTO COM OUTRA LOCALIDADE",
             ],              
             'status_envelopes_save' => [                
                 0 => "CONFERIDOS",
                 1 => "SEM CONFERÊNCIA",
                 2 => "AGUARDANDO RETORNO",
+                3 => "SEM ENVELOPES",
+                4 => "PENDÊNCIA DIÁCONO",
+                5 => "PENDÊNCIA ENVELOPE",
             ],
             'status_fichas' => [                
                 0 => "FICHAS: CONFERIDAS",
@@ -191,20 +196,30 @@ class AppController extends Controller
                 0 => "ENVELOPES: CONFERIDOS",
                 1 => "ENVELOPES: SEM CONFERÊNCIA",
                 2 => "ENVELOPES: AGUARDANDO RETORNO",
+                3 => "ENVELOPES: SEM ENVELOPES",
+                4 => "ENVELOPES: PENDÊNCIA DIÁCONO",
+                5 => "ENVELOPES: PENDÊNCIA ENVELOPE",                
             ],          
             'status_css_ficha' => [                
                 0 => "bg-success text-white",
                 1 => "bg-danger text-white",
-                2 => "bg-warning text-dark",
+                2 => "bg-warning text-white",
+                3 => "bg-success text-white",
+                4 => "bg-success text-white",
             ],            
             'status_css_envelope' => [                
                 0 => "bg-success text-white",
                 1 => "bg-danger text-white",
-                2 => "bg-warning text-dark",
+                2 => "bg-warning text-white",
+                3 => "bg-success text-white",
+                4 => "bg-warning text-white",
+                5 => "bg-warning text-white",
             ],
         ];        
 
         $this->set('aevOptions', $aevOptions);
+
+        return $aevOptions;
     }
 
 }

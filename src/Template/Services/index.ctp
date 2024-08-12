@@ -12,13 +12,11 @@
   $ultima_senha_reserva = $call_senha_reserva == null ? "1" : $call_senha_reserva;
   $ultima_senha_envelope = $call_senha_envelope == null ? "0" : $call_senha_envelope;   
 
-  //debug($resumo);
-
   $texto = "*REUNIÃO DA PIEDADE - PIMENTAS* \n\n";
   $texto = $texto . "*Data*: " .date('d/m/Y'). "\n\n";
-  $texto = $texto . "> *RESUMO DAS CONFERÊNCIAS*\n\n";
+  $texto = $texto . "> *RESUMO DAS CONFERÊNCIAS*\n\n"; 
 
-  foreach($resumo as $dado){                        
+  foreach( (object) $resumo as $dado){                        
 
     $localidade = "*".$dado['localidade']."*";
     $senha = "- Senha: ".$dado['senha'];
@@ -104,16 +102,16 @@ option {
               </svg>
               <span class="text-normal">Resumo</span>
           </a>
-
-          <!-- Perfil Adm Talvez-->
-
+          
+          <?php if($perfil['admin']): ?>
           <a class="btn btn-danger no-radius ml-1" href="/Services/reiniciar">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-easel2-fill" viewBox="0 0 16 16">
                 <path d="M8.447.276a.5.5 0 0 0-.894 0L7.19 1H2.5A1.5 1.5 0 0 0 1 2.5V10h14V2.5A1.5 1.5 0 0 0 13.5 1H8.809z"/>
                 <path fill-rule="evenodd" d="M.5 11a.5.5 0 0 0 0 1h2.86l-.845 3.379a.5.5 0 0 0 .97.242L3.89 14h8.22l.405 1.621a.5.5 0 0 0 .97-.242L12.64 12h2.86a.5.5 0 0 0 0-1zm3.64 2 .25-1h7.22l.25 1z"/>
               </svg>
               <span class="text-normal">Reiniciar</span>
-          </a>          
+          </a>
+          <?php endif; ?>          
 
         </div>
       </div>
@@ -142,7 +140,7 @@ option {
                           </tr>
                       </thead>
                         <tbody class="tdMiddleAlign">
-                          <?php foreach ($services as $service): #debug($service);?>
+                          <?php foreach ( (object) $services as $service): #debug($service);?>
                             <tr class="vAlignMiddle">
                               <td class="text-left px-3"><?= h($service->senha) ?></td>
                               <td class="text-left px-3"><?= h($service->Localidades->nome) ?></td>
@@ -195,8 +193,9 @@ option {
 
     </div>
 
-
+    <!-- Controles -->
     <div class="col-lg-3 col-md-6 m-0 p-0 col-sm-12 col-xs-12">
+      
       <div class="row">       
         <div class="col-12 pl-4 pr-4">
           <div class="card shadow border-1">
@@ -210,7 +209,7 @@ option {
                     $this->Form->input('senha_ficha',
                       array(
                           'class' => 'form-control no-radius text-center',
-                          'style' => "font-size: 3rem; border: 1px gray black; border-radius: 2px; background-color: RGBA(78,115,223,0.2)",
+                          'style' => "font-size: 2rem; border: 1px gray black; border-radius: 2px; background-color: RGBA(78,115,223,0.2)",
                           'id'    => 'call-senha-ficha',                                            
                           'max'   => 30,
                           'min'   => 0,
@@ -252,7 +251,7 @@ option {
                   $this->Form->input('senha_reserva',
                     array(
                         'class' => 'form-control no-radius text-center',
-                        'style' => "font-size: 3rem; border: 1px gray black; border-radius: 2px; background-color: RGBA(255,193,7,0.2)",
+                        'style' => "font-size: 2rem; border: 1px gray black; border-radius: 2px; background-color: RGBA(255,193,7,0.2)",
                         'id'    => 'call-senha-reserva',                                            
                         'max'   => 30,
                         'min'   => 0,
@@ -284,7 +283,7 @@ option {
       <div class="row mt-2">       
         <div class="col-12 pl-4 pr-4">
           <div class="card shadow border-1">
-            <div class="card-header bg-info text-dark text-center text-normal">Atendimento Envelopes</div>          
+            <div class="card-header bg-info text-dark text-center text-normal">Envelopes</div>          
             <div class="card-body">
               <?= $this->Form->create(null, ['url' => ['action' => 'chamarEnvelope']]); ?>
 
@@ -315,7 +314,7 @@ option {
                         );
                         ?>  
                         <?= $this->Form->input('tipo', ['class' => 'hide', 'value' => 3, 'label' => false]); ?>                         
-                        <?= $this->Form->input('fala', ['class' => '', 'type' =>'checkbox', 'label' => ' Painel sem status das senhas']); ?>    
+                        <?= $this->Form->input('fala', ['class' => '', 'type' =>'checkbox', 'label' => ' Atendimento Cartão']); ?>    
                   </div>
                 </div>              
                 <div class="col-4 p-0">

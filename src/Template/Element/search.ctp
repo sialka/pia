@@ -11,11 +11,11 @@
     <?= $this->Form->create("", array('class' => 'form-inline p-0', 'type' => 'post')) ?>
 
         <div class="input-group normal row m-0 p-0">
-            <label for="theme" class="col-form-label normal strong px-2">Buscar: </label>
+            <label for="theme" class="col-form-label strong px-2">Buscar: </label>
             <?= $this->Form->text(
                 '_all',
                 array(
-                    'class'         => 'form-control border-1 small col-10 normal border-r-0',                    
+                    'class'         => 'form-control border-1 small col-10 border-r-0',                    
                     'id'            => '_all',
                     'placeholder'   => $search
                 )

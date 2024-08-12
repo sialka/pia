@@ -334,7 +334,7 @@ class UsersController extends AppController {
     // Filtrando Perfis: Admin x Comun
     public function validacaoID($id){
 
-        $perfilEntity = $this->request->session()->read('perfil');
+        $perfilEntity = (object) $this->request->session()->read('perfil');
         $isAdmin      = $perfilEntity->admin;        
         
         if(!$isAdmin){

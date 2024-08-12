@@ -40,10 +40,26 @@ class ServicesTable extends Table
         return $rules;
     }
 
-    public function validacoes($senha = null, $localidade_id = null, $tipo, $id) 
+    /**
+     * Validações
+     * 1 - tipo: add -> localidade já registrada
+     * 2 - senha já registrada
+     */    
+    public function validacoes($data, $tipo, $id) 
     {   
 
+        $senha = $data['senha'];
+        $localidade_id = $data['localidade_id'];
+        $status_ficha = $data['status_ficha'];        
+
         if ($tipo == 'add') {
+
+            if(in_array($status_ficha, [3,4])){
+                $erro = "Os status 'SEM FICHAS' e 'JUNTO COM OUTRA LOCALIDADE' não devem ter senhas informadas!!!";           
+
+                return [ 'status' => true, 'erro' => $erro ];
+            }
+
             $senha_entity = $this->find('all')->contain(['Localidades'])->where(['senha' => $senha])->first();           
 
             if ($senha_entity && $senha != 0) {            

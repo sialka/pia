@@ -3,6 +3,8 @@
 -- Estrutura da tabela `senhas`
 --
 
+Smport#ccb@2024
+
 DROP TABLE IF EXISTS `services`;
 CREATE TABLE IF NOT EXISTS `services` (
   `id` int(11) NOT NULL AUTO_INCREMENT,  
@@ -212,7 +214,6 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 INSERT INTO `users` (`id`, `nome`, `username`, `email`, `password`, `mod_admin`, `mod_user`, `mod_localidade`, `mod_setores`, `mod_atendimento`,`status`, `created`, `modified`) VALUES (1, 'Sistema', 'sistema', 'sialkas@gmail.com', '$2y$10$OlQdL/TfLoCAZGqV9hI0Geu3/MfaDmhTnl13VqqFRfv9biSNgdN86', 1, 1, 1, 1, 1, 1, NULL, NULL);
 
-
 DROP TABLE IF EXISTS `setores`;
 CREATE TABLE IF NOT EXISTS `setores` (
   `id` int(11) NOT NULL AUTO_INCREMENT,  
@@ -231,3 +232,13 @@ INSERT INTO `setores` (`setor`, `nome`, `status`, `created`, `modified`) VALUES 
 INSERT INTO `setores` (`setor`, `nome`, `status`, `created`, `modified`) VALUES ('4', '4 - Pimentas', 1, NULL, NULL);
 
 
+CREATE TABLE `setup` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,  
+  `key` varchar(250) NOT NULL,
+  `value` varchar(250) NOT NULL,
+  `created` timestamp NULL DEFAULT NULL,
+  `modified` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+
+INSERT INTO `pia_ccb`.`setup` (`key`, `value`) VALUES ('key', 'value');

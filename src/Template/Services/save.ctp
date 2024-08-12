@@ -9,7 +9,7 @@
 
 <div class="container-row">
 
-    <div class="col-4 offset-4">
+    <div class="col-6 offset-3">
         
         <?= $this->Form->create($senha, array('class' => 'form-horizontal needs-validation', 'type' => 'post', 'novalidate')) ?>
         
@@ -37,20 +37,21 @@
                 <div class="row">
                     <div class="form-group col-6">
                         <label for="mes" class="font-weight-bold">Senha</label>
-                        <?php
-                        if ($mode != "add" && $senha->senha != 0) {
-                            echo __("<label class='form-control disabled no-radius'>{$senha->senha}</label>");
+                        <?php                        
+                        if ($mode != "add" && $senha['senha'] != 0) {
+                            echo __("<label class='form-control disabled no-radius'>{$senha['senha']}</label>");
                         } else {
                             echo $this->Form->input('senha',
                                 array(
                                     'class'              => 'form-control text-center no-radius',
                                     'id'                 => 'senha',
                                     'type'               => 'number',  
-                                    'placeholder'        => 'Informe uma senha',      
+                                    'placeholder'        => 'Informe uma senha',
                                     'min'                => 0,
                                     'max'                => 30,                                    
                                     'div'                => false,
-                                    'label'              => false,                                    
+                                    'label'              => false,   
+                                    'required'                                 
                                 )
                             );
                         }
