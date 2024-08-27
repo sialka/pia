@@ -15,6 +15,12 @@ class PanelsController extends AppController {
 
     public function index() {    
 
+        // Setup - Voz
+        $setupTable = TableRegistry::get('Setup');
+        $voz = $setupTable->find()->where(['chave' => 'voz'])->First();
+        $fala = $voz == null ? "0" : $voz->valor;
+        $this->set('sintetizador', $fala);
+
         $dados = [];
         $pagina_index = 0;   
 
@@ -23,10 +29,12 @@ class PanelsController extends AppController {
         if(count($senhas) != 0){  
 
             $recupera_session = $this->request->session()->read('painel-senha');
+
+            //debug($recupera_session);
             
             foreach ($senhas as $senha) {               
                 
-                $item = "{$senha->senha},{$senha->tipo}";                
+                $item = "{$senha->fala},{$senha->senha},{$senha->tipo}";                
 
                 array_push($recupera_session, $item);
 
@@ -34,6 +42,7 @@ class PanelsController extends AppController {
                 $this->Panels->save($senha);                    
             }  
 
+            //debug($recupera_session);exit;
             $this->request->session()->write('painel-senha', $recupera_session);
             
 

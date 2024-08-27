@@ -11,17 +11,19 @@
   
   if($recupera_session != []){
     $topo = $recupera_session[0];
-    $senha_topo = explode(",",$topo);
-    
-    $senha = $senha_topo[0];
-    $tipo = $senha_topo[1];
+    $senha_topo = explode(",",$topo);    
+    // fala, senha, tipo    
+    $voz = $senha_topo[0];
+    $senha = $senha_topo[1];
+    $tipo = $senha_topo[2];
   }else{
-    $tipo = null;
+    $voz = 0;
     $senha = 0;
+    $tipo = null;
   } 
   
   $novo = array_slice($recupera_session, 1, count($recupera_session));
-  $this->request->session()->write('painel-senha', $novo);
+  $this->request->session()->write('painel-senha', $novo);  
   
   $panel_normal = $this->request->session()->read('panel-normal'); 
 ?>
@@ -36,7 +38,7 @@
       <div class="card-header text-white bg-dark painel ">
         <a href="/" class="text-white">CCB - SETOR 4 - PAINEL</a>
       </div>
-        <div class="card-body" style="height: 92vh">        
+        <div class="card-body" style="height: 90vh">        
 
         <?php           
           echo $this->Form->create(null, ['url' => ['action' => '?page='.$pagina_index.'']]);           
@@ -69,7 +71,7 @@
                               <div class="col-2">
                                 <div class="card border-dark center">
                                   <div id="row1-senha" class="card-body senha text-dark"><?= $dado->senha; ?></div>
-                                  <div class="card-footer text-white bg-primary">SENHA</div>
+                                  <div class="card-footer text-white bg-dark text-white">SENHA</div>
                                 </div>
                               </div>
                               <div class="col-10">
@@ -136,7 +138,8 @@ function speak(texto) {
   };
 
   //console.log(synth);  
-  utterThis.voice = voices[0]; 
+  //utterThis.voice = voices[0]; 
+  utterThis.voice = voices[<?= $sintetizador; ?>]; 
   
 
   utterThis.pitch = 1; 
@@ -146,7 +149,7 @@ function speak(texto) {
 }
 
 // fim voice
-const senha = "<?= $senha; ?>";
+const senha = "<?= $voz; ?>";
 const tipo = "<?= $tipo; ?>";
 
 function carregar() {
@@ -156,8 +159,7 @@ function carregar() {
     // Fluxo 1 - Verifica se existe senhas
     console.log("Fluxo chamar Senhas !!!!");
     
-    sleep(3000).then(() => {             
-        //window.location.reload();
+    sleep(3000).then(() => {                     
         $("#submit").click();
     });         
       
@@ -165,8 +167,7 @@ function carregar() {
     // Fluxo 2 - Exibe painel
     console.log("Exibir Senhas identificadas !!!");
 
-    sleep(3000).then(() => {     
-      //window.location.reload();     
+    sleep(5000).then(() => {           
       $("#submit").click();
     }); 
   }

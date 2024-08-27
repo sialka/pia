@@ -3,8 +3,6 @@
 -- Estrutura da tabela `senhas`
 --
 
-Smport#ccb@2024
-
 DROP TABLE IF EXISTS `services`;
 CREATE TABLE IF NOT EXISTS `services` (
   `id` int(11) NOT NULL AUTO_INCREMENT,  
@@ -29,6 +27,7 @@ DROP TABLE IF EXISTS `panels`;
 CREATE TABLE IF NOT EXISTS `panels` (
   `id` int(11) NOT NULL AUTO_INCREMENT,  
   `senha` varchar(255) NOT NULL,
+  `fala` varchar(255) NOT NULL,
   `tipo` char(1) NOT NULL,
   `setor` char(1) NOT NULL,
   `status` BOOLEAN DEFAULT TRUE,    
@@ -42,11 +41,12 @@ CREATE TABLE IF NOT EXISTS `panels` (
 -- Estrutura da tabela `localidades`
 --
 
-DROP TABLE IF EXISTS `localidades`;
+DROP TABLE `localidades`;
 CREATE TABLE IF NOT EXISTS `localidades` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `codigo` varchar(10) NOT NULL,
   `nome` varchar(50) NOT NULL,
+  `fala` varchar(50) NULL DEFAULT NULL,
   `setor` char(1) NOT NULL,
   `status` tinyint(1) DEFAULT '1',
   `created` timestamp NULL DEFAULT NULL,
@@ -232,13 +232,14 @@ INSERT INTO `setores` (`setor`, `nome`, `status`, `created`, `modified`) VALUES 
 INSERT INTO `setores` (`setor`, `nome`, `status`, `created`, `modified`) VALUES ('4', '4 - Pimentas', 1, NULL, NULL);
 
 
+DROP TABLE `setup`;
 CREATE TABLE `setup` (
   `id` int(11) NOT NULL AUTO_INCREMENT,  
-  `key` varchar(250) NOT NULL,
-  `value` varchar(250) NOT NULL,
+  `chave` varchar(250) NOT NULL,
+  `valor` varchar(250) NOT NULL,
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
 
-INSERT INTO `pia_ccb`.`setup` (`key`, `value`) VALUES ('key', 'value');
+INSERT INTO `pia_ccb`.`setup` (`chave`, `valor`) VALUES ('key', 'value');

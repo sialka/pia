@@ -40,8 +40,8 @@ class AppController extends Controller
 
         $this->loadComponent('Security');
         //$this->loadComponent('Csrf');
-        
-        
+
+
     }
 
     public function beforeFilter(Event $event){
@@ -67,7 +67,7 @@ class AppController extends Controller
         //$session = $this->getRequest()->getSession();
         //$name = $session->read('User.name');
 
-        $this->request->session()->write('bg_color', "blue");               
+        $this->request->session()->write('bg_color', "blue");
 
         if(!$this->request->session()->read('Auth.User.id')){
             $this->viewBuilder()->setLayout('login');
@@ -75,7 +75,7 @@ class AppController extends Controller
             $this->viewBuilder()->setLayout('default');
         }
 
-    }    
+    }
 
     public function blackhole($type, \Cake\Controller\Exception\SecurityException $exception) {
         throw $exception;
@@ -90,96 +90,18 @@ class AppController extends Controller
         // Alternatively, handle the error, e.g. set a flash message &
         // redirect to HTTPS version of the requested page.
     }
-    
-    public function getSessionMesAnoTrabalho() {
-        /*
-        $nc_mes = $this->request->session()->read('mes')['mes'];
-        $nc_ano = $this->request->session()->read('mes')['ano'];
 
-        return "{$nc_mes}-{$nc_ano}";
-        */
-    }
-    
-    private function getMesPorExtenso(){
-        /*
-        $nc_mes = $this->request->session()->read('mes')['mes'];
-        $nc_ano = $this->request->session()->read('mes')['ano'];        
-
-        switch ($nc_mes) {
-            case '01':
-                $mes = "Janeiro";
-                break;
-            case '02':
-                $mes = "Fevereiro";
-                break;
-            case '03':
-                $mes = "Março";
-                break;
-            case '04':
-                $mes = "Abril";
-                break;
-            case '05':
-                $mes = "Maio";
-                break;
-            case '06':
-                $mes = "Junho";
-                break;
-            case '07':
-                $mes = "Julho";
-                break;
-            case '08':
-                $mes = "Agosto";
-                break;
-            case '09':
-                $mes = "Setembro";
-                break;
-            case '10':
-                $mes = "Outubro";
-                break;
-            case '11':
-                $mes = "Novembro";
-                break;
-            case '12':
-                $mes = "Dezembro";
-                break;
-            default:
-                $mes = null;                
-        }
-
-        if ($nc_mes == null && $nc_ano == null) {
-            return 'Não há mês de Trabalho Cadastrado';
-        }        
-        
-        return "{$mes}/{$nc_ano}";*/        
-    }
-    
-    public function carregarMesTrabalho(){
-        
-        /*
-        $ncsTable       = TableRegistry::get('Ncs');
-        $planilhasTable = TableRegistry::get('Planilhas');
-
-        $ncsTable->atualizaMesTrabalho();
-
-        $mes_trabalho = $this->getSessionMesAnoTrabalho();
-        $saldos       = $planilhasTable->getSaldos($mes_trabalho);
-        $title        = $this->getMesPorExtenso();
-
-        $this->set('title',  $title);
-        $this->set('saldos', $saldos);*/
-    }
-
-    public function aevOptions() {        
+    public function aevOptions() {
 
         $aevOptions = [
-            'status_fichas_save' => [                
+            'status_fichas_save' => [
                 0 => "CONFERIDAS",
                 1 => "SEM CONFERÊNCIA",
                 2 => "AGUARDANDO RETORNO",
                 3 => "SEM FICHAS",
                 4 => "JUNTO COM OUTRA LOCALIDADE",
-            ],              
-            'status_envelopes_save' => [                
+            ],
+            'status_envelopes_save' => [
                 0 => "CONFERIDOS",
                 1 => "SEM CONFERÊNCIA",
                 2 => "AGUARDANDO RETORNO",
@@ -187,27 +109,27 @@ class AppController extends Controller
                 4 => "PENDÊNCIA DIÁCONO",
                 5 => "PENDÊNCIA ENVELOPE",
             ],
-            'status_fichas' => [                
+            'status_fichas' => [
                 0 => "FICHAS: CONFERIDAS",
                 1 => "FICHAS: SEM CONFERÊNCIA",
                 2 => "FICHAS: AGUARDANDO RETORNO",
-            ],              
-            'status_envelopes' => [                
+            ],
+            'status_envelopes' => [
                 0 => "ENVELOPES: CONFERIDOS",
                 1 => "ENVELOPES: SEM CONFERÊNCIA",
                 2 => "ENVELOPES: AGUARDANDO RETORNO",
                 3 => "ENVELOPES: SEM ENVELOPES",
                 4 => "ENVELOPES: PENDÊNCIA DIÁCONO",
-                5 => "ENVELOPES: PENDÊNCIA ENVELOPE",                
-            ],          
-            'status_css_ficha' => [                
+                5 => "ENVELOPES: PENDÊNCIA ENVELOPE",
+            ],
+            'status_css_ficha' => [
                 0 => "bg-success text-white",
                 1 => "bg-danger text-white",
                 2 => "bg-warning text-white",
                 3 => "bg-success text-white",
                 4 => "bg-success text-white",
-            ],            
-            'status_css_envelope' => [                
+            ],
+            'status_css_envelope' => [
                 0 => "bg-success text-white",
                 1 => "bg-danger text-white",
                 2 => "bg-warning text-white",
@@ -215,7 +137,7 @@ class AppController extends Controller
                 4 => "bg-warning text-white",
                 5 => "bg-warning text-white",
             ],
-        ];        
+        ];
 
         $this->set('aevOptions', $aevOptions);
 

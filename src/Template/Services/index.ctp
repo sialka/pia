@@ -116,6 +116,7 @@ option {
         </div>
       </div>
 
+      <!-- Atendimentos -->
       <div class="row">
         <div class="col-12 mt-2 mb-2">          
             <!-- CARD -->
@@ -302,16 +303,15 @@ option {
                                 'style'              => 'background-color: RGBA(54,185,204,0.2)',
                                 'required'
                             )
-                        );
-                        echo $this->Form->input('localidade_id',
+                        );    
+                        echo $this->Form->input('falar',
                             array(
                                 'class'       => 'display-none',
-                                'id'          => 'localidade_id',                                    
+                                'id'          => 'falar',                                    
                                 'type'        => 'text',
-                                'label'       => false,
-                                'required'
+                                'label'       => false,                                
                             )
-                        );
+                        );                        
                         ?>  
                         <?= $this->Form->input('tipo', ['class' => 'hide', 'value' => 3, 'label' => false]); ?>                         
                         <?= $this->Form->input('fala', ['class' => '', 'type' =>'checkbox', 'label' => ' Atendimento Cartão']); ?>    
@@ -412,7 +412,7 @@ $(document).ready(function(){
           //width:          '300px',
           suggestionStyle: 'font-size: 100%;',
           fillFields: [
-              { selector: '#localidade_id', field: 'id' },
+              { selector: '#falar', field: 'fala' },
           ],
           delay : 500
       };

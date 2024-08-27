@@ -30,7 +30,7 @@ if($session != null){
 <?= $this->element('breadcrumb', ['nav' => $nav]); ?>
 
 <div class="container-row">
-    <div class="col-4 offset-4">
+    <div class="col-6 offset-3">
         
         <?= $this->Form->create($localidade, array('class' => 'form-horizontal needs-validation', 'type' => 'post', 'novalidate')) ?>
         
@@ -87,6 +87,26 @@ if($session != null){
                         ?>
                     </div>
                 </div>
+
+
+                <div class="row">
+                    <div class="form-group col-12">
+                        <label for="nome" class="strong">Fala Painel</label>
+                        <?=
+                        $this->Form->input('fala',
+                                array(
+                                    'class'       => 'form-control no-radius',
+                                    'id'          => 'fala',
+                                    'placeholder' => 'Informe como o sintetizador deve falar',
+                                    'type'        => 'text',
+                                    'div'         => false,
+                                    'label'       => false,
+                                    'required'
+                                )
+                        )
+                        ?>
+                    </div>
+                </div>                
 
                 <div class="row">
                     <?php /*
