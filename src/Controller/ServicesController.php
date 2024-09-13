@@ -336,4 +336,33 @@ class ServicesController extends AppController {
         $this->set('resumo', $data);
     }
 
+
+    public function start()
+    {
+
+        $setupTable = TableRegistry::get('Setup');
+
+        $painel = $setupTable->find()->where(['chave' => 'painel'])->First();
+        $painel->valor = 1;
+        $setupTable->save($painel);
+
+
+        $this->Flash->success(__('Painel Liberado'));
+        return $this->redirect("/services");
+    }
+
+    public function stop()
+    {
+
+        $setupTable = TableRegistry::get('Setup');
+
+        $painel = $setupTable->find()->where(['chave' => 'painel'])->First();
+        $painel->valor = 0;
+        $setupTable->save($painel);
+
+        $this->Flash->success(__('Painel Bloqueado'));
+        return $this->redirect("/services");
+    }
+
+
   }

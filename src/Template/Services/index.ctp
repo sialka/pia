@@ -3,20 +3,20 @@
   $nav = [
       'Atendimentos' => ''
   ];
-    
-  $call_senha_ficha = $this->request->session()->read('last_senha_ficha');       
-  $call_senha_reserva = $this->request->session()->read('last_senha_reserva');       
-  $call_senha_envelope = $this->request->session()->read('last_senha_envelope');     
+
+  $call_senha_ficha = $this->request->session()->read('last_senha_ficha');
+  $call_senha_reserva = $this->request->session()->read('last_senha_reserva');
+  $call_senha_envelope = $this->request->session()->read('last_senha_envelope');
 
   $ultima_senha_ficha = $call_senha_ficha == null ? "1" : $call_senha_ficha;
   $ultima_senha_reserva = $call_senha_reserva == null ? "1" : $call_senha_reserva;
-  $ultima_senha_envelope = $call_senha_envelope == null ? "0" : $call_senha_envelope;   
+  $ultima_senha_envelope = $call_senha_envelope == null ? "0" : $call_senha_envelope;
 
   $texto = "*REUNIÃO DA PIEDADE - PIMENTAS* \n\n";
   $texto = $texto . "*Data*: " .date('d/m/Y'). "\n\n";
-  $texto = $texto . "> *RESUMO DAS CONFERÊNCIAS*\n\n"; 
+  $texto = $texto . "> *RESUMO DAS CONFERÊNCIAS*\n\n";
 
-  foreach( (object) $resumo as $dado){                        
+  foreach( (object) $resumo as $dado){
 
     $localidade = "*".$dado['localidade']."*";
     $senha = "- Senha: ".$dado['senha'];
@@ -24,27 +24,28 @@
     $status2 = "- Envelopes: ".$dado['envelope'];
 
 
-    $texto = $texto . $localidade. "\n"; 
+    $texto = $texto . $localidade. "\n";
 
     if($dado['senha'] != 0 ){
-      $texto = $texto . $senha. "\n"; 
-      $texto = $texto . $status1. "\n"; 
-    }    
-    
+      $texto = $texto . $senha. "\n";
+    }
+
+    $texto = $texto . $status1. "\n";
     $texto = $texto . $status2 ."\n\n";
-    
+
+
   }
-  
+
 ?>
 
 <style>
-  input[type=number]::-webkit-inner-spin-button { 
-      -webkit-appearance: none;    
+  input[type=number]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
   }
-  input[type=number] { 
+  input[type=number] {
     -moz-appearance: textfield;
     appearance: textfield;
-  } 
+  }
 
 
 
@@ -54,7 +55,7 @@ datalist {
   width: 350px;
   padding: 5px;
   max-height: 10rem;
-  overflow-y: auto  
+  overflow-y: auto
 }
 
 option {
@@ -77,23 +78,37 @@ option {
 
   <?= $this->element('mobile'); ?>
 
-  <div class="row pl-2 pr-2 mobile-hide">    
+  <div class="row pl-2 pr-2 mobile-hide">
 
-    <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 m-0">   
-      
+    <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 m-0">
+
       <div class="row">
         <div class="col-12">
           <?= $this->Flash->render() ?>
         </div>
       </div>
-      
+
       <!-- Btns -->
-      <div class="row">  
+      <div class="row">
         <div class="col-12">
-          
+
           <a class="btn btn-success no-radius" href="/Services/add">
               <i class="fa fa-plus fa-sm"></i>
               <span class="text-normal">Novo</span>
+          </a>
+
+          <a class="btnclip btn btn-warning no-radius ml-1" href="/Services/start">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 512 512">
+                <path d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zM188.3 147.1c7.6-4.2 16.8-4.1 24.3 .5l144 88c7.1 4.4 11.5 12.1 11.5 20.5s-4.4 16.1-11.5 20.5l-144 88c-7.4 4.5-16.7 4.7-24.3 .5s-12.3-12.2-12.3-20.9l0-176c0-8.7 4.7-16.7 12.3-20.9z"/>
+              </svg>
+              <span class="text-normal">Start</span>
+          </a>
+
+          <a class="btnclip btn btn-warning no-radius ml-1" href="/Services/stop">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 512 512">
+              <path d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm192-96l128 0c17.7 0 32 14.3 32 32l0 128c0 17.7-14.3 32-32 32l-128 0c-17.7 0-32-14.3-32-32l0-128c0-17.7 14.3-32 32-32z"/>
+            </svg>
+              <span class="text-normal">Stop</span>
           </a>
 
           <a class="btnclip btn btn-primary no-radius ml-1" href="#" data-clipboard-text="<?= $texto ?>">
@@ -102,7 +117,7 @@ option {
               </svg>
               <span class="text-normal">Resumo</span>
           </a>
-          
+
           <?php if($perfil['admin']): ?>
           <a class="btn btn-danger no-radius ml-1" href="/Services/reiniciar">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-easel2-fill" viewBox="0 0 16 16">
@@ -111,21 +126,21 @@ option {
               </svg>
               <span class="text-normal">Reiniciar</span>
           </a>
-          <?php endif; ?>          
+          <?php endif; ?>
 
         </div>
       </div>
 
       <!-- Atendimentos -->
       <div class="row">
-        <div class="col-12 mt-2 mb-2">          
+        <div class="col-12 mt-2 mb-2">
             <!-- CARD -->
             <div class="card shadow no-radius border-1">
-                        
+
                 <!-- HEADER -->
-                <div class="card-header p-2 m-0 d-flex justify-content-between">                  
+                <div class="card-header p-2 m-0 d-flex justify-content-between">
                     <?= $this->element('search', [ 'search' => 'Por Senha ou Localidade' ]); ?>
-                </div>                                                    
+                </div>
 
                 <!-- BODY -->
                 <div class="card-body no-border p-0 m-0">
@@ -136,8 +151,8 @@ option {
                               <?= $this->element('th_sort', [ 'th' => ['10%', 'Users.name', __('Senhas') ] ]); ?>
                               <?= $this->element('th_sort', [ 'th' => ['30%', 'Users.username', __('Localidades') ] ]); ?>
                               <?= $this->element('th_sort', [ 'th' => ['20%', 'Users.email', __('Fichas') ] ]); ?>
-                              <?= $this->element('th_sort', [ 'th' => ['20%', 'Users.status', __('Envelopes') ] ]); ?>                                  
-                              <th class="text-center" width="20%"></th>                                  
+                              <?= $this->element('th_sort', [ 'th' => ['20%', 'Users.status', __('Envelopes') ] ]); ?>
+                              <th class="text-center" width="20%"></th>
                           </tr>
                       </thead>
                         <tbody class="tdMiddleAlign">
@@ -145,12 +160,12 @@ option {
                             <tr class="vAlignMiddle">
                               <td class="text-left px-3"><?= h($service->senha) ?></td>
                               <td class="text-left px-3"><?= h($service->Localidades->nome) ?></td>
-                              <td class="text-center px-3">                                
+                              <td class="text-center px-3">
                                 <?= $this->element('status_services', [ 'status' => $service->status_ficha, 'tipo' => 'status_fichas']); ?>
                               </td>
                               <td class="text-center px-3">
                                   <?= $this->element('status_services', [ 'status' => $service->status_envelope, 'tipo' => 'status_envelopes']); ?>
-                              </td>                                
+                              </td>
                               <td class="text-center px-3">
                                 <div class="dropdown d-block">
                                   <button class="dropdown-toggle btn btn-primary btn-sm no-radius py-0" type="button" id="acoesListar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -184,7 +199,7 @@ option {
                 </div>
 
                 <!-- FOOTER -->
-                <div class="card-footer p-0 m-0"> 
+                <div class="card-footer p-0 m-0">
                     <?php echo $this->element('pager'); ?>
                 </div>
 
@@ -196,33 +211,33 @@ option {
 
     <!-- Controles -->
     <div class="col-lg-3 col-md-6 m-0 p-0 col-sm-12 col-xs-12">
-      
-      <div class="row">       
+
+      <div class="row">
         <div class="col-12 pl-4 pr-4">
           <div class="card shadow border-1">
-            <div class="card-header bg-primary text-white text-center text-normal">Atendimento Fichas</div>          
+            <div class="card-header bg-primary text-white text-center text-normal">Atendimento Fichas</div>
             <div class="card-body">
               <?= $this->Form->create(null, ['url' => ['action' => 'chamarFicha']]); ?>
               <div class="row text-center">
-                <div class="col-12 p-1">                
-                  <?= $this->Form->input('tipo', ['class' => 'hide', 'value' => 1, 'label' => false]); ?>              
+                <div class="col-12 p-1">
+                  <?= $this->Form->input('tipo', ['class' => 'hide', 'value' => 1, 'label' => false]); ?>
                   <?=
                     $this->Form->input('senha_ficha',
                       array(
                           'class' => 'form-control no-radius text-center',
                           'style' => "font-size: 2rem; border: 1px gray black; border-radius: 2px; background-color: RGBA(78,115,223,0.2)",
-                          'id'    => 'call-senha-ficha',                                            
+                          'id'    => 'call-senha-ficha',
                           'max'   => 30,
                           'min'   => 0,
                           'type'  => 'number',
                           'div'   => false,
-                          'label' => false,                                            
+                          'label' => false,
                       )
                     );
                   ?>
                 </div>
-              </div>              
-              <div class="row text-center">              
+              </div>
+              <div class="row text-center">
                   <div class="col-4 mt-1 p-1">
                     <a link="#" id="less-ficha" class="btn btn-block btn-danger text-white no-radius" style="font-size: 0.9rem">-</a>
                   </div>
@@ -230,41 +245,41 @@ option {
                     <button type="submit" class="btn btn-block btn-primary no-radius" style="font-size: 0.9rem">Chamar</button>
                   </div>
                   <div class="col-4 mt-1 p-1">
-                    <a link="#" id="plus-ficha" class="btn btn-block btn-success text-white no-radius" style="font-size: 0.9rem">+</a>                          
-                  </div>              
+                    <a link="#" id="plus-ficha" class="btn btn-block btn-success text-white no-radius" style="font-size: 0.9rem">+</a>
+                  </div>
               </div>
               <?= $this->Form->end() ?>
             </div>
           </div>
-        </div>  
+        </div>
       </div>
 
-      <div class="row mt-2">       
+      <div class="row mt-2">
         <div class="col-12 pl-4 pr-4">
           <div class="card shadow border-1">
-            <div class="card-header bg-warning text-dark text-center text-normal">Atendimento Reserva</div>          
+            <div class="card-header bg-warning text-dark text-center text-normal">Atendimento Reserva</div>
             <div class="card-body">
               <?= $this->Form->create(null, ['url' => ['action' => 'chamarReserva']]); ?>
               <div class="row text-center">
-                <div class="col-12 p-1">  
-                  <?= $this->Form->input('tipo', ['class' => 'hide', 'value' => 2, 'label' => false]); ?>              
-                  <?= 
+                <div class="col-12 p-1">
+                  <?= $this->Form->input('tipo', ['class' => 'hide', 'value' => 2, 'label' => false]); ?>
+                  <?=
                   $this->Form->input('senha_reserva',
                     array(
                         'class' => 'form-control no-radius text-center',
                         'style' => "font-size: 2rem; border: 1px gray black; border-radius: 2px; background-color: RGBA(255,193,7,0.2)",
-                        'id'    => 'call-senha-reserva',                                            
+                        'id'    => 'call-senha-reserva',
                         'max'   => 30,
                         'min'   => 0,
                         'type'  => 'number',
                         'div'   => false,
-                        'label' => false,                                            
+                        'label' => false,
                     )
                   );
                   ?>
                 </div>
-              </div>              
-              <div class="row text-center">              
+              </div>
+              <div class="row text-center">
                   <div class="col-4 mt-1 p-1">
                     <a link="#" id="less-reserva" class="btn btn-block btn-danger text-white no-radius" style="font-size: 0.9rem">-</a>
                   </div>
@@ -272,8 +287,8 @@ option {
                     <button type="submit" class="btn btn-block btn-primary no-radius" style="font-size: 0.9rem">Chamar</button>
                   </div>
                   <div class="col-4 mt-1 p-1">
-                    <a link="#" id="plus-reserva" class="btn btn-block btn-success text-white no-radius" style="font-size: 0.9rem">+</a>                          
-                  </div>              
+                    <a link="#" id="plus-reserva" class="btn btn-block btn-success text-white no-radius" style="font-size: 0.9rem">+</a>
+                  </div>
               </div>
               <?= $this->Form->end() ?>
             </div>
@@ -281,47 +296,47 @@ option {
         </div>
       </div>
 
-      <div class="row mt-2">       
+      <div class="row mt-2">
         <div class="col-12 pl-4 pr-4">
           <div class="card shadow border-1">
-            <div class="card-header bg-info text-dark text-center text-normal">Envelopes</div>          
+            <div class="card-header bg-info text-dark text-center text-normal">Envelopes</div>
             <div class="card-body">
               <?= $this->Form->create(null, ['url' => ['action' => 'chamarEnvelope']]); ?>
 
               <div class="row">
-                <div class="form-group col-12 p-0 m-0">                        
+                <div class="form-group col-12 p-0 m-0">
                   <div class="igrejaslista">
                         <?php
                         echo $this->Form->input('localidade',
                             array(
                                 'class'              => 'form-control text-center text-normal typeahead no-radius',
                                 'id'                 => 'localidade',
-                                'type'               => 'text',    
+                                'type'               => 'text',
                                 'placeholder'        => 'Informe o nome da localidade',
                                 'div'                => false,
                                 'label'              => false,
                                 'style'              => 'background-color: RGBA(54,185,204,0.2)',
                                 'required'
                             )
-                        );    
+                        );
                         echo $this->Form->input('falar',
                             array(
                                 'class'       => 'display-none',
-                                'id'          => 'falar',                                    
+                                'id'          => 'falar',
                                 'type'        => 'text',
-                                'label'       => false,                                
+                                'label'       => false,
                             )
-                        );                        
-                        ?>  
-                        <?= $this->Form->input('tipo', ['class' => 'hide', 'value' => 3, 'label' => false]); ?>                         
-                        <?= $this->Form->input('fala', ['class' => '', 'type' =>'checkbox', 'label' => ' Atendimento Cartão']); ?>    
+                        );
+                        ?>
+                        <?= $this->Form->input('tipo', ['class' => 'hide', 'value' => 3, 'label' => false]); ?>
+                        <?= $this->Form->input('fala', ['class' => '', 'type' =>'checkbox', 'label' => ' Atendimento Cartão']); ?>
                   </div>
-                </div>              
+                </div>
                 <div class="col-4 p-0">
                   <button type="submit" class="btn btn-block btn-primary no-radius" style="font-size: 0.9rem">Chamar</button>
                 </div>
               </div>
-             
+
               <?= $this->Form->end() ?>
             </div>
           </div>
@@ -329,13 +344,13 @@ option {
       </div>
     </div>
 
-    
+
   </div>
 </div>
 
 <script>
 
-$(document).ready(function(){     
+$(document).ready(function(){
 
   let call_senha_ficha = <?= $ultima_senha_ficha; ?>;
   let call_senha_reserva = <?= $ultima_senha_reserva; ?>;
@@ -343,44 +358,44 @@ $(document).ready(function(){
 
   $("#call-senha-ficha").val(<?= $ultima_senha_ficha; ?>)
   $("#call-senha-reserva").val(<?= $ultima_senha_reserva; ?>)
-  
+
   // Atendimento Fichas
 
-  $("#plus-ficha").on("click", function() {    
+  $("#plus-ficha").on("click", function() {
     call_senha_ficha += 1;
 
     if(call_senha_ficha > 30){
       call_senha_ficha = 30;
     }
 
-    $("#call-senha-ficha").val(call_senha_ficha);    
+    $("#call-senha-ficha").val(call_senha_ficha);
   });
 
-  $("#less-ficha").on("click", function() {     
+  $("#less-ficha").on("click", function() {
     call_senha_ficha -= 1;
-    
+
     if(call_senha_ficha < 1){
       call_senha_ficha = 1;
     }
 
-    $("#call-senha-ficha").val(call_senha_ficha);    
+    $("#call-senha-ficha").val(call_senha_ficha);
   });
 
   // Atendimento Reserva
 
-  $("#plus-reserva").on("click", function() {    
+  $("#plus-reserva").on("click", function() {
     call_senha_reserva += 1;
 
     if(call_senha_reserva > 30){
       call_senha_reserva = 30;
     }
 
-    $("#call-senha-reserva").val(call_senha_reserva);    
+    $("#call-senha-reserva").val(call_senha_reserva);
   });
 
-  $("#less-reserva").on("click", function() {     
+  $("#less-reserva").on("click", function() {
     call_senha_reserva -= 1;
-    
+
     if(call_senha_reserva < 1){
       call_senha_reserva = 1;
     }
@@ -389,16 +404,16 @@ $(document).ready(function(){
 
   });
 
-  // Atendimento Envelopes 
-    
-  if(call_senha_envelope == 1){      
+  // Atendimento Envelopes
+
+  if(call_senha_envelope == 1){
     $("#fala").attr("checked", true);
-  }else{  
+  }else{
     $("#fala").attr("checked", false);
   }
 
   <?= $this->element('typeahead'); ?>
-    
+
   function recarregarTypeAheadIgrejas() {
       $('.igrejaslista .typeahead').typeahead('destroy');
 

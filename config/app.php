@@ -224,14 +224,14 @@ return [
             //'driver' => 'Cake\Database\Driver\Postgres',
             'persistent' => false,
 
-            # Develop            
+            # Develop
             'host' => '127.0.0.1',
             'username' => 'root',
             'password' => '123456',
             'database' => 'pia',
 
-            # Producao            
-            #'host' => 'pia_ccb.mysql.dbaas.com.br',                        
+            # Producao
+            #'host' => 'pia_ccb.mysql.dbaas.com.br',
             #'username' => 'pia_ccb',
             #'password' => 'Suporte#787923',
             #'database' => 'pia_ccb',
@@ -246,8 +246,8 @@ return [
             'timezone' => 'UTC',
             'flags' => [],
             'cacheMetadata' => true,
-            'log' => false,                        
-            
+            'log' => false,
+
             /**
              * Set identifier quoting to true if you are using reserved words or
              * special characters in your table or column names. Enabling this

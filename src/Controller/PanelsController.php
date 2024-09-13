@@ -5,103 +5,118 @@ namespace App\Controller;
 use Cake\ORM\TableRegistry;
 use Cake\Network\Session;
 
-class PanelsController extends AppController {            
-    
+class PanelsController extends AppController {
+
     public function initialize() {
         parent::initialize();
 
         $this->Auth->allow('index');
     }
 
-    public function index() {    
+    public function index() {
 
-        // Setup - Voz
         $setupTable = TableRegistry::get('Setup');
-        $voz = $setupTable->find()->where(['chave' => 'voz'])->First();
-        $fala = $voz == null ? "0" : $voz->valor;
-        $this->set('sintetizador', $fala);
 
-        $dados = [];
-        $pagina_index = 0;   
+        $painel = $setupTable->find()->where(['chave' => 'painel'])->First();
+        $trava = $painel->valor;
 
-        $senhas = $this->Panels->find('all')->order(['id' => 'ASC'])->where(['status' => true, 'setor' => 4])->toArray();         
-        
-        if(count($senhas) != 0){  
+        if ($trava == 0){
 
-            $recupera_session = $this->request->session()->read('painel-senha');
+            $dados = [];
+            $pagina_index = 0;
 
-            //debug($recupera_session);
-            
-            foreach ($senhas as $senha) {               
-                
-                $item = "{$senha->fala},{$senha->senha},{$senha->tipo}";                
+        }else{
 
-                array_push($recupera_session, $item);
+            // Setup - Voz
 
-                $senha->status = false;
-                $this->Panels->save($senha);                    
-            }  
+            $voz = $setupTable->find()->where(['chave' => 'voz'])->First();
+            $fala = $voz == null ? "0" : $voz->valor;
+            $this->set('sintetizador', $fala);
 
-            //debug($recupera_session);exit;
-            $this->request->session()->write('painel-senha', $recupera_session);
-            
+            $dados = [];
+            $pagina_index = 0;
 
-        } else {
-            
-            
-            $servicesTable = TableRegistry::get('Services');
-            
-            $dados = $servicesTable->find('all')->order(['senha' => 'asc'])->where(['Services.setor' => '4', 'Services.senha !=' => 0])->contain(['Localidades'])->toArray();           
-            
-            $senha = 0;
+            $senhas = $this->Panels->find('all')->order(['id' => 'ASC'])->where(['status' => true, 'setor' => 4])->toArray();
 
-            # 2. Total de Registros
-            $senhas_total = count($dados);                        
+            if(count($senhas) != 0){
 
-            # 3. Total de Paginas 
-            $get_pagina = $this->pagination();           
-            
-            $pagina_total = $get_pagina[$senhas_total];                        
+                $recupera_session = $this->request->session()->read('painel-senha');
 
-            # 4. Total corrente                               
-            
-            if ($this->request->query == null ) {
-            
-                $pagina_index = 0;
-            }else{
+                //debug($recupera_session);
 
-                $pagina_index = $this->request->query['page'];                
+                foreach ($senhas as $senha) {
 
-                if($pagina_index >= $pagina_total){                
-                    $pagina_index = 0;               
-                }else{                                  
-                    $pagina_index = $pagina_index + 3;                              
+                    $item = "{$senha->fala},{$senha->senha},{$senha->tipo}";
+
+                    array_push($recupera_session, $item);
+
+                    $senha->status = false;
+                    $this->Panels->save($senha);
                 }
 
-            }            
-            
-            $dados = array_slice($dados,$pagina_index, 3);
-            $tipo = null;
-            
+                //debug($recupera_session);exit;
+                $this->request->session()->write('painel-senha', $recupera_session);
+
+
+            } else {
+
+
+                $servicesTable = TableRegistry::get('Services');
+
+                $dados = $servicesTable->find('all')->order(['senha' => 'asc'])->where(['Services.setor' => '4', 'Services.senha !=' => 0])->contain(['Localidades'])->toArray();
+
+                $senha = 0;
+
+                # 2. Total de Registros
+                $senhas_total = count($dados);
+
+                # 3. Total de Paginas
+                $get_pagina = $this->pagination();
+
+                $pagina_total = $get_pagina[$senhas_total];
+
+                # 4. Total corrente
+
+                if ($this->request->query == null ) {
+
+                    $pagina_index = 0;
+                }else{
+
+                    $pagina_index = $this->request->query['page'];
+
+                    if($pagina_index >= $pagina_total){
+                        $pagina_index = 0;
+                    }else{
+                        $pagina_index = $pagina_index + 3;
+                    }
+
+                }
+
+                $dados = array_slice($dados,$pagina_index, 3);
+                $tipo = null;
+
+            }
+
+            $this->aevOptions();
+
         }
 
-        $this->aevOptions();
-        
-        $this->set('dados', $dados);
-        $this->set('pagina_index',$pagina_index);        
-    }    
+        $this->set('trava',$trava);
+        $this->set('dados',$dados);
+        $this->set('pagina_index',$pagina_index);
+    }
 
 
     /**
     * Pagination:
     * - Responsavel por informar o inicio do slice em dados.
-    */    
-    private function pagination() {                
+    */
+    private function pagination() {
         # reg =  Registros na tabela
         # senhas_total = Total de senhas
         # pag = Pagina
         # controle = chavamento para senhas por pagina
-        # chaveamento = apenas para que value comece em 1 
+        # chaveamento = apenas para que value comece em 1
 
         $senhas_total = 30;
         $pag = 0;
@@ -109,27 +124,27 @@ class PanelsController extends AppController {
         $paginas = [0];
 
         $chaveamento = true;
-        
-        for ($reg = 1; $reg <= $senhas_total; $reg++) {                                     
-            
+
+        for ($reg = 1; $reg <= $senhas_total; $reg++) {
+
             if ($pag == 0) {
-                //$pag=1;                
+                //$pag=1;
             }
 
             $paginas += [$reg => $pag];
 
-            if($controle == 3){                                
-                
-                if ($chaveamento){ 
-                    //$pag = 0; 
+            if($controle == 3){
+
+                if ($chaveamento){
+                    //$pag = 0;
                     //$chaveamento = false;
                 }
                 $pag += 3;
                 $controle = 0;
             }
 
-            $controle += 1;             
-        } 
+            $controle += 1;
+        }
 
         return $paginas;
     }

@@ -3,12 +3,12 @@
         <div class="card-body">
             <?= $this->Form->create('', ['class' => 'form-horizontal']) ?>
 
-                <div class="card-header bg-white no-border">       
+                <div class="card-header bg-white no-border">
                     <div class="text-center">
-                        <h1 class="h4 text-gray-900 m-0">PIA</h1>                        
+                        <h1 class="h4 text-gray-900 m-0">PIA</h1>
                         <p class="small text-gray-900 m-0">Painel de Atendimento</p>
                     </div>
-                </div>           
+                </div>
 
                 <div class="card-body m-0 p-0 -bg-danger">
 
@@ -17,7 +17,7 @@
                     <div class="d-flex justify-content-around -bg-warning my-2">
                         <div class="input-group-prepend">
                             <span class="input-group-text border-right-0 no-radius bg-white">
-                                <i class="fa fa-user"></i> 
+                                <i class="fa fa-user"></i>
                             </span>
                             <?=
                             $this->Form->input(
@@ -33,13 +33,13 @@
                             );
                             ?>
                         </div>
-                    </div>                        
+                    </div>
 
-                    <div class="d-flex justify-content-around my-2">                            
+                    <div class="d-flex justify-content-around my-2">
                         <div class="input-group-prepend">
                             <span class="input-group-text border-right-0 no-radius bg-white">
-                                <i class="fa fa-lock"></i> 
-                            </span>                                                        
+                                <i class="fa fa-lock"></i>
+                            </span>
                             <?=
                             $this->Form->input(
                                     'password',
@@ -53,24 +53,20 @@
                                     )
                             );
                             ?>
-                        </div>                            
-                    </div> 
+                        </div>
+                    </div>
 
                 </div>
 
                 <div class="card-footer bg-white no-border">
                     <div class="text-center">
                         <?= $this->Form->button(__('Acessar'), ['class' => 'btn btn-primary no-radius']) ?>
-                        <a class="btn btn-success no-radius" href="/panels?page=1" target="_blank">
-                            <!--i class="fa fa-panel fa-sm"></i-->
-                            <span class="">Painel</span>
-                        </a>  
                     </div>
                 </div>
 
             <?= $this->Form->end() ?>
-        </div>        
-    </div>    
+        </div>
+    </div>
 </div>
 
 
