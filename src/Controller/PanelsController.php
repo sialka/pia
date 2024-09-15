@@ -24,6 +24,7 @@ class PanelsController extends AppController {
 
             $dados = [];
             $pagina_index = 0;
+            $fala = 0;
 
         }else{
 
@@ -31,7 +32,7 @@ class PanelsController extends AppController {
 
             $voz = $setupTable->find()->where(['chave' => 'voz'])->First();
             $fala = $voz == null ? "0" : $voz->valor;
-            $this->set('sintetizador', $fala);
+            //$this->set('sintetizador', $fala);
 
             $dados = [];
             $pagina_index = 0;
@@ -101,6 +102,7 @@ class PanelsController extends AppController {
 
         }
 
+        $this->set('sintetizador', $fala);
         $this->set('trava',$trava);
         $this->set('dados',$dados);
         $this->set('pagina_index',$pagina_index);

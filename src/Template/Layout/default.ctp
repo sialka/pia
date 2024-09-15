@@ -76,7 +76,6 @@ $overflow        = $controller == "Panels" ? "overflow: hidden" : "";
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
 
-    <?php // Info controller $this->fetch('title') ?>
 </head>
 <body id="$body;" style="<?= $overflow; ?>">
     <!-- Page Wrapper -->

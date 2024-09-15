@@ -17,15 +17,28 @@
     $senha = $senha_topo[1];
     $tipo = $senha_topo[2];
   }else{
-    $voz = 0;
-    $senha = 0;
-    $tipo = null;
+    $voz = '0';
+    $senha = '0';
+    $tipo = '';
   }
 
   $novo = array_slice($recupera_session, 1, count($recupera_session));
   $this->request->session()->write('painel-senha', $novo);
 
-  $panel_normal = $this->request->session()->read('panel-normal');
+  /*
+  debug(
+    [
+      'trava' => $trava,
+      //'dados' => $dados,
+      'pagina_index' => $pagina_index,
+      'recupera_session' => $recupera_session,
+      //'panel_normal' => $panel_normal,
+      'voz' => $voz,
+      'senha' => $senha,
+      'tipo' => $tipo
+    ]
+  );*/
+
 ?>
 <div class="row bg-black">
 
@@ -35,8 +48,8 @@
 
     <div class="card border-dark m-1 mobile-panel-hide">
 
-      <div class="card-header text-white bg-dark painel ">
-        <a href="/" class="text-white">CCB - SETOR 4 - PAINEL</a>
+      <div class="card-header text-white bg-primary painel ">
+        <a href="/Panels" class="text-white">CCB - REUNIÃO DA PIEDADE - PIMENTAS</a>
       </div>
         <div class="card-body" style="height: 90vh">
 
@@ -46,17 +59,21 @@
           echo $this->Form->end();
         ?>
 
-          <!-- Trava  -->
-          <div class="<?php if( $trava == 1 ){ echo "hide"; } ?>">
+
+          <?php $fluxo0 = $trava == "1" ? "hide" : ""; ?>
+          <div id="senha" class="<?= $fluxo0; ?>">
               <div class="" style="height: 88vh">
                   <div class="" style="height: 100%" >
-                    <p class="titulo" style="height: 35%; padding-top: 14rem; color: gray">Aguardando...</p>
+                    <p class="titulo" style="height: 35%; padding-top: 14rem">Painel Bloqueado</p>
                   </div>
               </div>
           </div>
 
+
           <!-- Fluxo 1  -->
-          <div id="senha" class="<?php if( $senha == "0" ){ echo "hide"; } ?>">
+          <?php $fluxo1 = $senha == "0" ? "hide" : ""; ?>
+
+          <div id="senha" class="<?= $fluxo1; ?>">
               <div class="" style="height: 88vh">
                   <div class="" style="height: 100%" >
                     <p class="titulo" style="height: 35%; padding-top: 14rem"><?= $titulo[$tipo]; ?></p>
@@ -67,8 +84,10 @@
               </div>
           </div>
 
+
           <!-- Fluxo 2 -->
-          <div id="painel" class="<?php if( $senha != "0" || $panel_normal == 1) { echo "hide"; } ?>">
+          <?php $fluxo2 = $senha != "0" ? "hide" : ""; ?>
+          <div id="painel" class="<?= $fluxo2; ?>">
 
             <table id="tableResults" class="table p-0 m-0" style="border: 0px solid white">
                 <tbody class="">
@@ -79,20 +98,20 @@
                             <div class="row mt-1 mb-1 ml-2 mr-2">
                               <div class="col-2">
                                 <div class="card border-dark center">
-                                  <div id="row1-senha" class="card-body senha text-dark"><?= $dado->senha; ?></div>
-                                  <div class="card-footer text-white bg-dark text-white">SENHA</div>
+                                  <div id="row1-senha" class="card-body senha"><?= $dado->senha; ?></div>
+                                  <div class="card-footer senha-label -text-white -bg-dark -text-white">SENHA</div>
                                 </div>
                               </div>
                               <div class="col-10">
                                 <div id="row1-card-border" class="card border-dark">
-                                  <div id="row1-localidade" class="card-body senha text-dark">
+                                  <div id="row1-localidade" class="card-body localidade">
                                     <?= $dado->Localidades->nome; ?>
                                   </div>
                                   <div class="text-center m-0 font-weight-bold">
-                                      <div id="row1-status-ficha" style="width:50%; padding: 0.8em; float: left" class="<?= $aevOptions['status_css_ficha'][$dado->status_ficha]; ?>">
+                                      <div id="row1-status-ficha" class="status left <?= $aevOptions['status_css_ficha'][$dado->status_ficha]; ?>">
                                         <?= $aevOptions['status_fichas'][$dado->status_ficha]; ?>
                                       </div>
-                                      <div id="row1-status-envelope" style="width:50%; padding: 0.8em; float: right" class="<?= $aevOptions['status_css_envelope'][$dado->status_envelope]; ?>">
+                                      <div id="row1-status-envelope" class="status right <?= $aevOptions['status_css_envelope'][$dado->status_envelope]; ?>">
                                         <?= $aevOptions['status_envelopes'][$dado->status_envelope]; ?>
                                       </div>
                                   </div>
@@ -107,6 +126,8 @@
 
           </div>
 
+
+
         </div>
       </div>
     </div>
@@ -117,43 +138,47 @@
 
 // Voice
 
+let voices = [];
 const synth = window.speechSynthesis;
-
-//let voices = [];
+const trava = "<?php echo $trava; ?>";
 
 function speak(texto) {
 
-  let voices = synth.getVoices();
-
-  for (let i = 0; i < voices.length; i++) {
-    if(voices[i].lang == "pt-BR") {
-      console.log(`${i} - ${voices[i].lang} - ${voices[i].name}`)
+    if (trava == '0'){
+      return;
     }
-  }
 
-  if (synth.speaking) {
-    console.error("speechSynthesis.speaking");
-    return;
-  }
+    let voices = synth.getVoices();
 
-  const utterThis = new SpeechSynthesisUtterance(texto);
+    for (let i = 0; i < voices.length; i++) {
+      if(voices[i].lang == "pt-BR") {
+        console.log(`${i} - ${voices[i].lang} - ${voices[i].name}`)
+      }
+    }
 
-  utterThis.onend = function (event) {
-    console.log("SpeechSynthesisUtterance.onend");
-  };
+    console.log('passou')
 
-  utterThis.onerror = function (event) {
-    console.error("SpeechSynthesisUtterance.onerror");
-  };
+    if (synth.speaking) {
+      console.error("speechSynthesis.speaking");
+      return;
+    }
 
-  //console.log(synth);
-  //utterThis.voice = voices[0];
-  utterThis.voice = voices[<?= $sintetizador; ?>];
+    const utterThis = new SpeechSynthesisUtterance(texto);
 
+    utterThis.onend = function (event) {
+      console.log("SpeechSynthesisUtterance.onend");
+    };
 
-  utterThis.pitch = 1;
-  utterThis.rate = 1.1;
-  synth.speak(utterThis);
+    utterThis.onerror = function (event) {
+      console.error("SpeechSynthesisUtterance.onerror");
+    };
+
+    utterThis.voice = voices[<?= $sintetizador; ?>];
+
+    utterThis.pitch = 1;
+    utterThis.rate = 1.1;
+    synth.speak(utterThis);
+
 
 }
 
@@ -164,25 +189,27 @@ const tipo = "<?= $tipo; ?>";
 function carregar() {
   console.log("carregar");
 
+  if (trava == '0'){
+    return;
+  }
+
   if (senha != 0) {
     // Fluxo 1 - Verifica se existe senhas
     console.log("Fluxo chamar Senhas !!!!");
 
-    if (<?= $trava ?>){
-      sleep(3000).then(() => {
-          $("#submit").click();
-      });
-    }
+    sleep(3000).then(() => {
+        $("#submit").click();
+    });
+
 
   } else {
     // Fluxo 2 - Exibe painel
     console.log("Exibir Senhas identificadas !!!");
 
-    if (<?= $trava ?>){
-      sleep(5000).then(() => {
-        $("#submit").click();
-      });
-    }
+    sleep(5000).then(() => {
+      $("#submit").click();
+    });
+
   }
 }
 

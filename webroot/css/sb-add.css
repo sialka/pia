@@ -174,19 +174,33 @@ input[type="file"] {
 /* PAINEL */
 
 .painel {
-    font-size: 2rem;
+    font-size: 3rem;
     text-align: center;
+    font-weight: 800;
+    padding: 0;
 }
 
 .senha {
-    font-size: 6rem;
+    font-size: 8rem;
     text-align: center;
+    background-color: white;
+    color: black;
+    font-weight: 800;
+    padding: 0;
+}
+
+.senha-label{
+    padding: 0;
+    font-size: 1.7rem;
+    background-color: #000000;
+    color: white;
 }
 
 .localidade {
-    font-size: 6rem;
+    font-size: 6.5rem;
     text-align: center;
     font-weight: 800;
+    color: black;
 }
 
 .center {
@@ -196,6 +210,21 @@ input[type="file"] {
 .bg-black {
     background: #000000;
 }
+
+.status {
+    width:50%;
+    padding: 0;
+    font-size: 1.6rem;
+}
+
+.left {
+    float: left
+}
+
+.right {
+    float: right
+}
+
 
 /**/
 
@@ -245,7 +274,7 @@ input[type="file"] {
 }
 
 .mobile-msg-panel {
-    display: none;      
+    display: none;
 }
 
 .dash-card-h1 {
@@ -269,9 +298,9 @@ input[type="file"] {
 
 @media (max-width: 1290px) {
     .mobile-msg-panel {
-        display: block;  
-        color: white;       
-        font-size: 1.5rem;  
+        display: block;
+        color: white;
+        font-size: 1.5rem;
     }
     .mobile-panel-hide{
         display: none;
@@ -283,13 +312,13 @@ input[type="file"] {
 
 @media (max-width: 490px) {
     .mobile-hide {
-        display: none;      
+        display: none;
     }
     .msg-mobile{
         margin-top: 5rem;
         display: block;
-        font-weight: 800;      
-        text-align: center;                  
+        font-weight: 800;
+        text-align: center;
         color: red;
     }
 
