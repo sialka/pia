@@ -236,7 +236,7 @@ panel.addEventListener('animationstart', event => {
         break;
       case '3':
         fala = " Conferência de envelopes!";
-        frase = senha + fala;
+        frase = 'senha ' + senha + fala;
         break;
       case '4':
         frase = senha;

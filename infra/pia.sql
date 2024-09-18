@@ -17,6 +17,8 @@ CREATE TABLE IF NOT EXISTS `services` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
 
+ALTER TABLE services ADD COLUMN mesa CHAR(1) DEFAULT 0
+
 -- --------------------------------------------------------
 --
 -- Estrutura da tabela `panels`
@@ -207,6 +209,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
 
+ALTER TABLE users ADD COLUMN acesso timestamp NULL DEFAULT NULL
+
 --
 -- Extraindo dados da tabela `users`
 --
@@ -223,6 +227,7 @@ CREATE TABLE IF NOT EXISTS `setores` (
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+
 
 INSERT INTO `setores` (`setor`, `nome`, `status`, `created`, `modified`) VALUES ('0', '0 - Administração', 1, NULL, NULL);
 INSERT INTO `setores` (`setor`, `nome`, `status`, `created`, `modified`) VALUES ('1', '1 - Centro', 1, NULL, NULL);

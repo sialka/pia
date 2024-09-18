@@ -6,6 +6,7 @@ use Cake\Event\Event;
 use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
 use Cake\Core\Exception\Exception;
+use Cake\I18n\Time;
 
 /**
  * Users Controller
@@ -275,6 +276,11 @@ class UsersController extends AppController {
                         'setores' => $user['mod_setores'],
                         'atendimento' => $user['mod_atendimento'],
                     ];
+
+                    $hoje = Time::now();
+                    $user = $this->Users->get($user['id']);
+                    $user->acesso = $hoje;
+                    $this->Users->save($user);
 
                     $this->request->session()->write('logado', $nome_completo[0]);
                     $this->request->session()->write('perfil', $perfil);

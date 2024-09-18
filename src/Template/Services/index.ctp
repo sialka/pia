@@ -92,24 +92,33 @@ option {
       <div class="row">
         <div class="col-12">
 
-          <a class="btn btn-success no-radius" href="/Services/add">
+          <a class="btn btn-primary no-radius" href="/Services/addSmall">
               <i class="fa fa-plus fa-sm"></i>
-              <span class="text-normal">Novo</span>
+              <span class="text-normal">Novo sem Status</span>
           </a>
 
+          <a class="btn btn-success no-radius" href="/Services/add">
+              <i class="fa fa-plus fa-sm"></i>
+              <span class="text-normal">Novo com Status</span>
+          </a>
+
+          <?php if($painel == 0): ?>
           <a class="btnclip btn btn-warning no-radius ml-1" href="/Services/start">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 512 512">
                 <path d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zM188.3 147.1c7.6-4.2 16.8-4.1 24.3 .5l144 88c7.1 4.4 11.5 12.1 11.5 20.5s-4.4 16.1-11.5 20.5l-144 88c-7.4 4.5-16.7 4.7-24.3 .5s-12.3-12.2-12.3-20.9l0-176c0-8.7 4.7-16.7 12.3-20.9z"/>
               </svg>
-              <span class="text-normal">Start</span>
+              <span class="text-normal">Painel Start</span>
           </a>
+          <?php endif; ?>
 
+          <?php if($painel == 1): ?>
           <a class="btnclip btn btn-warning no-radius ml-1" href="/Services/stop">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 512 512">
               <path d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm192-96l128 0c17.7 0 32 14.3 32 32l0 128c0 17.7-14.3 32-32 32l-128 0c-17.7 0-32-14.3-32-32l0-128c0-17.7 14.3-32 32-32z"/>
             </svg>
-              <span class="text-normal">Stop</span>
+              <span class="text-normal">Painel Stop</span>
           </a>
+          <?php endif; ?>
 
           <a class="btnclip btn btn-primary no-radius ml-1" href="#" data-clipboard-text="<?= $texto ?>">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-whatsapp" viewBox="0 0 16 16">
@@ -148,49 +157,108 @@ option {
                     <table id="tableResults" class="table table-bordered p-0 m-0" style="border-bottom: 0px solid white">
                       <thead>
                           <tr>
-                              <?= $this->element('th_sort', [ 'th' => ['10%', 'Users.name', __('Senhas') ] ]); ?>
-                              <?= $this->element('th_sort', [ 'th' => ['30%', 'Users.username', __('Localidades') ] ]); ?>
-                              <?= $this->element('th_sort', [ 'th' => ['20%', 'Users.email', __('Fichas') ] ]); ?>
-                              <?= $this->element('th_sort', [ 'th' => ['20%', 'Users.status', __('Envelopes') ] ]); ?>
-                              <th class="text-center" width="20%"></th>
+                              <?= $this->element('th_sort', [ 'th' => ['10%', 'Services.senha', __('Senhas') ] ]); ?>
+                              <?= $this->element('th_sort', [ 'th' => ['25%', 'Services.Localidades.nome', __('Localidades') ] ]); ?>
+                              <?= $this->element('th_sort', [ 'th' => ['15%', 'Services.status_ficha', __('Fichas') ] ]); ?>
+                              <?= $this->element('th_sort', [ 'th' => ['15%', 'Services.status_envelope', __('Envelopes') ] ]); ?>
+                              <th class="text-center" width="10%">Fichas</th>
+                              <th class="text-center" width="10%">Envelopes</th>
+                              <th class="text-center" width="15%">Opções</th>
                           </tr>
                       </thead>
                         <tbody class="tdMiddleAlign">
-                          <?php foreach ( (object) $services as $service): #debug($service);?>
+                          <?php foreach ( (object) $services as $service): ?>
                             <tr class="vAlignMiddle">
-                              <td class="text-left px-3"><?= h($service->senha) ?></td>
-                              <td class="text-left px-3"><?= h($service->Localidades->nome) ?></td>
-                              <td class="text-center px-3">
+                              <td class="text-center align-middle"><?= h($service->senha) ?></td>
+                              <td class="text-left align-middle">
+                                <?php if ($service->mesa == '1'): ?>
+                                  <i class="fa fa-credit-card fa-sm text-success"></i>
+                                <?php endif; ?>
+                                <?= h($service->Localidades->nome) ?>
+                              </td>
+                              <td class="text-center align-middle">
                                 <?= $this->element('status_services', [ 'status' => $service->status_ficha, 'tipo' => 'status_fichas']); ?>
                               </td>
-                              <td class="text-center px-3">
+                              <td class="text-center align-middle">
                                   <?= $this->element('status_services', [ 'status' => $service->status_envelope, 'tipo' => 'status_envelopes']); ?>
                               </td>
-                              <td class="text-center px-3">
+
+                              <td class="text-center align-middle">
                                 <div class="dropdown d-block">
-                                  <button class="dropdown-toggle btn btn-primary btn-sm no-radius py-0" type="button" id="acoesListar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <button class="dropdown-toggle btn btn-primary btn-sm no-radius py-0" type="button" id="acoesListarFichas" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                       Opções
                                   </button>
-                                  <div class="dropdown-menu dropdown-menu-right -py-2 -m-0" aria-labelledby="acoesListar">
-                                      <a class="dropdown-item"  href="/Services/view/<?= $service->id;?>">
-                                          <i class="fa fa-search text-primary"></i>
-                                          Visualizar
-                                      </a>
-                                      <?php #if($user->id <> 1): ?>
-                                      <a class="dropdown-item" href="/Services/edit/<?= $service->id;?>"
-                                          data-confirm = "Tem certeza que deseja editar o usuário?">
-                                          <i class="fa fa-pencil-alt text-success"></i>
-                                          Editar
-                                      </a>
-                                      <a class="dropdown-item" href="/Services/delete/<?= $service->id;?>"
-                                          data-confirm = "Tem certeza que deseja excluir o usuário?">
-                                          <i class="fas fa-trash-alt text-danger"></i>
-                                          Excluir
-                                      </a>
-                                      <?php #endif; ?>
+                                  <div class="dropdown-menu dropdown-menu-left" aria-labelledby="acoesListarFichas">
+
+                                  <?php
+                                  foreach ($aevOptions['status_fichas_save'] as $key => $value)
+                                  {
+                                    $css = $aevOptions['status_css_ficha_atendimento'][$key];
+                                    echo "<a class='dropdown-item' href='/Services/fichaStatus/$service->id/$key'>";
+                                    echo "<span class='strong $css'> $value </span>";
+                                    echo '</a>';
+                                  }
+                                  ?>
+
                                   </div>
                                 </div>
                               </td>
+
+                              <td class="text-center align-middle">
+                                <div class="dropdown d-block">
+                                  <button class="dropdown-toggle btn btn-primary btn-sm no-radius py-0" type="button" id="acoesListarEnvelopes" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Opções
+                                  </button>
+                                  <div class="dropdown-menu dropdown-menu-left" aria-labelledby="acoesListarEnvelopes">
+
+                                  <?php
+                                  foreach ($aevOptions['status_envelopes_save'] as $key => $value)
+                                  {
+                                    $css = $aevOptions['status_css_envelope_atendimento'][$key];
+                                    echo "<a class='dropdown-item' href='/Services/envelopesStatus/$service->id/$key'>";
+                                    echo "<span class='strong $css'> $value </span>";
+                                    echo '</a>';
+                                  }
+                                  ?>
+
+                                  </div>
+                                </div>
+                              </td>
+
+                              <td class="text-center">
+                                <a class="btn btn-link p-1" title="Visualizar" href="/Services/view/<?= $service->id;?>">
+                                  <i class="fa fa-search text-primary"></i>
+                                </a>
+                                <a class="btn btn-link p-1" title="Editar" href="/Services/edit/<?= $service->id;?>"
+                                  data-confirm = "Tem certeza que deseja editar o usuário?">
+                                  <i class="fa fa-pencil-alt text-success"></i>
+                                </a>
+                                <a class="btn btn-link p-1" title="Excluir" href="/Services/delete/<?= $service->id;?>"
+                                  data-confirm = "Tem certeza que deseja excluir o usuário?">
+                                  <i class="fas fa-trash-alt text-danger"></i>
+                                </a>
+
+                                <?php if($painel == 1): ?>
+
+                                  <?php if($service->senha > 0): ?>
+                                  <a class="btn btn-link p-1" title="Chamar Ficha por Senha" href="/Services/chamarPorSenha/<?= $service->senha ?>/1/<?= $service->id ?>">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" width="16" height="16" fill="currentColor">
+                                      <path d="M64 32C28.7 32 0 60.7 0 96L0 256 0 448c0 17.7 14.3 32 32 32s32-14.3 32-32l0-160 160 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L64 224 64 96l224 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L64 32z"/>
+                                  </svg>
+                                  </a>
+                                  <a class="btn btn-link p-1" title="Chamar Envenlope por Senha" href="/Services/chamarPorSenha/<?= $service->senha ?>/3/<?= $service->id ?>">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" width="16" height="16" fill="currentColor">
+                                      <path d="M64 32C28.7 32 0 60.7 0 96L0 256 0 416c0 35.3 28.7 64 64 64l224 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L64 416l0-128 160 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L64 224 64 96l224 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L64 32z"/>
+                                    </svg>
+                                  </a>
+                                  <a class="btn btn-link p-1" title="Chamar por Localidade" href="/Services/chamarPorSenha/<?= $service->Localidades->nome ?>/4/<?= $service->id ?>">
+                                    <i class="fa fa-envelope"></i>
+                                  </a>
+                                  <?php endif; ?>
+
+                                <?php endif; ?>
+                              </td>
+
                             </tr>
                           <?php endforeach; ?>
                         </tbody>

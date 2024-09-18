@@ -95,24 +95,26 @@ class AppController extends Controller
 
         $aevOptions = [
             'status_fichas_save' => [
-                0 => "CONFERIDAS",
-                1 => "SEM CONFERÊNCIA",
+                0 => "SEM CONFERÊNCIA",
+                1 => "CONFERIDAS",
                 2 => "AGUARDANDO RETORNO",
                 3 => "SEM FICHAS",
                 4 => "JUNTO COM OUTRA LOCALIDADE",
             ],
             'status_envelopes_save' => [
-                0 => "CONFERIDOS",
-                1 => "SEM CONFERÊNCIA",
+                0 => "SEM CONFERÊNCIA",
+                1 => "CONFERIDOS",
                 2 => "AGUARDANDO RETORNO",
                 3 => "SEM ENVELOPES",
                 4 => "PENDÊNCIA DIÁCONO",
                 5 => "PENDÊNCIA ENVELOPE",
             ],
             'status_fichas' => [
-                0 => "FICHAS: CONFERIDAS",
-                1 => "FICHAS: SEM CONFERÊNCIA",
+                0 => "FICHAS: SEM CONFERÊNCIA",
+                1 => "FICHAS: CONFERIDAS",
                 2 => "FICHAS: AGUARDANDO RETORNO",
+                3 => "FICHAS: SEM FICHAS",
+                4 => "FICHAS: JUNTO COM OUTRA LOCALIDADE",
             ],
             'status_envelopes' => [
                 0 => "ENVELOPES: CONFERIDOS",
@@ -123,19 +125,34 @@ class AppController extends Controller
                 5 => "ENVELOPES: PENDÊNCIA ENVELOPE",
             ],
             'status_css_ficha' => [
-                0 => "bg-success text-white",
-                1 => "bg-danger text-white",
+                0 => "bg-danger text-white",
+                1 => "bg-success text-white",
                 2 => "bg-warning text-white",
                 3 => "bg-success text-white",
                 4 => "bg-success text-white",
             ],
             'status_css_envelope' => [
-                0 => "bg-success text-white",
-                1 => "bg-danger text-white",
+                0 => "bg-danger text-white",
+                1 => "bg-success text-white",
                 2 => "bg-warning text-white",
                 3 => "bg-success text-white",
                 4 => "bg-warning text-white",
                 5 => "bg-warning text-white",
+            ],
+            'status_css_ficha_atendimento' => [
+                0 => "text-danger",
+                1 => "text-success",
+                2 => "text-warning",
+                3 => "text-success",
+                4 => "text-success",
+            ],
+            'status_css_envelope_atendimento' => [
+                0 => "text-danger",
+                1 => "text-success",
+                2 => "text-warning",
+                3 => "text-success",
+                4 => "text-warning",
+                5 => "text-warning",
             ],
         ];
 
