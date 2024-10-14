@@ -45,7 +45,7 @@
                     <div class="card-body no-border p-0 m-0">
 
                         <div class="table-responsive-sm table-striped table-sm table-hover m-0" style="overflow-x: visible;">
-                            <table id="tableResults" class="table table-bordered p-0 m-0" style="border-bottom: 0px solid white">
+                            <table id="tableResults" class="table table-bordered align-middle p-0 m-0" style="border-bottom: 0px solid white">
                                 <thead>
                                     <tr>
                                         <?= $this->element('th_sort', [ 'th' => ['20%', 'Users.name', __('Nome') ] ]); ?>
@@ -62,19 +62,19 @@
 
                                     </tr>
                                 </thead>
-                                <tbody class="tdMiddleAlign">
+                                <tbody class="">
                                     <?php foreach ( (object) $users as $user): ?>
-                                        <tr class="vAlignMiddle">
-                                            <td class="text-left px-3"><?= h($user->nome) ?></td>
-                                            <td class="text-left px-3"><?= h($user->username) ?></td>
-                                            <td class="text-left px-3"><?= h($user->email) ?></td>
-                                            <td class="text-center px-3">
+                                        <tr class="">
+                                            <td class="text-left align-middle"><?= h($user->nome) ?></td>
+                                            <td class="text-left align-middle"><?= h($user->username) ?></td>
+                                            <td class="text-left align-middle"><?= h($user->email) ?></td>
+                                            <td class="text-center align-middle">
                                                 <?= $this->element('status', [ 'status' => $aevOptions['status'][$user->status] ]); ?>
                                             </td>
 
                                             <?php if($perfil['admin']): ?>
 
-                                                <td class="text-center px-3">
+                                                <td class="text-center align-middle">
 
                                                     <?php if($user->acesso != null): ?>
                                                     <?= $user->acesso->format('d/m/Y'); ?>
@@ -84,34 +84,22 @@
 
                                             <?php endif; ?>
 
-                                            <td class="text-left px-3">
-                                                <div class="dropdown d-block">
-                                                    <button class="dropdown-toggle btn btn-primary btn-sm no-radius py-0" type="button" id="acoesListar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        Opções
-                                                    </button>
-                                                    <div class="dropdown-menu dropdown-menu-right -py-2 -m-0" aria-labelledby="acoesListar">
-                                                        <a class="dropdown-item"  href="/Users/view/<?= $user->id;?>">
-                                                            <i class="fa fa-search text-primary"></i>
-                                                            Visualizar
-                                                        </a>
-
-                                                        <?php if($perfil['id'] == $user->id || $perfil['admin']): ?>
-                                                        <a class="dropdown-item" href="/Users/edit/<?= $user->id;?>"
-                                                            data-confirm = "Tem certeza que deseja editar o usuário?">
-                                                            <i class="fa fa-pencil-alt text-success"></i>
-                                                            Editar
-                                                        </a>
-                                                        <?php endif; ?>
-
-                                                        <?php if($perfil['admin']): ?>
-                                                        <a class="dropdown-item" href="/Users/delete/<?= $user->id;?>"
-                                                            data-confirm = "Tem certeza que deseja excluir o usuário?">
-                                                            <i class="fas fa-trash-alt text-danger"></i>
-                                                            Excluir
-                                                        </a>
-                                                        <?php endif; ?>
-                                                    </div>
-                                                </div>
+                                            <td class="text-left">
+                                                <a class="btn btn-link"  href="/Users/view/<?= $user->id;?>">
+                                                    <i class="fa fa-search text-primary"></i>
+                                                </a>
+                                                <?php if($perfil['id'] == $user->id || $perfil['admin']): ?>
+                                                    <a class="btn btn-link" href="/Users/edit/<?= $user->id;?>"
+                                                        data-confirm = "Tem certeza que deseja editar o usuário?">
+                                                        <i class="fa fa-pencil-alt text-success"></i>
+                                                    </a>
+                                                <?php endif; ?>
+                                                <?php if($perfil['admin']): ?>
+                                                    <a class="btn btn-link" href="/Users/delete/<?= $user->id;?>"
+                                                        data-confirm = "Tem certeza que deseja excluir o usuário?">
+                                                        <i class="fas fa-trash-alt text-danger"></i>
+                                                    </a>
+                                                <?php endif; ?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

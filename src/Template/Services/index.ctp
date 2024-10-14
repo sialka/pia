@@ -79,8 +79,7 @@ option {
   <?= $this->element('mobile'); ?>
 
   <div class="row pl-2 pr-2 mobile-hide">
-
-    <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 m-0">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-0">
 
       <div class="row">
         <div class="col-12">
@@ -137,6 +136,156 @@ option {
           </a>
           <?php endif; ?>
 
+        </div>
+      </div>
+
+      <!-- Controles -->
+      <div class="row mt-2">
+
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+          <div class="card shadow no-radius border-1">
+            <div class="card-header p-2 m-0">
+              <i class="fa-solid fa-magnifying-glass-chart"></i>
+              Controle <strong class='text-primary'>Fichas</strong>
+            </div>
+
+            <div class="card-body p-1">
+              <?= $this->Form->create(null, ['class' => 'form-row', 'url' => ['action' => 'chamarFicha']]); ?>
+
+                <div class="col-6">
+                  <?= $this->Form->input('tipo', ['class' => 'hide', 'value' => 1, 'label' => false]); ?>
+                  <?=
+                    $this->Form->input('senha_ficha',
+                      array(
+                          'class' => 'form-control no-radius text-center',
+                          'style' => "font-weight: 900",
+                          'id'    => 'call-senha-ficha',
+                          'max'   => 30,
+                          'min'   => 0,
+                          'type'  => 'number',
+                          'div'   => false,
+                          'label' => false,
+                      )
+                    );
+                  ?>
+                </div>
+
+                <div class="col-6 text-center">
+                    <a link="#" id="less-ficha" class="btn btn-danger text-white no-radius" style="width: 31%">
+                      <i class="fa-solid fa-minus fa-xl"></i>
+                    </a>
+                    <button type="submit" class="btn btn-primary no-radius" style="width: 32%">
+                      <i class="fa-solid fa-circle-play fa-xl"></i>
+                    </button>
+                    <a link="#" id="plus-ficha" class="btn  btn-success text-white no-radius" style="width: 31%">
+                    <i class="fa-solid fa-plus fa-xl"></i>
+                    </a>
+                </div>
+
+              <?= $this->Form->end() ?>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+          <div class="card shadow no-radius border-1">
+
+            <div class="card-header p-2 m-0">
+              <i class="fa-solid fa-magnifying-glass-chart"></i>
+              Controle <strong class='text-danger'>Reserva</strong>
+            </div>
+
+            <div class="card-body p-1">
+              <?= $this->Form->create(null, ['class' => 'form-row', 'url' => ['action' => 'chamarReserva']]); ?>
+
+                <div class="col-6">
+                  <?= $this->Form->input('tipo', ['class' => 'hide', 'value' => 2, 'label' => false]); ?>
+                      <?=
+                      $this->Form->input('senha_reserva',
+                        array(
+                            'class' => 'form-control no-radius text-center',
+                            'style' => "font-weight: 900",
+                            'id'    => 'call-senha-reserva',
+                            'max'   => 30,
+                            'min'   => 0,
+                            'type'  => 'number',
+                            'div'   => false,
+                            'label' => false,
+                        )
+                      );
+                  ?>
+                </div>
+                <div class="col-6">
+                  <a link="#" id="less-reserva" class="btn btn-danger text-white no-radius" style="width: 31%">
+                    <i class="fa-solid fa-minus fa-xl"></i>
+                  </a>
+                  <button type="submit" class="btn btn-primary no-radius" style="width: 33%">
+                    <i class="fa-solid fa-circle-play fa-xl"></i>
+                  </button>
+                  <a link="#" id="plus-reserva" class="btn btn-success text-white no-radius" style="width: 31%">
+                    <i class="fa-solid fa-plus fa-xl"></i>
+                  </a>
+                </div>
+              <?= $this->Form->end() ?>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+          <div class="card shadow no-radius border-1">
+            <div class="card-header p-2 m-0">
+              <i class="fa-solid fa-magnifying-glass-chart"></i>
+              Controle <strong class='text-success'>Envelopes</strong>
+            </div>
+
+            <div class="card-body p-1">
+              <?= $this->Form->create(null, ['class' => 'form-row', 'url' => ['action' => 'chamarEnvelope']]); ?>
+
+                <div class="col-6">
+                  <div class="igrejaslista">
+                        <?php
+                        echo $this->Form->input('localidade',
+                            array(
+                                'class'              => 'form-control text-center text-normal typeahead no-radius',
+                                'id'                 => 'localidade',
+                                'type'               => 'text',
+                                'placeholder'        => 'Informe o nome da Localidade',
+                                'div'                => false,
+                                'label'              => false,
+                                'style' => "font-weight: 900",
+                                'required'
+                            )
+                        );
+                        echo $this->Form->input('falar',
+                            array(
+                                'class'       => 'display-none',
+                                'id'          => 'falar',
+                                'type'        => 'text',
+                                'label'       => false,
+                            )
+                        );
+                        ?>
+                        <?= $this->Form->input('tipo', ['class' => 'hide', 'value' => 3, 'label' => false]); ?>
+                  </div>
+                </div>
+
+                <div class="col-2">
+                  <button type="submit" class="btn btn-block btn-primary no-radius" style="width: 85%">
+                    <i class="fa-solid fa-circle-play fa-xl"></i>
+                  </button>
+                </div>
+
+                <div class="col-4 pt-2">
+                  <?=
+                    $this->Form->input('fala', ['class' => '', 'type' =>'checkbox', 'label' => ' Atendimento Cartão']);
+                  ?>
+                </div>
+
+              <?= $this->Form->end() ?>
+            </div>
+
+          </div>
         </div>
       </div>
 
@@ -276,142 +425,6 @@ option {
       </div>
 
     </div>
-
-    <!-- Controles -->
-    <div class="col-lg-3 col-md-6 m-0 p-0 col-sm-12 col-xs-12">
-
-      <div class="row">
-        <div class="col-12 pl-4 pr-4">
-          <div class="card shadow border-1">
-            <div class="card-header bg-primary text-white text-center text-normal">Atendimento Fichas</div>
-            <div class="card-body">
-              <?= $this->Form->create(null, ['url' => ['action' => 'chamarFicha']]); ?>
-              <div class="row text-center">
-                <div class="col-12 p-1">
-                  <?= $this->Form->input('tipo', ['class' => 'hide', 'value' => 1, 'label' => false]); ?>
-                  <?=
-                    $this->Form->input('senha_ficha',
-                      array(
-                          'class' => 'form-control no-radius text-center',
-                          'style' => "font-size: 2rem; border: 1px gray black; border-radius: 2px; background-color: RGBA(78,115,223,0.2)",
-                          'id'    => 'call-senha-ficha',
-                          'max'   => 30,
-                          'min'   => 0,
-                          'type'  => 'number',
-                          'div'   => false,
-                          'label' => false,
-                      )
-                    );
-                  ?>
-                </div>
-              </div>
-              <div class="row text-center">
-                  <div class="col-4 mt-1 p-1">
-                    <a link="#" id="less-ficha" class="btn btn-block btn-danger text-white no-radius" style="font-size: 0.9rem">-</a>
-                  </div>
-                  <div class="col-4 mt-1 p-1">
-                    <button type="submit" class="btn btn-block btn-primary no-radius" style="font-size: 0.9rem">Chamar</button>
-                  </div>
-                  <div class="col-4 mt-1 p-1">
-                    <a link="#" id="plus-ficha" class="btn btn-block btn-success text-white no-radius" style="font-size: 0.9rem">+</a>
-                  </div>
-              </div>
-              <?= $this->Form->end() ?>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row mt-2">
-        <div class="col-12 pl-4 pr-4">
-          <div class="card shadow border-1">
-            <div class="card-header bg-warning text-dark text-center text-normal">Atendimento Reserva</div>
-            <div class="card-body">
-              <?= $this->Form->create(null, ['url' => ['action' => 'chamarReserva']]); ?>
-              <div class="row text-center">
-                <div class="col-12 p-1">
-                  <?= $this->Form->input('tipo', ['class' => 'hide', 'value' => 2, 'label' => false]); ?>
-                  <?=
-                  $this->Form->input('senha_reserva',
-                    array(
-                        'class' => 'form-control no-radius text-center',
-                        'style' => "font-size: 2rem; border: 1px gray black; border-radius: 2px; background-color: RGBA(255,193,7,0.2)",
-                        'id'    => 'call-senha-reserva',
-                        'max'   => 30,
-                        'min'   => 0,
-                        'type'  => 'number',
-                        'div'   => false,
-                        'label' => false,
-                    )
-                  );
-                  ?>
-                </div>
-              </div>
-              <div class="row text-center">
-                  <div class="col-4 mt-1 p-1">
-                    <a link="#" id="less-reserva" class="btn btn-block btn-danger text-white no-radius" style="font-size: 0.9rem">-</a>
-                  </div>
-                  <div class="col-4 mt-1 p-1">
-                    <button type="submit" class="btn btn-block btn-primary no-radius" style="font-size: 0.9rem">Chamar</button>
-                  </div>
-                  <div class="col-4 mt-1 p-1">
-                    <a link="#" id="plus-reserva" class="btn btn-block btn-success text-white no-radius" style="font-size: 0.9rem">+</a>
-                  </div>
-              </div>
-              <?= $this->Form->end() ?>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row mt-2">
-        <div class="col-12 pl-4 pr-4">
-          <div class="card shadow border-1">
-            <div class="card-header bg-info text-dark text-center text-normal">Envelopes</div>
-            <div class="card-body">
-              <?= $this->Form->create(null, ['url' => ['action' => 'chamarEnvelope']]); ?>
-
-              <div class="row">
-                <div class="form-group col-12 p-0 m-0">
-                  <div class="igrejaslista">
-                        <?php
-                        echo $this->Form->input('localidade',
-                            array(
-                                'class'              => 'form-control text-center text-normal typeahead no-radius',
-                                'id'                 => 'localidade',
-                                'type'               => 'text',
-                                'placeholder'        => 'Informe o nome da localidade',
-                                'div'                => false,
-                                'label'              => false,
-                                'style'              => 'background-color: RGBA(54,185,204,0.2)',
-                                'required'
-                            )
-                        );
-                        echo $this->Form->input('falar',
-                            array(
-                                'class'       => 'display-none',
-                                'id'          => 'falar',
-                                'type'        => 'text',
-                                'label'       => false,
-                            )
-                        );
-                        ?>
-                        <?= $this->Form->input('tipo', ['class' => 'hide', 'value' => 3, 'label' => false]); ?>
-                        <?= $this->Form->input('fala', ['class' => '', 'type' =>'checkbox', 'label' => ' Atendimento Cartão']); ?>
-                  </div>
-                </div>
-                <div class="col-4 p-0">
-                  <button type="submit" class="btn btn-block btn-primary no-radius" style="font-size: 0.9rem">Chamar</button>
-                </div>
-              </div>
-
-              <?= $this->Form->end() ?>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
 
   </div>
 </div>

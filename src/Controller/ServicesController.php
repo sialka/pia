@@ -476,7 +476,9 @@ class ServicesController extends AppController {
         if ($savePanel) {
             $this->Flash->success(__("Enviada para o Painel com sucesso !!!"));
 
-            $this->request->session()->write('last_senha_ficha', $senha);
+            if($tipo == 1 || $tipo == 2) {
+                $this->request->session()->write('last_senha_ficha', $senha);
+            }
         }else{
             $this->Flash->error(__('Erro ao chamar a senha !!!'));
         }

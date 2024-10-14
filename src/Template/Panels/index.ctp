@@ -79,7 +79,9 @@
                     <p class="titulo" style="height: 35%; padding-top: 14rem"><?= $titulo[$tipo]; ?></p>
 
                     <?php $class = $tipo == 3 || $tipo == 4 ? 'call-senha-localidade' : 'call-senha'; ?>
-                    <p id="chamar-senha" class="<?= $class ?> wobble-hor-bottom"><?= $senha; ?></p>
+                    <p id="chamar-senha" class="<?= $class ?> wobble-hor-bottom">
+                      <?= $senha; ?>
+                    </p>
                   </div>
               </div>
           </div>
@@ -236,9 +238,9 @@ panel.addEventListener('animationstart', event => {
         break;
       case '3':
         fala = " Conferência de envelopes!";
-        frase = 'senha ' + senha + fala;
+        frase = senha + fala;
         break;
-      case '4':
+      case '4': // Retorno da mesa
         frase = senha;
         break;
     }

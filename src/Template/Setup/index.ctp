@@ -14,25 +14,25 @@
 <div class="container-row">
     <div class="col-12">
 
-        <?= $this->element('mobile'); ?>    
+        <?= $this->element('mobile'); ?>
 
         <div class="col-12 p-0 mb-2 mobile-hide">
-            
+
             <a class="btn btn-success no-radius" href="/Setup/add">
                 <i class="fa fa-plus fa-sm"></i>
                 <span class="">Novo</span>
             </a>
-            
+
             <button class="btn btn-info no-radius ml-1" data-toggle="modal" data-target="#exampleModal">
                 <i class="fa fa-filter fa-sm"></i>
                 <span class="">Filtro</span>
-            </button>          
-            
-        </div>            
+            </button>
+
+        </div>
 
         <div class="row mobile-hide">
             <div class="col-12 mt-2 mb-2">
-                
+
                 <!-- CARD -->
                 <div class="card shadow no-radius border-1">
 
@@ -41,50 +41,37 @@
 
                         <?= $this->element('search', [ 'search' => 'Por Chave ou Valor' ]); ?>
 
-                    </div>                            
+                    </div>
 
                     <!-- BODY -->
-                    <div class="card-body no-border p-0 m-0">         
+                    <div class="card-body no-border p-0 m-0">
 
                         <div class="table-responsive table-striped table-sm table-hover m-0" style="overflow-x: visible;">
                             <table id="tableResults" class="table table-bordered p-0 m-0" style="border-bottom: 0px solid white">
                                 <thead>
                                     <tr class="">
-                                        <?= $this->element('th_sort', [ 'th' => ['10%', 'Setup.chave', __('Chave') ] ]); ?>
-                                        <?= $this->element('th_sort', [ 'th' => ['30%', 'Setup.valor', __('Valor') ] ]); ?>                                                                                
-                                        <th class="text-right" width="55%"></th>
-                                        <th class="text-right" width="5%"></th>
+                                        <?= $this->element('th_sort', [ 'th' => ['25%', 'Setup.chave', __('Chave') ] ]); ?>
+                                        <?= $this->element('th_sort', [ 'th' => ['25%', 'Setup.valor', __('Valor') ] ]); ?>
+                                        <th class="text-left" width="50%"></th>
                                     </tr>
                                 </thead>
                                 <tbody class="tdMiddleAlign">
                                     <?php foreach ((object) $setup as $item): ?>
                                         <tr class="vAlignMiddle">
-                                            <td class="text-left px-3"><?= h($item->chave) ?></td>
-                                            <td class="text-left px-3"><?= h($item->valor) ?></td>                                            
-                                            <td class="text-center px-3"></td>
-                                            <td class="text-center px-3">                                                
-                                                <div class="dropdown d-block">
-                                                    <button class="dropdown-toggle btn btn-primary btn-sm no-radius py-0" type="button" id="acoesListar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        Opções
-                                                    </button>
-                                                    <div class="dropdown-menu dropdown-menu-right -py-2 -m-0" aria-labelledby="acoesListar">
-                                                        <a class="dropdown-item"  href="/Setup/view/<?= $item->id;?>">
-                                                            <i class="fa fa-search text-primary"></i>
-                                                            Visualizar
-                                                        </a>
-                                                        <a class="dropdown-item" href="/Setup/edit/<?= $item->id;?>"
-                                                            data-confirm = "Tem certeza que deseja editar a Chave?">
-                                                            <i class="fa fa-pencil-alt text-success"></i>
-                                                            Editar
-                                                        </a>
-                                                        <a class="dropdown-item" href="/Setup/delete/<?= $item->id;?>"
-                                                            data-confirm = "Tem certeza que deseja excluir a Chave?">
-                                                            <i class="fas fa-trash-alt text-danger"></i>
-                                                            Excluir
-                                                        </a>
-                                                        
-                                                    </div>                                                
-                                                </div>
+                                            <td class="text-left pl-2 align-middle"><?= h($item->chave) ?></td>
+                                            <td class="text-left pl-2 align-middle"><?= h($item->valor) ?></td>
+                                            <td class="text-left align-middle">
+                                                <a class="btn btn-link"  href="/Setup/view/<?= $item->id;?>">
+                                                    <i class="fa fa-search text-primary"></i>
+                                                </a>
+                                                <a class="btn btn-link" href="/Setup/edit/<?= $item->id;?>"
+                                                    data-confirm = "Tem certeza que deseja editar a Chave?">
+                                                    <i class="fa fa-pencil-alt text-success"></i>
+                                                </a>
+                                                <a class="btn btn-link" href="/Setup/delete/<?= $item->id;?>"
+                                                    data-confirm = "Tem certeza que deseja excluir a Chave?">
+                                                    <i class="fas fa-trash-alt text-danger"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -94,14 +81,14 @@
 
                     </div>
                     <!-- FOOTER -->
-                    <div class="card-footer p-0 m-0"> 
+                    <div class="card-footer p-0 m-0">
                         <?php echo $this->element('pager'); ?>
-                    </div>                            
+                    </div>
                 </div>
             </div>
         </div>
-        
-    </div>      
+
+    </div>
 </div>
 
 <!-- Modal Filtro -->
@@ -120,7 +107,7 @@
                 </div>
 
                 <div class="modal-body">
-                        
+
                     <div class="form-row normal">
                         <label for="id" class="normal strong col-4">Setor</label>
                         <div class="col-8">
@@ -140,7 +127,7 @@
                             ?>
                         </div>
                     </div>
-                        
+
                     <div class="form-row normal mt-2">
                         <label for="id" class="normal strong col-4">Nome</label>
                         <div class="col-8">
@@ -157,9 +144,9 @@
                             )
                             ?>
                         </div>
-                    </div>                        
-                        
-                    <div class="form-row normal mt-2">                    
+                    </div>
+
+                    <div class="form-row normal mt-2">
                         <label for="id" class="normal strong col-4">Status</label>
                         <div class="col-8">
                             <?=
@@ -175,23 +162,23 @@
                             )
                             ?>
                         </div>
-                    </div>                        
-                    
+                    </div>
+
                 </div>
 
                 <div class="modal-footer bg-footer">
-                    
+
                     <button type="submit" class="btn btn-success normal no-radius">
                         <i class="fa fa-check pr-1"></i>
                         Consultar
                     </button>
-                    
+
                     <a class="btn btn-info no-radius normal" href="/Setores/index/clear">
                         <i class="fa fa-window-close fa-sm"></i>
                         <span class="">Limpar</span>
-                    </a>                     
-                    <button type="button" class="btn btn-link no-link text-primary normal" data-dismiss="modal">Cancelar</button>   
-                    
+                    </a>
+                    <button type="button" class="btn btn-link no-link text-primary normal" data-dismiss="modal">Cancelar</button>
+
                 </div>
 
 

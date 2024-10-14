@@ -11,13 +11,12 @@ CREATE TABLE IF NOT EXISTS `services` (
   `status_ficha` char(1) NOT NULL,
   `status_envelope` char(1) NOT NULL,
   `setor` char(1) NOT NULL,
+  `mesa` CHAR(1) DEFAULT 0,
   `status` BOOLEAN DEFAULT TRUE,
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
-
-ALTER TABLE services ADD COLUMN mesa CHAR(1) DEFAULT 0
 
 -- --------------------------------------------------------
 --
@@ -203,19 +202,18 @@ CREATE TABLE IF NOT EXISTS `users` (
   `mod_localidade` tinyint(1) DEFAULT '0',
   `mod_setores` tinyint(1) DEFAULT '0',
   `mod_atendimento` tinyint(1) DEFAULT '0',
+  `acesso` timestamp NULL DEFAULT NULL,
   `status` tinyint(1) DEFAULT '0',
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
 
-ALTER TABLE users ADD COLUMN acesso timestamp NULL DEFAULT NULL
-
 --
 -- Extraindo dados da tabela `users`
 --
 
-INSERT INTO `users` (`id`, `nome`, `username`, `email`, `password`, `mod_admin`, `mod_user`, `mod_localidade`, `mod_setores`, `mod_atendimento`,`status`, `created`, `modified`) VALUES (1, 'Sistema', 'sistema', 'sialkas@gmail.com', '$2y$10$OlQdL/TfLoCAZGqV9hI0Geu3/MfaDmhTnl13VqqFRfv9biSNgdN86', 1, 1, 1, 1, 1, 1, NULL, NULL);
+INSERT INTO `users` (`id`, `nome`, `username`, `email`, `password`, `mod_admin`, `mod_user`, `mod_localidade`, `mod_setores`, `mod_atendimento`,`status`, `created`, `modified`) VALUES (1, 'Sistema', 'admin', 'sialkas@gmail.com', '$2y$10$OlQdL/TfLoCAZGqV9hI0Geu3/MfaDmhTnl13VqqFRfv9biSNgdN86', 1, 1, 1, 1, 1, 1, NULL, NULL);
 
 DROP TABLE IF EXISTS `setores`;
 CREATE TABLE IF NOT EXISTS `setores` (
@@ -246,4 +244,5 @@ CREATE TABLE `setup` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
 
-INSERT INTO `pia_ccb`.`setup` (`chave`, `valor`) VALUES ('key', 'value');
+INSERT INTO `setup` (`chave`, `valor`) VALUES ('voz', '8');
+INSERT INTO `setup` (`chave`, `valor`) VALUES ('painel', '0');
