@@ -117,8 +117,8 @@ class AppController extends Controller
                 4 => "FICHAS: JUNTO COM OUTRA LOCALIDADE",
             ],
             'status_envelopes' => [
-                0 => "ENVELOPES: CONFERIDOS",
-                1 => "ENVELOPES: SEM CONFERÊNCIA",
+                0 => "ENVELOPES: SEM CONFERÊNCIA",
+                1 => "ENVELOPES: CONFERIDOS",
                 2 => "ENVELOPES: AGUARDANDO RETORNO",
                 3 => "ENVELOPES: SEM ENVELOPES",
                 4 => "ENVELOPES: PENDÊNCIA DIÁCONO",

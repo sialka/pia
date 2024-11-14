@@ -72,9 +72,9 @@ class SetoresController extends AppController {
         }
 
         $_conditions = $this->Conditions->filter('Setores', $conversion, [], null, null);
-        //$_conditions['conditions'] += ['Localidades.setor' => 4];        
+        //$_conditions['conditions'] += ['Localidades.setor' => 4];
 
-        $setores = $this->paginate($this->Setores->find('all')->where($_conditions['conditions']));        
+        $setores = $this->paginate($this->Setores->find('all')->where($_conditions['conditions']));
 
         $this->aevOptions();
         $this->set('setores', $setores);
@@ -91,18 +91,18 @@ class SetoresController extends AppController {
 
             $new = $this->Setores->patchEntity($setor, $data);
 
-            if ($this->Setores->save($new)) {                
-                
+            if ($this->Setores->save($new)) {
+
                 $this->Flash->success(__('O setor <strong>' .$new->nome.'</strong> foi adicionado com sucesso !!!'));
-                
+
                 return $this->redirect(['controller' => 'Setores', 'action' => 'index']);
-                
+
             } else {
 
                 $error_list = "<p class='mt-2'>Não foi possivel adicionar o Setor <strong> {$new->nome}: </strong></p>";
                 $error_list .= '<ul class="mt-3">';
                 $erros = $new->errors();
-                                
+
                 if($erros){
                     foreach($erros as $key => $value){
                         $error_list .= "<li>".implode(' ', $value) . "</li>";
@@ -110,11 +110,11 @@ class SetoresController extends AppController {
                 }
                 $error_list .= '</ul>';
                 $this->Flash->error($error_list);
-                
+
                 return $this->redirect(['controller' => 'Setores', 'action' => 'add']);
             }
-        }      
-        
+        }
+
 
         $this->aevOptions();
         $this->set('setor', $setor);
@@ -184,7 +184,7 @@ class SetoresController extends AppController {
                 1 => 'Ativo',
                 0 => 'Inativo',
             ],
-        ];        
+        ];
 
         $this->set('aevOptions', $aevOptions);
     }

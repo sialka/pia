@@ -17,56 +17,43 @@ class PanelsController extends AppController {
 
         $setupTable = TableRegistry::get('Setup');
 
+        // Trava para o Painel
         $painel = $setupTable->find()->where(['chave' => 'painel'])->First();
         $trava = $painel->valor;
 
-        if ($trava == 0){
+        // Geral
+        $dados = [];
+        $pagina_index = 0;
+        $fala = 0;
 
-            $dados = [];
-            $pagina_index = 0;
-            $fala = 0;
+        // Controla fluxo de exibição 0 -> chama senha, 1 -> exibe o status das senhas
+        $exibir_painel = 1;
 
-        }else{
 
-            // Setup - Voz
+        if ($trava != 0){
 
+            // Setup - Idioma da Voz
             $voz = $setupTable->find()->where(['chave' => 'voz'])->First();
             $fala = $voz == null ? "0" : $voz->valor;
-            //$this->set('sintetizador', $fala);
 
-            $dados = [];
-            $pagina_index = 0;
+            // Coletando senhas para serem chamadas
+            $senha = $this->Panels->find('all')->order(['id' => 'ASC'])->where(['status' => true, 'setor' => 4])->first();
 
-            $senhas = $this->Panels->find('all')->order(['id' => 'ASC'])->where(['status' => true, 'setor' => 4])->toArray();
+            if(count($senha) != 0){
 
-            if(count($senhas) != 0){
+                $dados = $senha;
+                $remove_senha = $this->Panels->get($senha->id);
+                $this->Panels->delete($remove_senha);
+                $exibir_painel = 0;
 
-                $recupera_session = $this->request->session()->read('painel-senha');
+            }else{
 
-                //debug($recupera_session);
-
-                foreach ($senhas as $senha) {
-
-                    $item = "{$senha->fala},{$senha->senha},{$senha->tipo}";
-
-                    array_push($recupera_session, $item);
-
-                    $senha->status = false;
-                    $this->Panels->save($senha);
-                }
-
-                //debug($recupera_session);exit;
-                $this->request->session()->write('painel-senha', $recupera_session);
-
-
-            } else {
-
+                // Exibir Status das Senhas
+                $exibir_painel = 1;
 
                 $servicesTable = TableRegistry::get('Services');
 
                 $dados = $servicesTable->find('all')->order(['senha' => 'asc'])->where(['Services.setor' => '4', 'Services.senha !=' => 0])->contain(['Localidades'])->toArray();
-
-                $senha = 0;
 
                 # 2. Total de Registros
                 $senhas_total = count($dados);
@@ -79,10 +66,9 @@ class PanelsController extends AppController {
                 # 4. Total corrente
 
                 if ($this->request->query == null ) {
-
                     $pagina_index = 0;
-                }else{
 
+                }else{
                     $pagina_index = $this->request->query['page'];
 
                     if($pagina_index >= $pagina_total){
@@ -94,18 +80,22 @@ class PanelsController extends AppController {
                 }
 
                 $dados = array_slice($dados,$pagina_index, 3);
-                $tipo = null;
-
             }
 
             $this->aevOptions();
-
         }
 
         $this->set('sintetizador', $fala);
         $this->set('trava',$trava);
         $this->set('dados',$dados);
         $this->set('pagina_index',$pagina_index);
+
+        if ($exibir_painel == 0) {
+            $this->render('chamar');
+        }else{
+            $this->render('senhas');
+        }
+
     }
 
 

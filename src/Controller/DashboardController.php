@@ -23,7 +23,7 @@ class DashboardController extends AppController {
     public function index() {
         //$this->carregarMesTrabalho();
 
-        $localidadesTable = TableRegistry::get('Localidades');                    
+        $localidadesTable = TableRegistry::get('Localidades');
         $localidades = $localidadesTable->find('list')->where(['setor' => '4'])->toArray();
         //debug(count($localidades));
 
@@ -43,14 +43,14 @@ class DashboardController extends AppController {
                 "sem conferencia" => 0,
                 "aguardando retorno" => 0,
             ]
-        ];        
+        ];
 
 
         foreach($services as $service){
-            
+
             switch ($service->status_ficha) {
                 case 0:
-                    $status_services['fichas']['conferidas'] += 1;    
+                    $status_services['fichas']['conferidas'] += 1;
                     break;
                 case 1:
                     $status_services['fichas']['sem conferencia'] += 1;
@@ -62,7 +62,7 @@ class DashboardController extends AppController {
 
             switch ($service->status_envelope) {
                 case 0:
-                    $status_services['reservas']['conferidas'] += 1;    
+                    $status_services['reservas']['conferidas'] += 1;
                     break;
                 case 1:
                     $status_services['reservas']['sem conferencia'] += 1;
@@ -72,7 +72,7 @@ class DashboardController extends AppController {
                     break;
             }
 
-        }                                   
+        }
 
         $panelsTable = TableRegistry::get('Panels');
         $panels1 = $panelsTable->find('all')->where(['setor' => '4', 'tipo' => 1])->last();
@@ -82,10 +82,10 @@ class DashboardController extends AppController {
 
         //debug([$panels3, $panels4]);exit;
 
-        $panels1 = $panels1 == null ? 0 : $panels1->senha; 
-        $panels2 = $panels2 == null ? 0 : $panels2->senha; 
-        $panels3 = $panels3 == null ? "-" : $panels3->senha; 
-        $panels4 = $panels4 == null ? "-" : $panels4->senha; 
+        $panels1 = $panels1 == null ? 0 : $panels1->senha;
+        $panels2 = $panels2 == null ? 0 : $panels2->senha;
+        $panels3 = $panels3 == null ? "-" : $panels3->senha;
+        $panels4 = $panels4 == null ? "-" : $panels4->senha;
 
         $this->set('localidades', count($localidades));
         $this->set('status_services', $status_services);
